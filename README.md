@@ -1,2 +1,2 @@
-# Projecte_de_Innovaci-
+# Projecte_de_Innovació
 ...
