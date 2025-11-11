@@ -20,17 +20,5 @@ router.get("/", (req, res) => {
   res.render("publicaciones", { publicaciones });
 });
 
-// Página de detalle — muestra 1 publicación por ID
-router.get("/:id", (req, res) => {
-  const publicaciones = readPublicaciones();
-  const id = parseInt(req.params.id);
-  const publicacion = publicaciones.find((p) => p.id_Publication === id);
-
-  if (!publicacion) {
-    return res.status(404).send("Publicación no encontrada");
-  }
-
-  res.render("publicacionDetall", { publicacion });
-});
 
 export default router;

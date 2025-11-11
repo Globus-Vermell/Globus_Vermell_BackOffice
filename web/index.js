@@ -1,5 +1,6 @@
 import express from 'express';
 import publicacionesRouter from './routes/publicaciones.js';
+import arquitectosRouter from './routes/arquitectos.js';
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -10,6 +11,7 @@ app.set('view engine', 'ejs');
 
 // Rutas
 app.use('/', publicacionesRouter);
+app.use("/arquitectos", arquitectosRouter);
 
 // Start
 app.listen(PORT, () => {
