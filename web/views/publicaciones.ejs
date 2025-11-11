@@ -1,0 +1,8 @@
+<h1>Publicaciones</h1>
+<ul>
+  <% publicaciones.forEach(p => { %>
+    <li>
+      <a href="/<%= p.id_Publication %>"><%= p.title %></a>
+    </li>
+  <% }) %>
+</ul>

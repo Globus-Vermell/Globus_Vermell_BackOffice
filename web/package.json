@@ -1,0 +1,20 @@
+{
+  "name": "globus_vermell",
+  "version": "1.0.0",
+  "description": "Projecte d'innovació de Globus Vermell a l'ITB.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Denis Coello, Angel Sardinha, Pol Paredes",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "node": "^25.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
