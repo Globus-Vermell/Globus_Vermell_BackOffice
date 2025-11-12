@@ -8,7 +8,6 @@
 <body>
     <h1>Nombre: <%= building.name %></h1>
     <p>Descripción: <%= building.description %></p>
-    <p>Imagen <img src="/images/buildings/provisional.png" alt="<%= building.name %>" /></p>
     <div><p>Imagen:</p> <img src="/images/buildings/<%= building.picture %>" alt="<%= building.name %>" /></div>
     <p>Dirección: <%= building.coordinates %></p>
     <p>Año de construcción: <%= building.constucyion_year  %></p>
@@ -22,6 +21,7 @@
             <p>Nomenclatura: Sin nomenclatura disponible</p>
         <% } %>
     </p>
+
     <p>
         <% if (building.id_publication) { %>
             <a href="/publicaciones/<%= building.id_publication %>">Publicación: <span id="pub-title"></span></a>
@@ -31,10 +31,38 @@
         <% } %>
     </p>
 
-    <p>Reformas: <%= building.id_reform || "Sin reformas disponibles" %></p>
-    <p>Arquitectos: <%= building.id_architect || "Sin arquitectos disponibles" %></p>
-    <p>Tipologías: <%= building.id_typology || "Sin tipologías disponibles" %></p>
-    <p>Protecciones: <%= building.id_protection || "Sin protecciones disponibles" %></p>
+    <p>
+        <% if (building.id_reform) { %>
+            <a href="/reformas/<%= building.id_reform %>">Reforma: <span id="ref-year"></span></a>
+        <% } else { %>
+            <p>Reformas: Sin reformas disponibles</p>
+        <% } %>
+    </p>
+
+    <p>
+        <% if (building.id_architect) { %>
+            <a href="/arquitectos/<%= building.id_architect %>">Arquitecto: <span id="arch-name"></span></a>
+        <% } else { %>
+            <p>Arquitectos: Sin arquitectos disponibles</p>
+        <% } %>
+    </p>
+
+    <p>
+        <% if (building.id_typology) { %>
+            <a href="/tipologias/<%= building.id_typology %>">Tipología: <span id="typ-name"></span></a>
+        <% } else { %>
+            <p>Tipologías: Sin tipologías disponibles</p>
+        <% } %>
+    </p>
+
+    <p>
+        <% if (building.id_protection) { %>
+            <a href="/proteccion/<%= building.id_protection %>">Protección: <span id="prot-name"></span></a>
+        <% } else { %>
+            <p>Protecciones: Sin protecciones disponibles</p>
+        <% } %>
+    </p>
+    
     <a href="/construcciones">Volver al listado</a>
 </body>
 </html>
@@ -64,6 +92,66 @@
                         })
                         .then(data => {
                             const nameEl = document.getElementById('nom-name');
+                            if (data && data.name) nameEl.textContent = data.name;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+                (function(){
+                      const refId = "<%= building.id_reform %>";
+                    fetch('/reformas/' + refId + '/year')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const yearEl = document.getElementById('ref-year');
+                            if (data && data.year) yearEl.textContent = data.year;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+                (function(){
+                      const archId = "<%= building.id_architect %>";
+                    fetch('/arquitectos/' + archId + '/name')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const nameEl = document.getElementById('arch-name');
+                            if (data && data.name) nameEl.textContent = data.name;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+                (function(){
+                      const typId = "<%= building.id_typology %>";
+                    fetch('/tipologia/' + typId + '/name')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const nameEl = document.getElementById('typ-name');
+                            if (data && data.name) nameEl.textContent = data.name;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+                (function(){
+                      const protId = "<%= building.id_protection %>";
+                    fetch('/proteccion/' + protId + '/name')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const nameEl = document.getElementById('prot-name');
                             if (data && data.name) nameEl.textContent = data.name;
                         })
                         .catch(() => {

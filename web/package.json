@@ -1,5 +1,6 @@
 {
-  "name": "globus_vermell",
+  "type": "module",
+  "name": "projecte-de-innovacio",
   "version": "1.0.0",
   "description": "Projecte d'innovació de Globus Vermell a l'ITB.",
   "main": "index.js",
@@ -19,6 +20,5 @@
   "devDependencies": {
     "nodemon": "^3.1.10"
   },
-  "keywords": [],
-  "type": "commonjs"
+  "keywords": []
 }

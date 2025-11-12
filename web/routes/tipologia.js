@@ -33,4 +33,20 @@ router.get("/:id", async (req, res) => {
   res.render("tipologiaDetall", { typology });
 });
 
+router.get("/:id/name", async (req, res) => {
+  const id = Number(req.params.id);
+  const { data, error } = await supabase
+    .from("typology")
+    .select("name")
+    .eq("id_typology", id)
+    .single();
+
+  if (error || !data) {
+    console.error("Error al obtener el nombre de la tipología:", error);
+    return res.status(404).json({ error: "Nombre no encontrado" });
+  }
+
+  res.json({ name: data.name });
+});
+
 export default router;

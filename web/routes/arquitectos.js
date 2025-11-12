@@ -32,4 +32,20 @@ router.get("/:id", async (req, res) => {
   res.render("arquitectoDetall", { architect });
 });
 
+router.get("/:id/name", async (req, res) => {
+  const id = Number(req.params.id);
+  const { data, error } = await supabase
+    .from("architects")
+    .select("name")
+    .eq("id_architect", id)
+    .single();
+
+  if (error || !data) {
+    console.error("Error al obtener el nombre del arquitecto:", error);
+    return res.status(404).json({ error: "Nombre no encontrado" });
+  }
+
+  res.json({ name: data.name });
+});
+
 export default router;
