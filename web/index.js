@@ -15,6 +15,9 @@ app.get("/", (req, res) => {
 });
 app.use('/publicaciones', publicacionesRouter);
 app.use("/arquitectos", arquitectosRouter);
+app.use("/login", (req, res) => {
+  res.render("login");
+});
 
 
 // Start
