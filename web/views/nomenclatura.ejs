@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nomenclaturas</title>
+</head>
+<body>
+  <h1>Listado de Nomenclaturas</h1>
+
+  <% if (nomenclaturas && nomenclaturas.length > 0) { %>
+    <ul>
+      <% nomenclaturas.forEach(n => { %>
+        <li>
+          <strong><%= n.name %></strong>  
+          — <a href="/nomenclatura/<%= n.id_nomenclature %>">Ver detalle</a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No hay nomenclaturas registradas.</p>
+  <% } %>
+
+  <a href="/">Volver al inicio</a>
+</body>
+</html>
