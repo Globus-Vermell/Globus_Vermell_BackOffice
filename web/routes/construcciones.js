@@ -31,4 +31,5 @@ router.get("/:id", async (req, res) => {
 
     res.render("construccionesDetall", { building });
 });
+
 export default router;

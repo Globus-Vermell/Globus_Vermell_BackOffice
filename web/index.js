@@ -34,6 +34,10 @@ app.use("/nomenclatura", nomenclaturaRouter);
 app.use("/tipologia", tipologiaRouter);
 app.use("/proteccion", proteccionRouter);
 
+app.use("/login", (req, res) => {
+  res.render("login");
+});
+app.use("/construcciones", construccionesRouter);
 
 // Start
 app.listen(PORT, () => {

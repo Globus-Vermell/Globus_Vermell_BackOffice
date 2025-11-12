@@ -31,4 +31,21 @@ router.get("/:id", async (req, res) => {
 
     res.render("publicacionDetall", { publication });
 });
+
+// Obtener solo el título (nombre) de una publicación por id (devuelve JSON)
+router.get("/:id/title", async (req, res) => {
+  const id = Number(req.params.id);
+  const { data, error } = await supabase
+    .from("publications")
+    .select("title")
+    .eq("id_publication", id)
+    .single();
+
+  if (error || !data) {
+    console.error("Error al obtener el título de la publicación:", error);
+    return res.status(404).json({ error: "Título no encontrado" });
+  }
+
+  res.json({ title: data.title });
+});
 export default router;

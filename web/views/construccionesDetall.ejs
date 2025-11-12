@@ -9,7 +9,65 @@
     <h1>Nombre: <%= building.name %></h1>
     <p>Descripción: <%= building.description %></p>
     <p>Imagen <img src="/images/buildings/provisional.png" alt="<%= building.name %>" /></p>
+    <div><p>Imagen:</p> <img src="/images/buildings/<%= building.picture %>" alt="<%= building.name %>" /></div>
+    <p>Dirección: <%= building.coordinates %></p>
+    <p>Año de construcción: <%= building.constucyion_year  %></p>
+    <p>Descripción: <%= building.description || "Sin descripción disponible"%></p>
+    <p>Superficie de area: <%= building.surface_area || "Sin superficie de area disponible" %></p>
+    <p>Premios: <%= building.id_prize || "No ha ganado ningun premio" %></p>
+    <p>
+        <% if (building.id_nomenclature) { %>
+            <a href="/nomenclatura/<%= building.id_nomenclature %>">Nomenclatura: <span id="nom-name"></span></a>
+        <% } else { %>
+            <p>Nomenclatura: Sin nomenclatura disponible</p>
+        <% } %>
+    </p>
+    <p>
+        <% if (building.id_publication) { %>
+            <a href="/publicaciones/<%= building.id_publication %>">Publicación: <span id="pub-title"></span></a>
+            
+        <% } else { %>
+            <p>Publicaciones: Sin publicaciones disponibles</p>
+        <% } %>
+    </p>
 
+    <p>Reformas: <%= building.id_reform || "Sin reformas disponibles" %></p>
+    <p>Arquitectos: <%= building.id_architect || "Sin arquitectos disponibles" %></p>
+    <p>Tipologías: <%= building.id_typology || "Sin tipologías disponibles" %></p>
+    <p>Protecciones: <%= building.id_protection || "Sin protecciones disponibles" %></p>
     <a href="/construcciones">Volver al listado</a>
 </body>
 </html>
+<script>
+                (function(){
+                      const pubId = "<%= building.id_publication %>";
+                    fetch('/publicaciones/' + pubId + '/title')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const titleEl = document.getElementById('pub-title');
+                            if (data && data.title) titleEl.textContent = data.title;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+
+                (function(){
+                      const pubId = "<%= building.id_nomenclature %>";
+                    fetch('/nomenclatura/' + pubId + '/name')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const nameEl = document.getElementById('nom-name');
+                            if (data && data.name) nameEl.textContent = data.name;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+            </script>
