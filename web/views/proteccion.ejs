@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protecciones</title>
+</head>
+<body>
+  <h1>Listado de Protecciones</h1>
+
+  <% if (protections && protections.length > 0) { %>
+    <ul>
+      <% protections.forEach(p => { %>
+        <li>
+          <strong>Nivel:</strong> <%= p.level %>  
+          — <a href="/proteccion/<%= p.id_protection %>">Ver detalle</a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No hay protecciones registradas.</p>
+  <% } %>
+
+  <a href="/">Volver al inicio</a>
+</body>
+</html>

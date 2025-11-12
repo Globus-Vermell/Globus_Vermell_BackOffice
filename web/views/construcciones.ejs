@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicaciones</title>
+    <title>Arquitectos</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
         h1 { color: #333; }
@@ -15,24 +15,24 @@
     </style>
 </head>
 <body>
-    <h1>Listado de publicaciones</h1>
+    <h1>Listado de construcciones</h1>
 
-    <% if (publications && publications.length > 0) { %>
+    <% if (buildings && buildings.length > 0) { %>
         <ul>
-            <% publications.forEach(publication => { %>
+            <% buildings.forEach(building => { %>
                 <li>
                     <strong>
-                        <a href="/publicaciones/<%= publication.id_publication %>">
-                            <%= publication.title %>
+                        <a href="/construcciones/<%= building.id_building %>">
+                            <%= building.name %>
                         </a>
                     </strong>
-                    <p><%= publication.description %></p>
+                    <p><%= building.description %></p>
                 </li>
             <% }); %>
         </ul>
     <% } else { %>
-        <p class="no-data">No hay publicaciones disponibles.</p>
-    <a href="/">Volver al menu principal</a>
+        <p class="no-data">No hay construcciones disponibles.</p>
     <% } %>
+    <a href="/">Volver al menu principal</a>
 </body>
 </html>
