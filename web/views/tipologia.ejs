@@ -14,7 +14,7 @@
         <li>
           <strong><%= t.name %></strong>  
           <% if (t.image) { %>
-            <br><img src="<%= t.image %>" alt="<%= t.name %>" width="200">
+            <br><img src="<%= t.image %>" alt="<%= t.name %>" width="200"> <!-- Imagen cargada directamente de la base de datos -->
           <% } %>
           — <a href="/tipologia/<%= t.id_typology %>">Ver detalle</a>
         </li>
