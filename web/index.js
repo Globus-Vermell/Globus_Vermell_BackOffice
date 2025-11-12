@@ -1,7 +1,7 @@
 import express from 'express';
 import publicacionesRouter from './routes/publicaciones.js';
 import arquitectosRouter from './routes/arquitectos.js';
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
@@ -15,5 +15,5 @@ app.use("/", arquitectosRouter);
 
 // Start
 app.listen(PORT, () => {
-  console.log(`Server running on${PORT}`);
+  console.log(`Server running on port${PORT}`);
 });
