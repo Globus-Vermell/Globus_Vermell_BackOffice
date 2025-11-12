@@ -9,7 +9,10 @@ app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-// Rutas
+// Home provicional para facilitar l navegacion a la hora de trabajar
+app.get("/", (req, res) => {
+  res.render("home");
+});
 app.use('/publicaciones', publicacionesRouter);
 app.use("/arquitectos", arquitectosRouter);
 
