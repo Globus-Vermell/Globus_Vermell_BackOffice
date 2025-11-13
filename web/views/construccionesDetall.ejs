@@ -1,198 +1,234 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= building.name %> - Detalle</title>
+    <title>
+        <%= building.name %> - Detalle
+    </title>
 </head>
-<body>
-    <h1>Nombre: <%= building.name %></h1>
-    <p>Descripción: <%= building.description %></p>
-    <div><p>Imagen:</p> <img src="/images/buildings/<%= building.picture %>" alt="<%= building.name %>" /></div>
-    <p>Dirección: <%= building.coordinates %></p>
-    <p>Año de construcción: <%= building.constucyion_year  %></p>
-    <p>Descripción: <%= building.description || "Sin descripción disponible"%></p>
-    <p>Superficie de area: <%= building.surface_area || "Sin superficie de area disponible" %></p>
 
-    <p>Premios: 
+<body>
+    <h1>Nombre: <%= building.name %>
+    </h1>
+    <p>Descripción: <%= building.description %>
+    </p>
+    <div>
+        <p>Imagen:</p> <img src="/images/buildings/<%= building.picture %>" alt="<%= building.name %>" />
+    </div>
+    <p>Dirección: <%= building.coordinates %>
+    </p>
+    <p>Año de construcción: <%= building.constucyion_year %>
+    </p>
+    <p>Descripción: <%= building.description || "Sin descripción disponible" %>
+    </p>
+    <p>Superficie de area: <%= building.surface_area || "Sin superficie de area disponible" %>
+    </p>
+
+    <p>Premios:
         <span id="prize-id"></span>
     </p>
     <p>
         <% if (building.id_nomenclature) { %>
             <a href="/nomenclatura/<%= building.id_nomenclature %>">Nomenclatura: <span id="nom-name"></span></a>
-        <% } else { %>
-            <p>Nomenclatura: Sin nomenclatura disponible</p>
-        <% } %>
+            <% } else { %>
+                <p>Nomenclatura: Sin nomenclatura disponible</p>
+                <% } %>
     </p>
 
     <p>
         <% if (building.id_publication) { %>
             <a href="/publicaciones/<%= building.id_publication %>">Publicación: <span id="pub-title"></span></a>
-            
-        <% } else { %>
-            <p>Publicaciones: Sin publicaciones disponibles</p>
-        <% } %>
+
+            <% } else { %>
+                <p>Publicaciones: Sin publicaciones disponibles</p>
+                <% } %>
     </p>
 
     <p>
         <% if (building.id_reform) { %>
             <a href="/reformas/<%= building.id_reform %>">Reforma: <span id="ref-year"></span></a>
-        <% } else { %>
-            <p>Reformas: Sin reformas disponibles</p>
-        <% } %>
+            <% } else { %>
+                <p>Reformas: Sin reformas disponibles</p>
+                <% } %>
     </p>
 
     <p>
         <% if (building.id_architect) { %>
             <a href="/arquitectos/<%= building.id_architect %>">Arquitecto: <span id="arch-name"></span></a>
-        <% } else { %>
-            <p>Arquitectos: Sin arquitectos disponibles</p>
-        <% } %>
+            <% } else { %>
+                <p>Arquitectos: Sin arquitectos disponibles</p>
+                <% } %>
     </p>
 
     <p>
         <% if (building.id_typology) { %>
             <a href="/tipologias/<%= building.id_typology %>">Tipología: <span id="typ-name"></span></a>
-        <% } else { %>
-            <p>Tipologías: Sin tipologías disponibles</p>
-        <% } %>
+            <% } else { %>
+                <p>Tipologías: Sin tipologías disponibles</p>
+                <% } %>
     </p>
 
     <p>
         <% if (building.id_protection) { %>
             <a href="/proteccion/<%= building.id_protection %>">Protección: <span id="prot-level"></span></a>
-        <% } else { %>
-            <p>Protecciones: Sin protecciones disponibles</p>
-        <% } %>
+            <% } else { %>
+                <p>Protecciones: Sin protecciones disponibles</p>
+                <% } %>
     </p>
-    
+
     <a href="/construcciones">Volver al listado</a>
 </body>
+
 </html>
 <script>
-                (function(){
-                      const pubId = "<%= building.id_publication %>";
-                    fetch('/publicaciones/' + pubId + '/title')
+    (function () {
+        const pubId = "<%= building.id_building %>";
+        fetch('/construcciones/' + pubId + '/prizes')
+            .then(response => {
+                if (!response.ok) throw new Error('No encontrado');
+                return response.json();
+            })
+            .then(data => {
+                const titleEl = document.getElementById('prize-id');
+                console.log(data);
+                for (let i = 0; i < data.prizes.length; i++) {
+                    console.log(data.prizes[i]);
+                    const prizeId = data.prizes[i];
+                    fetch('/premios/' + prizeId + '/name')
                         .then(response => {
                             if (!response.ok) throw new Error('No encontrado');
                             return response.json();
                         })
-                        .then(data => {
-                            const titleEl = document.getElementById('pub-title');
-                            if (data && data.title) titleEl.textContent = data.title;
-                        })
-                        .catch(() => {
-                            // Dejar el id si falla la petición
-                        });
-                })();
-
-                (function(){
-                      const pubId = "<%= building.id_building %>";
-                    fetch('/construcciones/' + pubId + '/prizes')
-                        .then(response => {
-                            if (!response.ok) throw new Error('No encontrado');
-                            return response.json();
-                        })
-                        .then(data => {
-                            const titleEl = document.getElementById('prize-id');
-                            console.log(data);
-                            for (let i = 0; i < data.prizes.length; i++) {
-                                    console.log(data.prizes[i]);
-                                        const prizeId = data.prizes[i];
-                                        fetch('/premios/' + prizeId + '/name')
-                                            .then(response => {
-                                                if (!response.ok) throw new Error('No encontrado');
-                                                return response.json();
-                                            })
-                                            .then(prizeData => {
-                                                if (prizeData && prizeData.prize) {
-                                                    titleEl.textContent = "(" + prizeData.prize + ") ";
-                                                }
-                                            })
-                                            .catch(() => {
-                                                // Dejar el id si falla la petición
-                                            });
+                        .then(prizeData => {
+                            if (prizeData && prizeData.prize) {
+                                const link = document.createElement('a');
+                                link.href = '/premios/' + prizeId;
+                                link.textContent = prizeData.prize;
+                                titleEl.appendChild(link);
+                                if (i < data.prizes.length - 1) {
+                                    titleEl.appendChild(document.createTextNode(', '));
                                 }
-                            
+                            }
                         })
                         .catch(() => {
                             // Dejar el id si falla la petición
                         });
-                })();
+                }
 
-                (function(){
-                      const pubId = "<%= building.id_nomenclature %>";
-                    fetch('/nomenclatura/' + pubId + '/name')
+            })
+            .catch(() => {
+                // Dejar el id si falla la petición
+            });
+    })();
+//TODO: que sea una funcion reusable
+    (function () {
+        const pubId = "<%= building.id_building %>";
+        fetch('/construcciones/' + pubId + '/prizes')
+            .then(response => {
+                if (!response.ok) throw new Error('No encontrado');
+                return response.json();
+            })
+            .then(data => {
+                const titleEl = document.getElementById('prize-id');
+                console.log(data);
+                for (let i = 0; i < data.prizes.length; i++) {
+                    console.log(data.prizes[i]);
+                    const prizeId = data.prizes[i];
+                    fetch('/premios/' + prizeId + '/name')
                         .then(response => {
                             if (!response.ok) throw new Error('No encontrado');
                             return response.json();
                         })
-                        .then(data => {
-                            const nameEl = document.getElementById('nom-name');
-                            if (data && data.name) nameEl.textContent = data.name;
+                        .then(prizeData => {
+                            if (prizeData && prizeData.prize) {
+                                const link = document.createElement('a');
+                                link.href = '/premios/' + prizeId;
+                                link.textContent = prizeData.prize;
+                                titleEl.appendChild(link);
+                                if (i < data.prizes.length - 1) {
+                                    titleEl.appendChild(document.createTextNode(', '));
+                                }
+                            }
                         })
                         .catch(() => {
                             // Dejar el id si falla la petición
                         });
-                })();
-                (function(){
-                      const refId = "<%= building.id_reform %>";
-                    fetch('/reformas/' + refId + '/year')
-                        .then(response => {
-                            if (!response.ok) throw new Error('No encontrado');
-                            return response.json();
-                        })
-                        .then(data => {
-                            const yearEl = document.getElementById('ref-year');
-                            if (data && data.year) yearEl.textContent = data.year;
-                        })
-                        .catch(() => {
-                            // Dejar el id si falla la petición
-                        });
-                })();
-                (function(){
-                      const archId = "<%= building.id_architect %>";
-                    fetch('/arquitectos/' + archId + '/name')
-                        .then(response => {
-                            if (!response.ok) throw new Error('No encontrado');
-                            return response.json();
-                        })
-                        .then(data => {
-                            const nameEl = document.getElementById('arch-name');
-                            if (data && data.name) nameEl.textContent = data.name;
-                        })
-                        .catch(() => {
-                            // Dejar el id si falla la petición
-                        });
-                })();
-                (function(){
-                      const typId = "<%= building.id_typology %>";
-                    fetch('/tipologia/' + typId + '/name')
-                        .then(response => {
-                            if (!response.ok) throw new Error('No encontrado');
-                            return response.json();
-                        })
-                        .then(data => {
-                            const nameEl = document.getElementById('typ-name');
-                            if (data && data.name) nameEl.textContent = data.name;
-                        })
-                        .catch(() => {
-                            // Dejar el id si falla la petición
-                        });
-                })();
-                (function(){
-                      const protId = "<%= building.id_protection %>";
-                    fetch('/proteccion/' + protId + '/level')
-                        .then(response => {
-                            if (!response.ok) throw new Error('No encontrado');
-                            return response.json();
-                        })
-                        .then(data => {
-                            const levelEl = document.getElementById('prot-level');
-                            if (data && data.level) levelEl.textContent = data.level;
-                        })
-                        .catch(() => {
-                            // Dejar el id si falla la petición
-                        });
-                })();
-            </script>
+                }
+
+            })
+            .catch(() => {
+                // Dejar el id si falla la petición
+            });
+    })();
+
+
+    async function loadAndDisplayData(resourceId, baseUrl, elementId, propertyName) {
+        // Si resourceId es null, undefined, o 0, no intentamos hacer la petición
+        // Esto es útil si algunos campos en building pueden ser nulos
+        if (!resourceId) {
+            // console.warn(`ID de recurso no proporcionado para ${baseUrl}. No se realizará la petición.`);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${baseUrl}${resourceId}/${propertyName}`);
+
+            if (!response.ok) {
+                // Si la respuesta no es OK (ej. 404), lanzamos un error para ir al catch
+                throw new Error(`Error al obtener ${propertyName} de ${baseUrl}${resourceId}: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            const targetElement = document.getElementById(elementId);
+
+            // Verificamos si el elemento existe en el DOM y si el dato existe en la respuesta
+            if (targetElement && data && data[propertyName]) {
+                targetElement.textContent = data[propertyName];
+            } else if (!targetElement) {
+                console.warn(`Elemento con ID "${elementId}" no encontrado en el DOM.`);
+            } else {
+                console.warn(`Propiedad "${propertyName}" no encontrada en los datos para ${baseUrl}${resourceId}.`);
+            }
+
+        } catch (error) {
+            console.error("Fallo al cargar o mostrar el dato:", error);
+            // Aquí puedes decidir si quieres limpiar el elemento o dejarlo como está.
+            // El requisito original era "Dejar el id si falla la petición",
+            // lo que significa no cambiar el textContent, así que no hacemos nada aquí.
+        }
+    }
+
+
+    (async () => {
+        const refId = "<%= building.id_publication %>";
+        await loadAndDisplayData(refId, '/publicaciones/', 'pub-title', 'title');
+    })();
+
+
+    (async () => {
+        const nomId = "<%= building.id_nomenclature %>";
+        await loadAndDisplayData(nomId, '/nomenclatura/', 'nom-name', 'name');
+    })();
+    (async () => {
+        const refId = "<%= building.id_reform %>";
+        await loadAndDisplayData(refId, '/reformas/', 'ref-year', 'year');
+    })();
+
+    (async () => {
+        const archId = "<%= building.id_architect %>";
+        await loadAndDisplayData(archId, '/arquitectos/', 'arch-name', 'name');
+    })();
+
+    (async () => {
+        const typId = "<%= building.id_typology %>";
+        await loadAndDisplayData(typId, '/tipologia/', 'typ-name', 'name');
+    })();
+
+    (async () => {
+        const protId = "<%= building.id_protection %>";
+        await loadAndDisplayData(protId, '/proteccion/', 'prot-level', 'level');
+    })();
+
+</script>
