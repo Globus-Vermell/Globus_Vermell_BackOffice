@@ -1,4 +1,5 @@
 import express from 'express';
+import session from "express-session";
 import publicacionesRouter from './routes/publicaciones.js';
 import arquitectosRouter from './routes/arquitectos.js';
 import reformasRouter from "./routes/reformas.js";
@@ -7,21 +8,18 @@ import nomenclaturaRouter from "./routes/nomenclatura.js";
 import tipologiaRouter from "./routes/tipologia.js";
 import proteccionRouter from "./routes/proteccion.js";
 import construccionesRouter from "./routes/construcciones.js";
+import loginRouter from "./routes/login.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-// Home provicional para facilitar l navegacion a la hora de trabajar
 app.get("/", (req, res) => {
-  res.render("home");
-});
-
-app.use("/login", (req, res) => {
-  res.render("login");
+    res.render("home", { user: req.session?.user });
 });
 
 
@@ -34,12 +32,16 @@ app.use("/nomenclatura", nomenclaturaRouter);
 app.use("/tipologia", tipologiaRouter);
 app.use("/proteccion", proteccionRouter);
 app.use("/construcciones", construccionesRouter);
+app.use("/login", loginRouter);
 
-app.use("/login", (req, res) => {
-  res.render("login");
-});
+app.use(session({
+    secret: 'secretosecreto',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
 // Start
 app.listen(PORT, () => {
-  console.log(`Server running on port${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
