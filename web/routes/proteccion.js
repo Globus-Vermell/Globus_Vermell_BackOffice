@@ -33,20 +33,20 @@ router.get("/:id", async (req, res) => {
   res.render("proteccionDetall", { protection });
 });
 
-router.get("/:id/name", async (req, res) => {
+router.get("/:id/level", async (req, res) => {
   const id = Number(req.params.id);
   const { data, error } = await supabase
     .from("protection")
-    .select("name")
+    .select("level")
     .eq("id_protection", id)
     .single();
 
   if (error || !data) {
-    console.error("Error al obtener el nombre de la protección:", error);
-    return res.status(404).json({ error: "Nombre no encontrado" });
+    console.error("Error al obtener el nivel de la protección:", error);
+    return res.status(404).json({ error: "Nivel no encontrado" });
   }
 
-  res.json({ name: data.name });
+  res.json({ level: data.level });
 });
 
 export default router;

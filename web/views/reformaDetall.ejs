@@ -7,9 +7,32 @@
 </head>
 <body>
   <h1>Reforma del año <%= reforma.year %></h1>
-
-  <p><strong>ID del Arquitecto:</strong> <%= reforma.id_architect %></p>
+  <p>
+        <% if (reforma.id_architect) { %>
+            <a href="/arquitectos/<%= reforma.id_architect%>">Arquitecto que realizó la reforma: <span id="arch-name"></span></a>
+        <% } else { %>
+            <p>No se realizó ninguna reforma o no se sabe que arquitecto fue asignado</p>
+        <% } %>
+    </p>
 
   <a href="/reformas">Volver al listado</a>
 </body>
 </html>
+
+<script>
+   (function(){
+                      const protId = "<%= reforma.id_architect %>";
+                    fetch('/arquitectos/' + protId + '/name')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const nameEl = document.getElementById('arch-name');
+                            if (data && data.name) nameEl.textContent = data.name;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+</script>

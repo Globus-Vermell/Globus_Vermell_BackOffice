@@ -32,4 +32,36 @@ router.get("/:id", async (req, res) => {
     res.render("construccionesDetall", { building });
 });
 
+router.get("/:id/prizes", async (req, res) => {
+  const id = Number(req.params.id);
+
+  const { data, error } = await supabase
+    .from("building_prizes")
+    .select("id_prize")
+    .eq("id_building", id); // Sin .single() para obtener múltiples/ningún resultado
+
+  // --- Manejo de ERRORES de la base de datos ---
+  if (error) {
+    console.error("Error al obtener los premios de la construcción:", error);
+    // Un error de BDD es un 500 (Internal Server Error)
+    return res.status(500).json({ error: "Error interno del servidor al consultar premios." });
+  }
+
+  // --- Manejo de NO ENCONTRADO (array vacío) ---
+  // Si 'data' es null, undefined, o un array vacío, no se encontraron premios.
+  if (!data || data.length === 0) {
+    // Si no hay datos, es un 404 (Not Found)
+    return res.status(404).json({ message: "No se encontraron premios para esta edificacion." });
+  }
+
+  // --- Procesamiento de DATOS ENCONTRADOS ---
+  // Si llegamos aquí, 'data' es un array con uno o más objetos { id_prize: X }.
+  // Mapeamos para extraer solo los valores de id_prize en un nuevo array.
+  const prizeIds = data.map(item => item.id_prize);
+
+  // Devolvemos el array de IDs de premios.
+  res.json({ prizes: prizeIds }); // La clave ahora es 'prizes' para indicar un array
+});
+
+
 export default router;

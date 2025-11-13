@@ -13,7 +13,10 @@
     <p>Año de construcción: <%= building.constucyion_year  %></p>
     <p>Descripción: <%= building.description || "Sin descripción disponible"%></p>
     <p>Superficie de area: <%= building.surface_area || "Sin superficie de area disponible" %></p>
-    <p>Premios: <%= building.id_prize || "No ha ganado ningun premio" %></p>
+
+    <p>Premios: 
+        <span id="prize-id"></span>
+    </p>
     <p>
         <% if (building.id_nomenclature) { %>
             <a href="/nomenclatura/<%= building.id_nomenclature %>">Nomenclatura: <span id="nom-name"></span></a>
@@ -57,7 +60,7 @@
 
     <p>
         <% if (building.id_protection) { %>
-            <a href="/proteccion/<%= building.id_protection %>">Protección: <span id="prot-name"></span></a>
+            <a href="/proteccion/<%= building.id_protection %>">Protección: <span id="prot-level"></span></a>
         <% } else { %>
             <p>Protecciones: Sin protecciones disponibles</p>
         <% } %>
@@ -77,6 +80,40 @@
                         .then(data => {
                             const titleEl = document.getElementById('pub-title');
                             if (data && data.title) titleEl.textContent = data.title;
+                        })
+                        .catch(() => {
+                            // Dejar el id si falla la petición
+                        });
+                })();
+
+                (function(){
+                      const pubId = "<%= building.id_building %>";
+                    fetch('/construcciones/' + pubId + '/prizes')
+                        .then(response => {
+                            if (!response.ok) throw new Error('No encontrado');
+                            return response.json();
+                        })
+                        .then(data => {
+                            const titleEl = document.getElementById('prize-id');
+                            console.log(data);
+                            for (let i = 0; i < data.prizes.length; i++) {
+                                    console.log(data.prizes[i]);
+                                        const prizeId = data.prizes[i];
+                                        fetch('/premios/' + prizeId + '/name')
+                                            .then(response => {
+                                                if (!response.ok) throw new Error('No encontrado');
+                                                return response.json();
+                                            })
+                                            .then(prizeData => {
+                                                if (prizeData && prizeData.prize) {
+                                                    titleEl.textContent = "(" + prizeData.prize + ") ";
+                                                }
+                                            })
+                                            .catch(() => {
+                                                // Dejar el id si falla la petición
+                                            });
+                                }
+                            
                         })
                         .catch(() => {
                             // Dejar el id si falla la petición
@@ -145,14 +182,14 @@
                 })();
                 (function(){
                       const protId = "<%= building.id_protection %>";
-                    fetch('/proteccion/' + protId + '/name')
+                    fetch('/proteccion/' + protId + '/level')
                         .then(response => {
                             if (!response.ok) throw new Error('No encontrado');
                             return response.json();
                         })
                         .then(data => {
-                            const nameEl = document.getElementById('prot-name');
-                            if (data && data.name) nameEl.textContent = data.name;
+                            const levelEl = document.getElementById('prot-level');
+                            if (data && data.level) levelEl.textContent = data.level;
                         })
                         .catch(() => {
                             // Dejar el id si falla la petición

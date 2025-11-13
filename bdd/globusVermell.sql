@@ -102,3 +102,15 @@ CREATE TABLE publication_building (
       REFERENCES buildings (id_Building)
       ON DELETE RESTRICT ON UPDATE CASCADE
 );
+--Tabla intermedia Building-Prizes--
+CREATE TABLE building_prizes (
+    id_Building INT NOT NULL,
+    id_Prize INT NOT NULL,
+    PRIMARY KEY (id_Building, id_Prize),
+    CONSTRAINT fk_Building_Prize FOREIGN KEY (id_Building)
+      REFERENCES buildings (id_Building)
+      ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_Prize_Building FOREIGN KEY (id_Prize)
+      REFERENCES prizes (id_Prize)
+      ON DELETE RESTRICT ON UPDATE CASCADE
+);
