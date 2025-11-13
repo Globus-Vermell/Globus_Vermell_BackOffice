@@ -22,6 +22,12 @@ app.get("/", (req, res) => {
     res.render("home", { user: req.session?.user });
 });
 
+app.use(session({
+    secret: 'secretosecreto',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
 app.use('/publicaciones', publicacionesRouter);
 app.use("/arquitectos", arquitectosRouter);
@@ -34,12 +40,7 @@ app.use("/proteccion", proteccionRouter);
 app.use("/construcciones", construccionesRouter);
 app.use("/login", loginRouter);
 
-app.use(session({
-    secret: 'secretosecreto',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
+
 
 // Start
 app.listen(PORT, () => {
