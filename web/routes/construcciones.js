@@ -63,5 +63,26 @@ router.get("/:id/prizes", async (req, res) => {
   res.json({ prizes: prizeIds }); // La clave ahora es 'prizes' para indicar un array
 });
 
+router.get("/:id/years", async (req, res) => {
+  const id = Number(req.params.id);
+  
+  const { data, error } = await supabase
+    .from("building_reforms")
+    .select("id_reform")
+    .eq("id_building", id);
+  if (error) {
+    console.error("Error al obtener las reformas de la construcción:", error);
+    return res.status(500).json({ error: "Error interno del servidor al consultar reformas." });
+  }
+
+  if (!data || data.length === 0) {
+    return res.status(404).json({ message: "No se encontraron reformas para esta edificacion." });
+  }
+
+  const reformIds = data.map(item => item.id_reform);
+  
+  res.json({ reforms: reformIds }); 
+});
+
 
 export default router;
