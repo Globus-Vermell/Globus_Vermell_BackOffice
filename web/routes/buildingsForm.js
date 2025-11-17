@@ -51,10 +51,9 @@ router.post("/", async (req, res) => {
     try {
         const { error } = await supabase.from("buildings").insert([{
             name: nom,
-            picture: "provisional.jpg",
+            picture: imatge,
             coordinates: adreca,
             constuction_year: parseInt(any_construccio),
-            imatge,
             description,
             surface_area: parseInt(surface_area),
             id_publication: parseInt(publicacio_id),
