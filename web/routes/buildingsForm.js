@@ -58,7 +58,7 @@ router.get("/nomenclature", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const {
-        nom, adreca, any_construccio, description, surface_area,
+        nom, adreca, any_construccio, imatge, description, surface_area,
         publicacio_id, arquitectes, tipologia, id_prize, id_reform, id_protection, id_nomenclature
     } = req.body;
 
@@ -68,6 +68,7 @@ router.post("/", async (req, res) => {
             picture: "provisional.jpg",
             coordinates: adreca,
             constuction_year: parseInt(any_construccio),
+            imatge,
             description,
             surface_area: parseInt(surface_area),
             id_publication: parseInt(publicacio_id),

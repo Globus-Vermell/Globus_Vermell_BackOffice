@@ -20,6 +20,9 @@
         <label>Any construcció:</label>
         <input type="number" name="any_construccio" required />
 
+        <label>Imatge</label>
+        <input type="text" name="picture" required/>
+
         <label>Descripció:</label>
         <textarea name="description"></textarea>
 
@@ -158,7 +161,7 @@
                 }
 
                 try {
-                    const res = await fetch("/buildings", {
+                    const res = await fetch("/buildings/form", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(data),
