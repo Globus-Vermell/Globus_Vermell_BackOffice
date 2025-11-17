@@ -30,18 +30,17 @@ app.get("/home", (req, res) => {
   res.render("home", { user: req.session?.user });
 });
 
-
-app.use('/publicaciones', publicacionesRouter);
-app.use("/arquitectos", arquitectosRouter);
-app.use("/reformas", reformasRouter);
-app.use("/premios", premiosRouter);
-app.use("/construcciones", construccionesRouter);
-app.use("/nomenclatura", nomenclaturaRouter);
-app.use("/tipologia", tipologiaRouter);
-app.use("/proteccion", proteccionRouter);
-app.use("/construcciones", construccionesRouter);
-app.use("/FormularioEdificacion", FormularioEdificacionRouter);
+app.use("/architects", arquitectosRouter);
+app.use("/buildings", construccionesRouter);
+app.use("/buildings/form", FormularioEdificacionRouter);
 app.use("/", loginRouter);
+app.use("/nomenclature", nomenclaturaRouter);
+app.use("/prizes", premiosRouter);
+app.use("/protection", proteccionRouter);
+app.use('/publications', publicacionesRouter);
+app.use("/reform", reformasRouter);
+app.use("/typology", tipologiaRouter);
+
 
 // Start
 app.listen(PORT, () => {
