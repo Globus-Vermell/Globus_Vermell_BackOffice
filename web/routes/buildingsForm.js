@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
     res.render("buildings/buildingsForm");
 });
 
-router.get("/publicacions", async (req, res) => {
+router.get("/publications", async (req, res) => {
     const { data, error } = await supabase
         .from("publications")
         .select("id_publication, title");
@@ -16,7 +16,7 @@ router.get("/publicacions", async (req, res) => {
     res.json(data);
 });
 
-router.get("/arquitectes", async (req, res) => {
+router.get("/architects", async (req, res) => {
     const { data, error } = await supabase
         .from("architects")
         .select("id_architect, name");
@@ -25,7 +25,7 @@ router.get("/arquitectes", async (req, res) => {
     res.json(data);
 });
 
-router.get("/tipologies", async (req, res) => {
+router.get("/typologies", async (req, res) => {
     const { data, error } = await supabase
         .from("typology")
         .select("id_typology, name");
