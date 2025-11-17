@@ -5,31 +5,31 @@ const router = express.Router();
 
 // Página principal — muestra los títulos en una lista
 router.get("/", async (req, res) => {
- const {data:buildings, error } = await supabase
+  const { data: buildings, error } = await supabase
     .from("buildings")
     .select("*");
 
-    if (error) {
-      console.error("Error al obtener las construcciones:", error);
-      return res.status(500).send("Error al obtener construcciones");
-    }
-    res.render("construcciones", { buildings });
+  if (error) {
+    console.error("Error al obtener las construcciones:", error);
+    return res.status(500).send("Error al obtener construcciones");
+  }
+  res.render("construcciones/construcciones", { buildings });
 });
 
 router.get("/:id", async (req, res) => {
-  const {id} = req.params;
-  const {data: building, error } =await supabase
+  const { id } = req.params;
+  const { data: building, error } = await supabase
     .from("buildings")
     .select("*")
     .eq("id_building", id)
     .single();
 
-    if (error || !building){
-      console.error("Error al obtener la construcción:", error);
-      return res.status(404).send("Construcción no encontrada");
-    }
+  if (error || !building) {
+    console.error("Error al obtener la construcción:", error);
+    return res.status(404).send("Construcción no encontrada");
+  }
 
-    res.render("construccionesDetall", { building });
+  res.render("construcciones/construccionesDetall", { building });
 });
 
 router.get("/:id/prizes", async (req, res) => {
@@ -61,6 +61,27 @@ router.get("/:id/prizes", async (req, res) => {
 
   // Devolvemos el array de IDs de premios.
   res.json({ prizes: prizeIds }); // La clave ahora es 'prizes' para indicar un array
+});
+
+router.get("/:id/years", async (req, res) => {
+  const id = Number(req.params.id);
+  
+  const { data, error } = await supabase
+    .from("building_reforms")
+    .select("id_reform")
+    .eq("id_building", id);
+  if (error) {
+    console.error("Error al obtener las reformas de la construcción:", error);
+    return res.status(500).json({ error: "Error interno del servidor al consultar reformas." });
+  }
+
+  if (!data || data.length === 0) {
+    return res.status(404).json({ message: "No se encontraron reformas para esta edificacion." });
+  }
+
+  const reformIds = data.map(item => item.id_reform);
+  
+  res.json({ reforms: reformIds }); 
 });
 
 

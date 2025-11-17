@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     return res.status(500).send("Error al obtener tipologías");
   }
 
-  res.render("tipologia", { typologies });
+  res.render("tipologia/tipologia", { typologies });
 });
 
 router.get("/:id", async (req, res) => {
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Tipología no encontrada");
   }
 
-  res.render("tipologiaDetall", { typology });
+  res.render("tipologia/tipologiaDetall", { typology });
 });
 
 router.get("/:id/name", async (req, res) => {

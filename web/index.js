@@ -19,17 +19,15 @@ app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-
-
 app.use(session({
-    secret: 'secretosecreto',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
+  secret: 'secretosecreto',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
 
 app.get("/home", (req, res) => {
-    res.render("home", { user: req.session?.user });
+  res.render("home", { user: req.session?.user });
 });
 
 
@@ -44,8 +42,6 @@ app.use("/proteccion", proteccionRouter);
 app.use("/construcciones", construccionesRouter);
 app.use("/FormularioEdificacion", FormularioEdificacionRouter);
 app.use("/", loginRouter);
-
-
 
 // Start
 app.listen(PORT, () => {

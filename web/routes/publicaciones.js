@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Página principal — muestra los títulos en una lista
 router.get("/", async (req, res) => {
- const {data:publications, error } = await supabase
+  const {data:publications, error } = await supabase
     .from("publications")
     .select("*");
 
@@ -13,23 +13,23 @@ router.get("/", async (req, res) => {
       console.error("Error al obtener publicaciones:", error);
       return res.status(500).send("Error al obtener publicaciones");
     }
-    res.render("publicaciones", { publications });
+    res.render("publicaciones/publicaciones", { publications });
 });
 
 router.get("/:id", async (req, res) => {
-  const {id} = req.params;
-  const {data: publication, error } =await supabase
+  const { id } = req.params;
+  const { data: publication, error } = await supabase
     .from("publications")
     .select("*")
     .eq("id_publication", id)
     .single();
 
-    if (error || !publication){
+  if (error || !publication){
       console.error("Error al obtener la publicación:", error);
       return res.status(404).send("Publicación no encontrada");
     }
 
-    res.render("publicacionDetall", { publication });
+    res.render("publicaciones/publicacionDetall", { publication });
 });
 
 // Obtener solo el título (nombre) de una publicación por id (devuelve JSON)

@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     return res.status(500).send("Error al obtener nomenclaturas");
   }
 
-  res.render("nomenclatura", { nomenclaturas });
+  res.render("nomenclatura/nomenclatura", { nomenclaturas });
 });
 
 router.get("/:id", async (req, res) => {
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Nomenclatura no encontrada");
   }
 
-  res.render("nomenclaturaDetall", { nomenclatura });
+  res.render("nomenclatura/nomenclaturaDetall", { nomenclatura });
 });
 
 // Obtener solo el nombre de una publicación por id (devuelve JSON)

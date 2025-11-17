@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     return res.status(500).send("Error al obtener arquitectos");
   }
 
-  res.render("arquitectos", { architects });
+  res.render("arquitectos/arquitectos", { architects });
 });
 
 router.get("/:id", async (req, res) => {
@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Arquitecto no encontrado");
   }
 
-  res.render("arquitectoDetall", { architect });
+  res.render("arquitectos/arquitectoDetall", { architect });
 });
 
 router.get("/:id/name", async (req, res) => {

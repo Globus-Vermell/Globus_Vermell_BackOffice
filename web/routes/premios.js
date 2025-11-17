@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     return res.status(500).send("Error al obtener premios");
   }
 
-  res.render("premios", { prizes });
+  res.render("premios/premios", { prizes });
 });
 
 router.get("/:id", async (req, res) => {
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Premio no encontrado");
   }
 
-  res.render("premioDetall", { prize });
+  res.render("premios/premioDetall", { prize });
 });
 
 router.get("/:id/name", async (req, res) => {

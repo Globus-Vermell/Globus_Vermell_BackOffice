@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     return res.status(500).send("Error al obtener protecciones");
   }
 
-  res.render("proteccion", { protections });
+  res.render("proteccion/proteccion", { protections });
 });
 
 router.get("/:id", async (req, res) => {
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Protección no encontrada");
   }
 
-  res.render("proteccionDetall", { protection });
+  res.render("proteccion/proteccionDetall", { protection });
 });
 
 router.get("/:id/level", async (req, res) => {
