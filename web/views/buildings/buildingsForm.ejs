@@ -41,7 +41,7 @@
 
             async function carregarDesplegables() {
 
-                const resPub = await fetch("/FormularioEdificacion/publicacions");
+                const resPub = await fetch("/buildings/buildingsForm/publications");
                 const publicacions = await resPub.json();
 
                 selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
@@ -52,7 +52,7 @@
                     selectPublicacions.appendChild(opt);
                 });
 
-                const resArq = await fetch("/FormularioEdificacion/arquitectes");
+                const resArq = await fetch("/buildings/buildingsForm/architects");
                 const arquitectes = await resArq.json();
 
                 selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
@@ -63,7 +63,7 @@
                     selectArquitectes.appendChild(opt);
                 });
 
-                const resTip = await fetch("/FormularioEdificacion/tipologies");
+                const resTip = await fetch("/buildings/buildingsForm/typologies");
                 const tipologies = await resTip.json();
 
                 selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
