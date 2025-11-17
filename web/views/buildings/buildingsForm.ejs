@@ -35,10 +35,6 @@
         <label>Tipologia:</label>
         <select id="tipologia" name="tipologia"></select>
 
-        <label>Reforma:</label>
-        <select id="id_reform" name="id_reform">
-            <option value="">-- Cap --</option>
-        </select>
 
         <label>Protecció:</label>
         <select id="id_protection" name="id_protection">
@@ -59,7 +55,6 @@
             const selectPublicacions = document.getElementById("publicacio_id");
             const selectArquitectes = document.getElementById("arquitectes");
             const selectTipologia = document.getElementById("tipologia");
-            const selectReforms = document.getElementById("id_reform");
             const selectProtection = document.getElementById("id_protection");
             const selectNomenclature = document.getElementById("id_nomenclature");
 
@@ -95,15 +90,6 @@
                     selectTipologia.appendChild(opt);
                 });
             
-                const resReforms = await fetch("/buildings/form/reforms");
-                const reforms = await resReforms.json();
-                selectReforms.innerHTML = '<option value="">-- Cap --</option>';
-                reforms.forEach(r => {
-                    const opt = document.createElement("option");
-                    opt.value = r.id_reform;
-                    opt.textContent = r.year;
-                    selectReforms.appendChild(opt);
-                });
 
                 const resProtection = await fetch("/buildings/form/protection");
                 const protections = await resProtection.json();

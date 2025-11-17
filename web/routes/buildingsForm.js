@@ -28,13 +28,6 @@ router.get("/typologies", async (req, res) => {
     res.json(data || []);
 });
 
-router.get("/reforms", async (req, res) => {
-    const { data } = await supabase
-        .from("reform")
-        .select("id_reform, year");
-    res.json(data || []);
-});
-
 router.get("/protection", async (req, res) => {
     const { data } = await supabase
         .from("protection")
@@ -52,7 +45,7 @@ router.get("/nomenclature", async (req, res) => {
 router.post("/", async (req, res) => {
     const {
         nom, adreca, any_construccio, description, surface_area,
-        publicacio_id, arquitectes, tipologia, id_reform, id_protection, id_nomenclature
+        publicacio_id, arquitectes, tipologia, id_protection, id_nomenclature
     } = req.body;
 
     try {
@@ -66,7 +59,6 @@ router.post("/", async (req, res) => {
             id_publication: parseInt(publicacio_id),
             id_architect: parseInt(arquitectes),
             id_typology: parseInt(tipologia),
-            id_reform: parseInt(id_reform),
             id_protection: parseInt(id_protection),
             id_nomenclature: parseInt(id_nomenclature)
         }]);
