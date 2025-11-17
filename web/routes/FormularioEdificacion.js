@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
 
     try {
         const { error } = await supabase
-            .from("edificacions")
+            .from("buildings")
             .insert([{ nom, adreca, any_construccio, publicacio_id, arquitectes, tipologia }]);
 
         if (error) {
