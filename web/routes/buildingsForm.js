@@ -4,7 +4,7 @@ import supabase from "../config.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.render("FormularioEdificacion");
+    res.render("buildings/buildingsForm");
 });
 
 router.get("/publicacions", async (req, res) => {
