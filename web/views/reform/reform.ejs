@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reformas</title>
+  <title>Reformes</title>
 </head>
 <body>
-  <h1>Listado de Reformas</h1>
+  <h1>Llistat de Reformes</h1>
 
   <% if (reformas && reformas.length > 0) { %>
     <ul>
@@ -14,14 +14,14 @@
         <li>
           Reforma del año <strong><%= reforma.year %></strong> 
           (Arquitecto ID: <%= reforma.id_architect %>)  
-          — <a href="">Ver detalle</a>
+          — <a href="">Veure detall</a>
         </li>
       <% }); %>
     </ul>
   <% } else { %>
-    <p>No hay reformas registradas.</p>
+    <p>No hi ha reformes registrades.</p>
   <% } %>
-    <a href="/">Volver al menu principal</a>
+    <a href="/">Tornar al menú principal</a>
 
 </body>
 </html>

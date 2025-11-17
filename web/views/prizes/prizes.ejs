@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premios</title>
+  <title>Premis</title>
 </head>
 <body>
-  <h1>Listado de Premios</h1>
+  <h1>Llistat de Premis</h1>
 
   <% if (prizes && prizes.length > 0) { %>
     <ul>
@@ -14,12 +14,12 @@
         <li>
           <strong><%= prize.name %></strong> 
           (<%= prize.year %>) — Tipo: <%= prize.tipe %>  
-          — <a href="">Ver detalle</a>
+          — <a href="">Veure detall</a>
         </li>
       <% }); %>
     </ul>
   <% } else { %>
-    <p>No hay premios registrados.</p>
+    <p>No hi ha premis registrats.</p>
   <% } %>
 </body>
 </html>
