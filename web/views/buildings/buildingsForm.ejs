@@ -33,7 +33,6 @@
     </form>
 
     <script>
-
         document.addEventListener("DOMContentLoaded", async () => {
             const form = document.getElementById("form-edificacio");
             const selectPublicacions = document.getElementById("publicacio_id");
@@ -41,30 +40,37 @@
             const selectTipologia = document.getElementById("tipologia");
 
             async function carregarDesplegables() {
-                const { data: publicacions } = await supabaseClient.from("publications").select("id_publication, title");
+
+                const resPub = await fetch("/FormularioEdificacion/publicacions");
+                const publicacions = await resPub.json();
+
                 selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
-                publicacions?.forEach(pub => {
+                publicacions.forEach(pub => {
                     const opt = document.createElement("option");
                     opt.value = pub.id_publication;
                     opt.textContent = pub.title;
                     selectPublicacions.appendChild(opt);
                 });
 
-                const { data: arquitectes } = await supabaseClient.from("arquitectes").select("id, nom");
+                const resArq = await fetch("/FormularioEdificacion/arquitectes");
+                const arquitectes = await resArq.json();
+
                 selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
-                arquitectes?.forEach(arq => {
+                arquitectes.forEach(arq => {
                     const opt = document.createElement("option");
-                    opt.value = arq.id;
-                    opt.textContent = arq.nom;
+                    opt.value = arq.id_architect;
+                    opt.textContent = arq.name;
                     selectArquitectes.appendChild(opt);
                 });
 
-                const { data: tipologies } = await supabaseClient.from("tipologies").select("id, nom");
+                const resTip = await fetch("/FormularioEdificacion/tipologies");
+                const tipologies = await resTip.json();
+
                 selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
-                tipologies?.forEach(t => {
+                tipologies.forEach(t => {
                     const opt = document.createElement("option");
-                    opt.value = t.id;
-                    opt.textContent = t.nom;
+                    opt.value = t.id_typology;
+                    opt.textContent = t.name;
                     selectTipologia.appendChild(opt);
                 });
             }
