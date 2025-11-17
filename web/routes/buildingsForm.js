@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
             name: nom,
             picture: picture,
             coordinates: adreca,
-            constuction_year: parseInt(any_construccio),
+            construction_year: parseInt(any_construccio),
             description,
             surface_area: parseInt(surface_area),
             id_publication: parseInt(publicacio_id),
