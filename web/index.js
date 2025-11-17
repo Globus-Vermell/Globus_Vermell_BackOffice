@@ -9,6 +9,7 @@ import tipologiaRouter from "./routes/tipologia.js";
 import proteccionRouter from "./routes/proteccion.js";
 import construccionesRouter from "./routes/construcciones.js";
 import loginRouter from "./routes/login.js";
+import FormularioEdificacionRouter from "./routes/FormularioEdificacion.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -31,6 +32,7 @@ app.get("/home", (req, res) => {
     res.render("home", { user: req.session?.user });
 });
 
+
 app.use('/publicaciones', publicacionesRouter);
 app.use("/arquitectos", arquitectosRouter);
 app.use("/reformas", reformasRouter);
@@ -40,6 +42,7 @@ app.use("/nomenclatura", nomenclaturaRouter);
 app.use("/tipologia", tipologiaRouter);
 app.use("/proteccion", proteccionRouter);
 app.use("/construcciones", construccionesRouter);
+app.use("/FormularioEdificacion", FormularioEdificacionRouter);
 app.use("/", loginRouter);
 
 

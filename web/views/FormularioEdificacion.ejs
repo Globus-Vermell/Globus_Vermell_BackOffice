@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nova edificació</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body class="p-6">
+    <h1>Afegir una nova edificació</h1>
+
+    <form id="form-edificacio">
+        <label>Nom:</label>
+        <input type="text" name="nom" required />
+
+        <label>Adreça:</label>
+        <input type="text" name="adreca" required />
+
+        <label>Any construcció:</label>
+        <input type="number" name="any_construccio" required />
+
+        <label>Publicació:</label>
+        <select id="publicacio_id" name="publicacio_id" required></select>
+
+        <label>Arquitectes:</label>
+        <select id="arquitectes" name="arquitectes"></select>
+
+        <label>Tipologia:</label>
+        <select id="tipologia" name="tipologia"></select>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const form = document.getElementById("form-edificacio");
+            const selectPublicacions = document.getElementById("publicacio_id");
+            const selectArquitectes = document.getElementById("arquitectes");
+            const selectTipologia = document.getElementById("tipologia");
+
+            async function carregarDesplegables() {
+                const { data: publicacions } = await supabaseClient.from("publications").select("id_publication, title");
+                selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
+                publicacions?.forEach(pub => {
+                    const opt = document.createElement("option");
+                    opt.value = pub.id_publication;
+                    opt.textContent = pub.title;
+                    selectPublicacions.appendChild(opt);
+                });
+
+                const { data: arquitectes } = await supabaseClient.from("arquitectes").select("id, nom");
+                selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
+                arquitectes?.forEach(arq => {
+                    const opt = document.createElement("option");
+                    opt.value = arq.id;
+                    opt.textContent = arq.nom;
+                    selectArquitectes.appendChild(opt);
+                });
+
+                const { data: tipologies } = await supabaseClient.from("tipologies").select("id, nom");
+                selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
+                tipologies?.forEach(t => {
+                    const opt = document.createElement("option");
+                    opt.value = t.id;
+                    opt.textContent = t.nom;
+                    selectTipologia.appendChild(opt);
+                });
+            }
+
+            await carregarDesplegables();
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                const oblig = ["nom", "adreca", "any_construccio", "publicacio_id"];
+                for (let field of oblig) {
+                    if (!data[field]) {
+                        alert(`El camp "${field}" és obligatori.`);
+                        return;
+                    }
+                }
+
+                try {
+                    const res = await fetch("/FormularioEdificacion", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data),
+                    });
+
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.success) form.reset();
+                } catch (err) {
+                    console.error("Error:", err);
+                    alert("Error al enviar el formulario.");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
