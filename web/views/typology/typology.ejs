@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tipologías</title>
+  <title>Tipologies</title>
 </head>
 <body>
-  <h1>Listado de Tipologías</h1>
+  <h1>Llitat de Tipologies</h1>
 
   <% if (typologies && typologies.length > 0) { %>
     <ul>
@@ -16,14 +16,14 @@
           <% if (t.image) { %>
             <br><img src="<%= t.image %>" alt="<%= t.name %>" width="200"> <!-- Imagen cargada directamente de la base de datos -->
           <% } %>
-          — <a href="">Ver detalle</a>
+          — <a href="">Veure detall</a>
         </li>
       <% }); %>
     </ul>
   <% } else { %>
-    <p>No hay tipologías registradas.</p>
+    <p>No hi ha tipologies registrades.</p>
   <% } %>
 
-  <a href="/">Volver al inicio</a>
+  <a href="/">Tornar a l'inici</a>
 </body>
 </html>

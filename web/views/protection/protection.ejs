@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Protecciones</title>
+  <title>Proteccions</title>
 </head>
 <body>
-  <h1>Listado de Protecciones</h1>
+  <h1>Llistat de Proteccions</h1>
 
   <% if (protections && protections.length > 0) { %>
     <ul>
       <% protections.forEach(p => { %>
         <li>
-          <strong>Nivel:</strong> <%= p.level %>  
-          — <a href="">Ver detalle</a>
+          <strong>Nivell:</strong> <%= p.level %>  
+          — <a href="">Veure detall</a>
         </li>
       <% }); %>
     </ul>
   <% } else { %>
-    <p>No hay protecciones registradas.</p>
+    <p>No hi ha proteccions registrades.</p>
   <% } %>
 
-  <a href="/">Volver al inicio</a>
+  <a href="/">Tornar a l'inici</a>
 </body>
 </html>
