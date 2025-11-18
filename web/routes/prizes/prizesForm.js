@@ -1,14 +1,14 @@
 import express from "express";
-import supabase from "../config.js";
+import supabase from "../../config.js";
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.render("nomenclature/nomenclatureForm");
+    res.render("prizes/prizesForm");
 });
 
 router.post("/", async (req, res) => {
-    const { name, description } = req.body;
+    const { name, tipe, year, description } = req.body;
 
     if (!name) {
         return res.status(400).json({ success: false, message: "El nom és obligatori" });
@@ -16,23 +16,25 @@ router.post("/", async (req, res) => {
 
     try {
         const { error } = await supabase
-            .from("nomenclature")
+            .from("prizes")
             .insert([
                 {
                     name,
+                    tipe: tipe,
+                    year: parseInt(year),
                     description: description
                 }
             ]);
 
         if (error) {
-            console.error("Error al guardar nomenclatura:", error);
-            return res.status(400).json({ success: false, message: "Error al guardar la nomenclatura" });
+            console.error("Error al guardar premi:", error);
+            return res.status(400).json({ success: false, message: "Error al guardar el premi" });
         }
 
-        return res.json({ success: true, message: "Nomenclatura guardada correctamente!" });
+        return res.json({ success: true, message: "Premi guardat correctament!" });
     } catch (err) {
         console.error("Error:", err);
-        return res.status(500).json({ success: false, message: "Error interno del servidor" });
+        return res.status(500).json({ success: false, message: "Error intern del servidor" });
     }
 });
 
