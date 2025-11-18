@@ -1,27 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premis</title>
 </head>
+
 <body>
   <h1>Llistat de Premis</h1>
 
-  <% if (prizes && prizes.length > 0) { %>
+  <% if (prizes && prizes.length> 0) { %>
     <ul>
-      <% prizes.forEach(prize => { %>
+      <% prizes.forEach(prize=> { %>
         <li>
-          <strong><%= prize.name %></strong> 
-          (<%= prize.year %>) — Tipo: <%= prize.tipe %>  
-          — <a href="">Veure detall</a>
+          <strong>
+            <%= prize.name %>
+          </strong>
+          (<%= prize.year %>) — Tipo: <%= prize.tipe %>
+          <button type="button" onclick="deletePrize('<%= prize.id_prize %>')">Eliminar</button>
         </li>
-      <% }); %>
+        <% }); %>
     </ul>
-  <% } else { %>
-    <p>No hi ha premis registrats.</p>
-  <% } %>
-  <a href="/">Tornar a l'inici</a>
-  <a href="/prizes/form">Afegir nou premi</a>
+    <% } else { %>
+      <p>No hi ha premis registrats.</p>
+      <% } %>
+        <a href="/">Tornar a l'inici</a>
+        <a href="/prizes/form">Afegir nou premi</a>
+
+        <script>
+          async function deletePrize(id) {
+
+            if (!confirm("Segur que vols eliminar aquest premi?")) return;
+
+            try {
+              const res = await fetch(`/prizes/delete/${id}`, {
+                method: "DELETE"
+              });
+
+              const data = await res.json();
+              alert(data.message);
+
+              if (data.success) location.reload();
+            } catch (err) {
+              console.error(err);
+              alert("Error al eliminar el premi");
+            }
+          }
+        </script>
 </body>
+
 </html>

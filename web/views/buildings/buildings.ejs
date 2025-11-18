@@ -27,6 +27,7 @@
                         </a>
                     </strong>
                     <p><%= building.description %></p>
+                    <button type="button" onclick="deleteBuilding('<%= building.id_building %>')">Eliminar</button>
                 </li>
             <% }); %>
         </ul>
@@ -35,5 +36,25 @@
     <% } %>
     <a href="/">Tornar al menú principal</a>
     <a href="/buildings/form">Anyadir nou edifici</a>
+
+    <script>
+        async function deleteBuilding(id) {
+            if (!confirm("Segur que vols eliminar aquest edifici?")) return;
+
+            try {
+                const res = await fetch(`/buildings/delete/${id}`, {
+                    method: "DELETE"
+                });
+
+                const data = await res.json();
+                alert(data.message);
+
+                if (data.success) location.reload();
+            } catch (err) {
+                console.error(err);
+                alert("Error al eliminar l'edifici");
+            }
+        }
+    </script>   
 </body>
 </html>

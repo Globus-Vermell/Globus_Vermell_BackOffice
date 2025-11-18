@@ -14,7 +14,7 @@
         <li>
           Reforma del año <strong><%= reforma.year %></strong> 
           (Arquitecto ID: <%= reforma.id_architect %>)  
-          — <a href="">Veure detall</a>
+          <button type="button" onclick="deleteReform('<%= reforma.id_reform %>')">Eliminar</button>
         </li>
       <% }); %>
     </ul>
@@ -23,6 +23,24 @@
   <% } %>
     <a href="/">Tornar al menú principal</a>
     <a href="/reform/form">Afegir nova reforma</a>
+    <script>
+      async function deleteReform(id) {
+        if (!confirm("Segur que vols eliminar aquesta reforma?")) return;
 
+        try {
+          const res = await fetch(`/reform/delete/${id}`, {
+            method: "DELETE"
+          });
+
+          const data = await res.json();
+          alert(data.message);
+
+          if (data.success) location.reload();
+        } catch (err) {
+          console.error(err);
+          alert("Error al eliminar la reforma");
+        }
+      }
+    </script>
 </body>
 </html>

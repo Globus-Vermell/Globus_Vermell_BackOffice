@@ -27,6 +27,7 @@
                         </a>
                     </strong>
                     <p><%= publication.description %></p>
+                    <button type="button" onclick="deletePublication('<%= publication.id_publication %>')">Eliminar</button>
                 </li>
             <% }); %>
         </ul>
@@ -35,5 +36,24 @@
     <% } %>
     <a href="/">Tornar al menú principal</a>
     <a href="/publications/form">Afegir nova publicació</a>
+    <script>
+        async function deletePublication(id) {
+            if (!confirm("Segur que vols eliminar aquesta publicació?")) return;
+
+            try {
+                const res = await fetch(`/publications/delete/${id}`, {
+                    method: "DELETE"
+                });
+
+                const data = await res.json();
+                alert(data.message);
+
+                if (data.success) location.reload();
+            } catch (err) {
+                console.error(err);
+                alert("Error al eliminar la publicació");
+            }
+        }
+    </script>
 </body>
 </html>
