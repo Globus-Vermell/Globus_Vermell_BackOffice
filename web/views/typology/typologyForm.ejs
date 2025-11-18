@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Nova Tipologia</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/createForm.css">
 </head>
 
 <body class="p-6">
-    <h1>Afegir una nova tipologia</h1>
+    <div class="form-header">
+        <a href="/typology" class="back-link" aria-label="Tornar a la llista de tipologies">&#8592;</a> <!-- Flecha de retroceso -->
+        <h1 class="page-title">Afegir una nova tipologia</h1>
+    </div>
 
-    <form id="form-typology">
-        <label>Nom:</label>
-        <input type="text" name="name" required />
+    <div class="form-container">
+        <form id="form-typology">
+            <div class="form-group">
+                <label for="name">Nom:<span class="required">*</span></label>
+                <input type="text" id="name" name="name" required />
+            </div>
 
-        <label>Imatge (nom o ruta):</label>
-        <input type="text" name="image" />
+            <div class="form-group">
+                <label for="image">Imatge (nom o ruta):</label>
+                <input type="text" id="image" name="image" />
+            </div>
 
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/typology">Tornar a la llista de tipologies</a>
+            <button type="submit" class="submit-button">
+                Guardar
+            </button>
+        </form>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("form-typology");

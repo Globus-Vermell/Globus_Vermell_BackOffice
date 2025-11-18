@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Tipologia</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/editForm.css">
 </head>
 <body class="p-6">
-    <h1>Editar Tipologia</h1>
+    <div class="form-header">
+        <a href="/typology" class="back-link" aria-label="Tornar a la llista de tipologies">&#8592;</a> <!-- Flecha de retroceso -->
+        <h1 class="page-title">Editar Tipologia</h1>
+    </div>
 
-    <form id="form-typology-edit">
-        <label>Nom:</label>
-        <input type="text" name="name" value="<%= typology.name %>" required />
+    <div class="form-container">
+        <form id="form-typology-edit">
+            <div class="form-group">
+                <label for="name">Nom:<span class="required">*</span></label>
+                <input type="text" id="name" name="name" value="<%= typology.name %>" required />
+            </div>
 
-        <label>Imatge:</label>
-        <input type="text" name="image" value="<%= typology.image %>" />
+            <div class="form-group">
+                <label for="image">Imatge:</label>
+                <input type="text" id="image" name="image" value="<%= typology.image %>" />
+            </div>
 
-        <button type="submit">Guardar canvis</button>
-    </form>
-
-    <a href="/typology">Tornar a la llista de tipologies</a>
+            <button type="submit" class="submit-button">
+                <!-- <i class="fas fa-save"></i> Puedes usar un icono de guardar aquí si tienes Font Awesome -->
+                Guardar canvis
+            </button>
+        </form>
+    </div>
 
     <script>
         const form = document.getElementById('form-typology-edit');

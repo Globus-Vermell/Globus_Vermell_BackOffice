@@ -4,38 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicacions</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
-        h1 { color: #333; }
-        ul { list-style: none; padding: 0; }
-        li { background-color: #fff; margin-bottom: 10px; padding: 10px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .no-data { color: #888; }
-        a { text-decoration: none; color: #007bff; }
-        a:hover { text-decoration: underline; }
-    </style>
+    <link rel="stylesheet" href="/css/paginaPrincipal.css"> 
 </head>
 <body>
-    <h1>Llistat de publicacions</h1>
+    <div class="page-header">
+        <div class="header-left">
+            <a href="/" class="back-link" aria-label="Tornar al menú principal">
+                <!-- <i class="fas fa-arrow-left"></i> --> &#8592; Tornar al menú principal
+            </a>
+            <h1 class="page-title">Llistat de publicacions</h1>
+        </div>
+        <div class="header-right">
+            <a href="/publications/form" class="add-button">
+                <!-- <i class="fas fa-plus"></i> --> Afegir nova publicació
+            </a>
+        </div>
+    </div>
 
-    <% if (publications && publications.length > 0) { %>
-        <ul>
-            <% publications.forEach(publication => { %>
-                <li>
-                    <strong>
-                        <a href="/publications/edit/<%= publication.id_publication %>">
-                            <%= publication.title %>
-                        </a>
-                    </strong>
-                    <p><%= publication.description %></p>
-                    <button type="button" onclick="deletePublication('<%= publication.id_publication %>')">Eliminar</button>
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p class="no-data">No hi ha publicacions disponibles.</p>
-    <% } %>
-    <a href="/">Tornar al menú principal</a>
-    <a href="/publications/form">Afegir nova publicació</a>
+    <div class="main-content">
+        <% if (publications && publications.length > 0) { %>
+            <div class="architect-list"> <!-- Usamos architect-list para envolver las tarjetas -->
+                <% publications.forEach(publication => { %>
+                    <div class="architect-card"> <!-- Cada publicación es una tarjeta -->
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <a href="/publications/edit/<%= publication.id_publication %>" class="edit-icon" aria-label="Editar publicació">
+                                    <!-- <i class="fas fa-edit"></i> --> &#9998;
+                                </a>
+                                <h3><%= publication.title %></h3>
+                            </div>
+                            <button type="button" class="delete-button" onclick="deletePublication('<%= publication.id_publication %>')" aria-label="Eliminar publicació">
+                                <!-- <i class="fas fa-trash-alt"></i> --> &#128465;
+                            </button>
+                        </div>
+                        <p class="card-description"><%= publication.description %></p>
+                        <!-- Si tuvieras más información de la publicación (fecha, autor, etc.)
+                             podrías usar card-footer o card-meta-info aquí. Ejemplo:
+                        <div class="card-footer">
+                            <i class="fas fa-calendar-alt"></i> Fecha de publicación: 01/01/2023
+                        </div>
+                        -->
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p class="no-architects">No hi ha publicacions disponibles.</p>
+        <% } %>
+    </div>
+
     <script>
         async function deletePublication(id) {
             if (!confirm("Segur que vols eliminar aquesta publicació?")) return;

@@ -3,37 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Nova Publicació</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/createForm.css">
 </head>
 
 <body class="p-6">
-    <h1>Afegir una nova publicació</h1>
+    <div class="form-header">
+        <a href="/publications" class="back-link" aria-label="Tornar a la llista de publicacions">&#8592;</a> <!-- Flecha de retroceso -->
+        <h1 class="page-title">Afegir una nova publicació</h1>
+    </div>
 
-    <form id="form-publication">
+    <div class="form-container">
+        <form id="form-publication">
 
-        <label>Títol:</label>
-        <input type="text" name="title" required />
+            <div class="form-group">
+                <label for="title">Títol:<span class="required">*</span></label>
+                <input type="text" id="title" name="title" required />
+            </div>
 
-        <label>Descripció:</label>
-        <textarea name="description"></textarea>
+            <div class="form-group">
+                <label for="description">Descripció:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
 
-        <label>Temàtica:</label>
-        <select name="themes" required>
-            <option value="">-- Selecciona una temàtica --</option>
-            <option value="etapes">Etapes</option>
-            <option value="arquitectura tematica">Arquitectura Temàtica</option>
-            <option value="barris">Barris</option>
-        </select>
+            <div class="form-group">
+                <label for="themes">Temàtica:<span class="required">*</span></label>
+                <select id="themes" name="themes" required>
+                    <option value="">-- Selecciona una temàtica --</option>
+                    <option value="etapes">Etapes</option>
+                    <option value="arquitectura tematica">Arquitectura Temàtica</option>
+                    <option value="barris">Barris</option>
+                </select>
+            </div>
 
-        <label>Agradecimientos:</label>
-        <textarea name="acknowledgment"></textarea>
+            <div class="form-group">
+                <label for="acknowledgment">Agradecimientos:</label>
+                <textarea id="acknowledgment" name="acknowledgment"></textarea>
+            </div>
 
-        <label>Edició publicació:</label>
-        <input type="text" name="publication_edition" required />
+            <div class="form-group">
+                <label for="publication_edition">Edició publicació:<span class="required">*</span></label>
+                <input type="text" id="publication_edition" name="publication_edition" required />
+            </div>
 
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/publications">Tornar a la llista de publicacions</a>
+            <button type="submit" class="submit-button">
+                <!-- <i class="fas fa-save"></i> Puedes usar un icono de guardar aquí si tienes Font Awesome -->
+                Guardar
+            </button>
+        </form>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
 

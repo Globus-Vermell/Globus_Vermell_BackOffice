@@ -4,28 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tipologies</title>
+  <link rel="stylesheet" href="/css/paginaPrincipal.css"> 
 </head>
 <body>
-  <h1>Llitat de Tipologies</h1>
+  <div class="page-header">
+      <div class="header-left">
+          <a href="/" class="back-link" aria-label="Tornar a l'inici">
+              <!-- <i class="fas fa-arrow-left"></i> --> &#8592; Tornar a l'inici
+          </a>
+          <h1 class="page-title">Llistat de Tipologies</h1>
+      </div>
+      <div class="header-right">
+          <a href="/typology/form" class="add-button">
+              <!-- <i class="fas fa-plus"></i> --> Afegir nova tipologia
+          </a>
+      </div>
+  </div>
 
-  <% if (typologies && typologies.length > 0) { %>
-    <ul>
-      <% typologies.forEach(t => { %>
-        <li>
-          <strong><a href="/typology/edit/<%= t.id_typology %>"><%= t.name %></a></strong>  
-          <% if (t.image) { %>
-            <br><img src="<%= t.image %>" alt="<%= t.name %>" width="200"> <!-- Imagen cargada directamente de la base de datos -->
-          <% } %>
-          <button type="button" onclick="deleteTypology('<%= t.id_typology %>')">Eliminar</button>
-        </li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No hi ha tipologies registrades.</p>
-  <% } %>
+  <div class="main-content">
+    <% if (typologies && typologies.length > 0) { %>
+      <div class="architect-list"> <!-- Usamos architect-list para envolver las tarjetas de tipologías -->
+        <% typologies.forEach(t => { %>
+          <div class="architect-card"> <!-- Cada tipología es una tarjeta -->
+            <div class="card-header">
+              <div class="card-title-group">
+                <a href="/typology/edit/<%= t.id_typology %>" class="edit-icon" aria-label="Editar tipologia">
+                    <!-- <i class="fas fa-edit"></i> --> &#9998;
+                </a>
+                <h3><%= t.name %></h3>
+              </div>
+              <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')" aria-label="Eliminar tipologia">
+                  <!-- <i class="fas fa-trash-alt"></i> --> &#128465;
+              </button>
+            </div>
+            <% if (t.image) { %>
+              <div class="card-image-container">
+                  <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
+              </div>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <p class="no-architects">No hi ha tipologies registrades.</p>
+    <% } %>
+  </div>
 
-  <a href="/">Tornar a l'inici</a>
-  <a href="/typology/form">Afegir nova tipologia</a>
   <script>
     async function deleteTypology(id) {
       if (!confirm("Segur que vols eliminar aquesta tipologia?")) return;
