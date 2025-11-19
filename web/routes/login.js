@@ -29,9 +29,16 @@ router.post("/", async (req, res) => {
             return res.render("login", { error: "Usuario o contraseña incorrectos." });
         }
 
-        req.session.user = { id: user.id_user, username: user.name, email: user.email };
+        req.session.user = {
+            id: user.id_user,
+            name: user.name,
+            email: user.email,
+            level: user.level
+        };
+
         res.redirect("/home");
-    } catch {
+    } catch (err) {
+        console.error(err);
         res.status(500).send("Error interno del servidor");
     }
 });
