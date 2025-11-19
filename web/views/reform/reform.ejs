@@ -31,14 +31,14 @@
                     <% reformas.forEach(r=> { %>
                         <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
                             <div class="architect-card" data-year="<%= r.year %>"
-                                data-architect="<%= r.id_architect %>">
+                                data-architect="<%= r.architects?.name %>">
                                 <div class="card-header">
                                     <div class="card-title-group">
                                         <h3>Reforma del año <%= r.year %>
                                         </h3>
                                     </div>
                                     <div class="card-meta-info">
-                                        Arquitecto ID: <%= r.id_architect %>
+                                        Arquitecte: <%= r.architects?.name || "Sense assignar" %>
                                     </div>
                                     <button type="button" class="delete-button"
                                         onclick="deleteReform('<%= r.id_reform %>')"><i
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </a>
-                        <% }); %>
+                        <% }) %>
                             <% } else { %>
                                 <p class="no-architects">No hi ha reformes registrades.</p>
                                 <% } %>
