@@ -8,7 +8,7 @@ body {
     font-family: 'Inter', Arial, sans-serif;
     
     /* Configuración de fondo con tu imagen */
-    background: url('/images/fondo_login.png') no-repeat center center fixed;
+    background: url('/images/fondo_logins.png') no-repeat center center fixed;
     background-size: cover;
 
     position: relative;
@@ -29,7 +29,7 @@ body::before {
     inset: 0;
     /* Usamos un color rojo/vino para la superposición */
     background: rgba(255, 74, 74, 0.35); 
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
     z-index: -1;
 }
 
