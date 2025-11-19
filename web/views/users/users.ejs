@@ -2,64 +2,65 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuaris</title>
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuaris</title>
+  <link rel="stylesheet" href="/css/paginaPrincipal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <header class="page-header">
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Usuaris</h1>
-        </div>
-        <div class="header-right">
-            <a href="/users/form" class="add-button"><i class="fas fa-plus"></i> Nou Usuari</a>
-        </div>
-    </header>
-    <div class="flex-container">
+  <header class="page-header">
+    <div class="header-left">
+      <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
+      <h1 class="page-title">Usuaris</h1>
+    </div>
+    <div class="header-right">
+      <a href="/users/form" class="add-button"><i class="fas fa-plus"></i> Nou Usuari</a>
+    </div>
+  </header>
+  <div class="flex-container">
 
-        <main class="main-content">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar per nom, email o nivell..." onkeyup="filterUsers(this.value)">
-            </div>
+    <main class="main-content">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar per nom, email o nivell..." onkeyup="filterUsers(this.value)">
+      </div>
 
       <div class="architect-list">
         <% if (users && users.length> 0) { %>
           <% users.forEach(user=> { %>
+            <div class="architect-card-container">
+              <div class="holis">
+                <a href="/users/edit/<%= user.id_user %>" class="architect-card-link">
+                  <div class="architect-card" data-name="<%= user.name.toLowerCase() %>"
+                    data-description="<%= user.email.toLowerCase() %>">
+                    <div class="card-header">
 
-            <a href="/users/edit/<%= user.id_user %>" class="architect-card-link">
-              <div class="architect-card" data-name="<%= user.name.toLowerCase() %>"
-                data-description="<%= user.email.toLowerCase() %>">
-                <div class="card-header">
+                      <div class="card-title-group">
+                        <h3>
+                          <%= user.name %> — <%= user.level %>
+                        </h3>
+                      </div>
 
-                  <div class="card-title-group">
-                    <h3>
-                      <%= user.name %> — <%= user.level %>
-                    </h3>
+                      <div class="card-meta-info">
+                        <span class="dates">Email:</span>
+                        <span class="nationality">
+                          <%= user.email %>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-
-                  <div class="card-meta-info">
-                    <span class="dates">Email:</span>
-                    <span class="nationality">
-                      <%= user.email %>
-                    </span>
-                  </div>
-
-                  <button type="button" class="delete-button" onclick="deleteUser('<%= user.id_user %>')">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </div>
+                </a>
+                <button type="button" class="delete-button" onclick="deleteUser('<%= user.id_user %>')">
+                  <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                </button>
               </div>
-            </a>
-
-            <% }); %>
-              <% } else { %>
-                <p class="no-architects">No hi ha usuaris registrats.</p>
-                <% } %>
+              <% }); %>
+                <% } else { %>
+                  <p class="no-architects">No hi ha usuaris registrats.</p>
+                  <% } %>
+            </div>
       </div>
     </main>
   </div>

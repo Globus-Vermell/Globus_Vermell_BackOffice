@@ -32,6 +32,8 @@
         <div class="architect-list">
             <% if (architects && architects.length> 0) { %>
                 <% architects.forEach(architect=> { %>
+                    <div class="architect-card-container">
+                        <div class="holis">
                     <a href="/architects/edit/<%= architect.id_architect %>" class="architect-card-link">
                         <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>"
                             data-description="<%= architect.description.toLowerCase() %>">
@@ -49,9 +51,6 @@
                                         <%= architect.nationality %>
                                     </span>
                                 </div>
-                                <button type="button" class="delete-button"
-                                    onclick="deleteArchitect('<%= architect.id_architect %>')"><i
-                                        class="fas fa-trash-alt"></i></button>
                             </div>
                             <p class="card-description">
                                 <%= architect.description %>
@@ -64,15 +63,19 @@
                             </div>
                         </div>
                     </a>
+                                    <button type="button" class="delete-button" onclick="deleteArchitect('<%= architect.id_architect %>')">
+                  <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                </button>
+                        </div>
                     <% }); %>
                         <% } else { %>
                             <p class="no-architects">No hi ha arquitectes registrats.</p>
                             <% } %>
+                            </div>
         </div>
     </main>
 </div>
-    <script src="/scripts/architecs/architects.js"></script>
-
+    <script src="/scripts/architects/architects.js"></script>
 </body>
 
 </html>
