@@ -3,7 +3,19 @@ import supabase from "../../config.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+function isAdmin(req, res, next) {
+    if (!req.session?.user) {
+        return res.redirect("/");
+    }
+
+    if (req.session.user.level !== "Admin") {
+        return res.status(403).send("Accés denegat. Només Admins poden accedir aquí.");
+    }
+
+    next();
+}
+
+router.get("/", isAdmin, async (req, res) => {
     const { data: users, error } = await supabase
         .from("users")
         .select("*");
@@ -16,13 +28,12 @@ router.get("/", async (req, res) => {
     res.render("users/users", { users });
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", isAdmin, async (req, res) => {
     const id = Number(req.params.id);
 
     const { error } = await supabase
         .from("users")
-        .delete()
-        .eq("id_user", id);
+        .delete().eq("id_user", id);
 
     if (error) {
         console.error("Error borrando usuario:", error);

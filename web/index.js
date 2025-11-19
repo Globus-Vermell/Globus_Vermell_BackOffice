@@ -37,12 +37,18 @@ app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
+
 app.use(session({
     secret: 'secretosecreto',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user ;
+  next();
+});
 
 app.get("/home", (req, res) => {
     res.render("home", { user: req.session?.user });
