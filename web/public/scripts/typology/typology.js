@@ -14,7 +14,7 @@ async function deleteTypology(id) {
         console.error(err);
         alert("Error al eliminar la tipologia");
     }
-} 
+}
 function filterTypologies(searchTerm) {
     const cards = document.querySelectorAll('.architect-card');
     const lower = searchTerm.toLowerCase();
