@@ -26,36 +26,6 @@
                 <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
             </div>
 
-<<<<<<< HEAD
-            <div class="architect-list">
-                <% if (reformas && reformas.length> 0) { %>
-                    <% reformas.forEach(r=> { %>
-                        <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
-                            <div class="architect-card" data-year="<%= r.year %>"
-                                data-architect="<%= r.architects?.name %>">
-                                <div class="card-header">
-                                    <div class="card-title-group">
-                                        <h3>Reforma del año <%= r.year %>
-                                        </h3>
-                                    </div>
-                                    <div class="card-meta-info">
-                                        Arquitecte: <%= r.architects?.name || "Sense assignar" %>
-                                    </div>
-                                    <button type="button" class="delete-button"
-                                        onclick="deleteReform('<%= r.id_reform %>')"><i
-                                            class="fas fa-trash-alt"></i></button>
-                                </div>
-                            </div>
-                        </a>
-                        <% }) %>
-                            <% } else { %>
-                                <p class="no-architects">No hi ha reformes registrades.</p>
-                                <% } %>
-            </div>
-        </main>
-    </div>
-    <script src="/scripts/reform/reform.js"></script>
-=======
       <div class="architect-list">
         <% if (reformas && reformas.length> 0) { %>
           <% reformas.forEach(r=> { %>
@@ -63,8 +33,9 @@
             <div class="architect-card-container">
               <div class="holis">
                 <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
-                  <div class="architect-card" data-year="<%= r.year %>" data-architect="<%= r.id_architect %>">
-                    <div class="card-header">
+                            <div class="architect-card" data-year="<%= r.year %>"
+                                data-architect="<%= r.architects?.name %>">                   
+                                <div class="card-header">
                       <div class="card-title-group">
                         <h3>Reforma del año <%= r.year %>
                         </h3>
@@ -88,7 +59,6 @@
     </main>
   </div>
   <script src="/scripts/reform/reform.js"></script>
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
 </body>
 
 </html>

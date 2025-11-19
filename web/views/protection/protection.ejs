@@ -9,55 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <body>
-<<<<<<< HEAD
-    <header class="page-header">
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Proteccions</h1>
-        </div>
-        <div class="header-right">
-            <a href="/protection/form" class="add-button"><i class="fas fa-plus"></i> Nova protecció</a>
-        </div>
-    </header>
-    <div class="flex-container">
-        <main class="main-content">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar per nivell o descripció..."
-                    onkeyup="filterProtections(this.value)">
-            </div>
-
-            <div class="architect-list">
-                <% if (protections && protections.length> 0) { %>
-                    <% protections.forEach(p=> { %>
-                        <a href="/protection/edit/<%= p.id_protection %>" class="architect-card-link">
-                            <div class="architect-card" data-level="<%= p.level.toLowerCase() %>"
-                                data-description="<%= (p.description || '').toLowerCase() %>">
-                                <div class="card-header">
-                                    <div class="card-title-group">
-                                        <h3>Nivell: <%= p.level %>
-                                        </h3>
-                                    </div>
-                                    <button type="button" class="delete-button"
-                                        onclick="deleteProtection('<%= p.id_protection %>')"><i
-                                            class="fas fa-trash-alt"></i></button>
-                                </div>
-                                <% if (p.description) { %>
-                                    <p class="card-description">
-                                        <%= p.description %>
-                                    </p>
-                                    <% } %>
-                            </div>
-                        </a>
-                        <% }); %>
-                            <% } else { %>
-                                <p class="no-architects">No hi ha proteccions registrades.</p>
-                                <% } %>
-            </div>
-        </main>
-    </div>
-    <script src="/scripts/protection/protection.js"></script>
-=======
   <header class="page-header">
     <div class="header-left">
       <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
@@ -108,7 +59,6 @@
     </main>
   </div>
   <script src="/scripts/protection/protection.js"></script>
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
 </body>
 
 </html>

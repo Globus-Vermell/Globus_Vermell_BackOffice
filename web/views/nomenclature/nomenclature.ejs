@@ -30,32 +30,6 @@
             <div class="architect-list">
                 <% if (nomenclaturas && nomenclaturas.length> 0) { %>
                     <% nomenclaturas.forEach(n=> { %>
-<<<<<<< HEAD
-                        <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="architect-card-link">
-                            <div class="architect-card" data-name="<%= n.name.toLowerCase() %>"
-                                data-description="<%= (n.description || '').toLowerCase() %>">
-                                <div class="card-header">
-                                    <div class="card-title-group">
-                                        <h3>
-                                            <%= n.name %>
-                                        </h3>
-                                    </div>
-                                    <button type="button" class="delete-button"
-                                        onclick="deleteNomenclature('<%= n.id_nomenclature %>')"><i
-                                            class="fas fa-trash-alt"></i></button>
-                                </div>
-                                <% if (n.description) { %>
-                                    <p class="card-description">
-                                        <%= n.description %>
-                                    </p>
-                                    <% } %>
-                            </div>
-                        </a>
-                        <% }); %>
-                            <% } else { %>
-                                <p class="no-architects">No hi ha nomenclatures registrades.</p>
-                                <% } %>
-=======
                         <div class="architect-card-container">
                             <div class="holis">
                                 <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="architect-card-link">
@@ -85,7 +59,6 @@
                                     <p class="no-architects">No hi ha nomenclatures registrades.</p>
                                     <% } %>
                         </div>
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
             </div>
         </main>
     </div>
