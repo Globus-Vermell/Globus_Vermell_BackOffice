@@ -44,51 +44,6 @@
 
                 <div class="architect-list">
 
-<<<<<<< HEAD
-                    <% typologies.forEach(t=> { %>
-
-                        <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
-                            <div class="architect-card" data-name="<%= t.name %>">
-
-                                <div class="card-header">
-
-                                    <div class="card-title-group">
-
-                                        <h3>
-                                            <%= t.name %>
-                                        </h3>
-                                    </div>
-
-                                    <button type="button" class="delete-button"
-                                        onclick="deleteTypology('<%= t.id_typology %>')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-
-                                </div>
-
-                                <% if (t.image) { %>
-                                    <div class="card-image-container">
-                                        <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
-                                    </div>
-                                    <% } %>
-
-                            </div>
-                        </a>
-
-                        <% }); %>
-
-                </div>
-
-                <% } else { %>
-
-                    <p class="no-architects">No hi ha tipologies registrades.</p>
-
-                    <% } %>
-
-        </main>
-    </div>
-    <script src="/scripts/typology/typology.js"></script>
-=======
           <% typologies.forEach(t=> { %>
             <div class="architect-card-container">
               <div class="holis">
@@ -134,7 +89,6 @@
   </main>
   </div>
   <script src="/scripts/typology/typology.js"></script>
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
 </body>
 
 </html>
