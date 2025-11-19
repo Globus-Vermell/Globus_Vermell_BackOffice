@@ -19,49 +19,50 @@
       <a href="/users/form" class="add-button"><i class="fas fa-plus"></i> Nou Usuari</a>
     </div>
   </header>
+  <div class="flex-container">
 
-  <main class="main-content">
-    <div class="search-bar">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Buscar per nom, email o nivell..." onkeyup="filterUsers(this.value)">
-    </div>
+    <main class="main-content">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar per nom, email o nivell..." onkeyup="filterUsers(this.value)">
+      </div>
 
-    <div class="architect-list">
-      <% if (users && users.length> 0) { %>
-        <% users.forEach(user=> { %>
+      <div class="architect-list">
+        <% if (users && users.length> 0) { %>
+          <% users.forEach(user=> { %>
 
-          <a href="/users/edit/<%= user.id_user %>" class="architect-card-link">
-            <div class="architect-card" data-name="<%= user.name.toLowerCase() %>"
-              data-description="<%= user.email.toLowerCase() %>">
-              <div class="card-header">
+            <a href="/users/edit/<%= user.id_user %>" class="architect-card-link">
+              <div class="architect-card" data-name="<%= user.name.toLowerCase() %>"
+                data-description="<%= user.email.toLowerCase() %>">
+                <div class="card-header">
 
-                <div class="card-title-group">
-                  <h3>
-                    <%= user.name %> — <%= user.level %>
-                  </h3>
+                  <div class="card-title-group">
+                    <h3>
+                      <%= user.name %> — <%= user.level %>
+                    </h3>
+                  </div>
+
+                  <div class="card-meta-info">
+                    <span class="dates">Email:</span>
+                    <span class="nationality">
+                      <%= user.email %>
+                    </span>
+                  </div>
+
+                  <button type="button" class="delete-button" onclick="deleteUser('<%= user.id_user %>')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
                 </div>
-
-                <div class="card-meta-info">
-                  <span class="dates">Email:</span>
-                  <span class="nationality">
-                    <%= user.email %>
-                  </span>
-                </div>
-
-                <button type="button" class="delete-button" onclick="deleteUser('<%= user.id_user %>')">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
               </div>
-            </div>
-          </a>
+            </a>
 
-          <% }); %>
-            <% } else { %>
-              <p class="no-architects">No hi ha usuaris registrats.</p>
-              <% } %>
-    </div>
-  </main>
-
+            <% }); %>
+              <% } else { %>
+                <p class="no-architects">No hi ha usuaris registrats.</p>
+                <% } %>
+      </div>
+    </main>
+  </div>
   <script src="/scripts/users/users.js"></script>
 
 </body>

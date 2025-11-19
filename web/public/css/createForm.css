@@ -8,6 +8,11 @@ body {
     min-height: 100vh;
 }
 
+.flex-container{
+    display: flex;
+    
+}
+
 /* --- Encabezado del formulario --- */
 .form-header {
     display: flex;
@@ -41,7 +46,7 @@ body {
 .form-container {
     flex-grow: 1;
     padding: 30px 40px;
-    max-width: 700px; /* Ancho máximo para el formulario */
+    max-width: 1400px; /* Ancho máximo para el formulario */
     margin: 30px auto; /* Centrar el formulario y dar espacio */
     background-color: #fff;
     border-radius: 8px;

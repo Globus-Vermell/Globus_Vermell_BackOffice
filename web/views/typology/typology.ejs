@@ -30,60 +30,61 @@
     </div>
 
   </header>
+  <div class="flex-container">
 
-  <main class="main-content">
+    <main class="main-content">
 
-    <!-- BARRA DE BÚSQUEDA -->
-    <div class="search-bar">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Buscar tipologies..." onkeyup="filterTypologies(this.value)">
-    </div>
-
-    <% if (typologies && typologies.length> 0) { %>
-
-      <div class="architect-list">
-
-        <% typologies.forEach(t=> { %>
-
-          <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
-            <div class="architect-card" data-name="<%= t.name %>">
-
-              <div class="card-header">
-
-                <div class="card-title-group">
-
-                  <h3>
-                    <%= t.name %>
-                  </h3>
-                </div>
-
-                <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-
-              </div>
-
-              <% if (t.image) { %>
-                <div class="card-image-container">
-                  <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
-                </div>
-                <% } %>
-
-            </div>
-          </a>
-
-          <% }); %>
-
+      <!-- BARRA DE BÚSQUEDA -->
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar tipologies..." onkeyup="filterTypologies(this.value)">
       </div>
 
-      <% } else { %>
+      <% if (typologies && typologies.length> 0) { %>
 
-        <p class="no-architects">No hi ha tipologies registrades.</p>
+        <div class="architect-list">
 
-        <% } %>
+          <% typologies.forEach(t=> { %>
 
-  </main>
+            <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
+              <div class="architect-card" data-name="<%= t.name %>">
 
+                <div class="card-header">
+
+                  <div class="card-title-group">
+
+                    <h3>
+                      <%= t.name %>
+                    </h3>
+                  </div>
+
+                  <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+
+                </div>
+
+                <% if (t.image) { %>
+                  <div class="card-image-container">
+                    <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
+                  </div>
+                  <% } %>
+
+              </div>
+            </a>
+
+            <% }); %>
+
+        </div>
+
+        <% } else { %>
+
+          <p class="no-architects">No hi ha tipologies registrades.</p>
+
+          <% } %>
+
+    </main>
+  </div>
   <script src="/scripts/typology/typology.js"></script>
 </body>
 

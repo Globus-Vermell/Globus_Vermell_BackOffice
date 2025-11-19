@@ -8,6 +8,8 @@ body {
     min-height: 100vh;
 }
 
+
+
 /* --- Header de la página --- */
 .page-header {
     display: flex;
@@ -62,12 +64,16 @@ body {
 .add-button:hover {
     background-color: #a00000;
 }
+.flex-container{
+    display: flex;
+    
+}
 
 /* --- Contenido principal --- */
 .main-content {
     flex-grow: 1;
     padding: 30px 40px;
-    max-width: 900px; /* Ancho máximo para el contenido */
+    max-width: 1400px; /* Ancho máximo para el contenido */
     margin: 20px auto; /* Centrar el contenido */
 }
 

@@ -19,38 +19,38 @@
       <a href="/reform/form" class="add-button"><i class="fas fa-plus"></i> Nova reforma</a>
     </div>
   </header>
+  <div class="flex-container">
+    <main class="main-content">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
+      </div>
 
-  <main class="main-content">
-    <div class="search-bar">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
-    </div>
-
-    <div class="architect-list">
-      <% if (reformas && reformas.length> 0) { %>
-        <% reformas.forEach(r=> { %>
-          <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
-            <div class="architect-card" data-year="<%= r.year %>" data-architect="<%= r.id_architect %>">
-              <div class="card-header">
-                <div class="card-title-group">
-                  <h3>Reforma del año <%= r.year %>
-                  </h3>
+      <div class="architect-list">
+        <% if (reformas && reformas.length> 0) { %>
+          <% reformas.forEach(r=> { %>
+            <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
+              <div class="architect-card" data-year="<%= r.year %>" data-architect="<%= r.id_architect %>">
+                <div class="card-header">
+                  <div class="card-title-group">
+                    <h3>Reforma del año <%= r.year %>
+                    </h3>
+                  </div>
+                  <div class="card-meta-info">
+                    Arquitecto ID: <%= r.id_architect %>
+                  </div>
+                  <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')"><i
+                      class="fas fa-trash-alt"></i></button>
                 </div>
-                <div class="card-meta-info">
-                  Arquitecto ID: <%= r.id_architect %>
-                </div>
-                <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')"><i
-                    class="fas fa-trash-alt"></i></button>
               </div>
-            </div>
-          </a>
-          <% }); %>
-            <% } else { %>
-              <p class="no-architects">No hi ha reformes registrades.</p>
-              <% } %>
-    </div>
-  </main>
-
+            </a>
+            <% }); %>
+              <% } else { %>
+                <p class="no-architects">No hi ha reformes registrades.</p>
+                <% } %>
+      </div>
+    </main>
+  </div>
   <script src="/scripts/reform/reform.js"></script>
 </body>
 
