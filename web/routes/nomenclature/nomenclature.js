@@ -4,16 +4,16 @@ import supabase from "../../config.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const { data: nomenclaturas, error } = await supabase
-    .from("nomenclature")
-    .select("*");
+    const { data: nomenclaturas, error } = await supabase
+        .from("nomenclature")
+        .select("*");
 
-  if (error) {
-    console.error("Error al obtener nomenclaturas:", error);
-    return res.status(500).send("Error al obtener nomenclaturas");
-  }
+    if (error) {
+        console.error("Error al obtener nomenclaturas:", error);
+        return res.status(500).send("Error al obtener nomenclaturas");
+    }
 
-  res.render("nomenclature/nomenclature", { nomenclaturas });
+    res.render("nomenclature/nomenclature", { nomenclaturas });
 });
 
 router.delete("/delete/:id", async (req, res) => {

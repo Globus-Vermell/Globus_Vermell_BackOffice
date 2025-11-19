@@ -20,57 +20,57 @@
             <a href="/architects/form" class="add-button"><i class="fas fa-plus"></i> Nou arquitecte</a>
         </div>
     </header>
-<div class="flex-container">
+    <div class="flex-container">
 
-    <main class="main-content">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar per nom, nacionalitat, biografia..."
-                onkeyup="filterArchitects(this.value)">
-        </div>
+        <main class="main-content">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar per nom, nacionalitat, biografia..."
+                    onkeyup="filterArchitects(this.value)">
+            </div>
 
-        <div class="architect-list">
-            <% if (architects && architects.length> 0) { %>
-                <% architects.forEach(architect=> { %>
-                    <a href="/architects/edit/<%= architect.id_architect %>" class="architect-card-link">
-                        <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>"
-                            data-description="<%= architect.description.toLowerCase() %>">
-                            <div class="card-header">
-                                <div class="card-title-group">
-                                    <h3>
-                                        <%= architect.name %>
-                                    </h3>
+            <div class="architect-list">
+                <% if (architects && architects.length> 0) { %>
+                    <% architects.forEach(architect=> { %>
+                        <a href="/architects/edit/<%= architect.id_architect %>" class="architect-card-link">
+                            <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>"
+                                data-description="<%= architect.description.toLowerCase() %>">
+                                <div class="card-header">
+                                    <div class="card-title-group">
+                                        <h3>
+                                            <%= architect.name %>
+                                        </h3>
+                                    </div>
+                                    <div class="card-meta-info">
+                                        <span class="dates">
+                                            <%= architect.birth_year %> - <%= architect.death_year %>
+                                        </span>
+                                        <span class="nationality">
+                                            <%= architect.nationality %>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteArchitect('<%= architect.id_architect %>')"><i
+                                            class="fas fa-trash-alt"></i></button>
                                 </div>
-                                <div class="card-meta-info">
-                                    <span class="dates">
-                                        <%= architect.birth_year %> - <%= architect.death_year %>
-                                    </span>
-                                    <span class="nationality">
-                                        <%= architect.nationality %>
+                                <p class="card-description">
+                                    <%= architect.description %>
+                                </p>
+                                <div class="card-footer">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="creation-date">
+                                        <%= new Date(architect.creation_date).toLocaleDateString('ca-ES') %>
                                     </span>
                                 </div>
-                                <button type="button" class="delete-button"
-                                    onclick="deleteArchitect('<%= architect.id_architect %>')"><i
-                                        class="fas fa-trash-alt"></i></button>
                             </div>
-                            <p class="card-description">
-                                <%= architect.description %>
-                            </p>
-                            <div class="card-footer">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="creation-date">
-                                    <%= new Date(architect.creation_date).toLocaleDateString('ca-ES') %>
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                    <% }); %>
-                        <% } else { %>
-                            <p class="no-architects">No hi ha arquitectes registrats.</p>
-                            <% } %>
-        </div>
-    </main>
-</div>
+                        </a>
+                        <% }); %>
+                            <% } else { %>
+                                <p class="no-architects">No hi ha arquitectes registrats.</p>
+                                <% } %>
+            </div>
+        </main>
+    </div>
     <script src="/scripts/architecs/architects.js"></script>
 
 </body>

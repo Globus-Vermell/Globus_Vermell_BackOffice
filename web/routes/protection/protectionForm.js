@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
             .insert([
                 {
                     level,
-                    description: description 
+                    description: description
                 }
             ]);
 

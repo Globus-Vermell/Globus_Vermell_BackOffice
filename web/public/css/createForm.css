@@ -1,16 +1,17 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f5f5f5; /* Fondo claro */
+    background-color: #f5f5f5;
+    /* Fondo claro */
     color: #333;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-.flex-container{
+.flex-container {
     display: flex;
-    
+
 }
 
 /* --- Encabezado del formulario --- */
@@ -20,14 +21,15 @@ body {
     padding: 20px 40px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .back-link {
     color: #555;
     text-decoration: none;
     margin-right: 20px;
-    font-size: 1.5em; /* Tamaño del icono de flecha */
+    font-size: 1.5em;
+    /* Tamaño del icono de flecha */
     transition: color 0.2s ease;
 }
 
@@ -46,11 +48,13 @@ body {
 .form-container {
     flex-grow: 1;
     padding: 30px 40px;
-    max-width: 1400px; /* Ancho máximo para el formulario */
-    margin: 30px auto; /* Centrar el formulario y dar espacio */
+    max-width: 1400px;
+    /* Ancho máximo para el formulario */
+    margin: 30px auto;
+    /* Centrar el formulario y dar espacio */
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* --- Grupos de formulario (label + input/textarea) --- */
@@ -66,8 +70,10 @@ body {
 }
 
 .form-group .required {
-    color: #cc0000; /* Color rojo para el asterisco */
-    font-weight: normal; /* Asegura que el asterisco no sea más negrita que el texto */
+    color: #cc0000;
+    /* Color rojo para el asterisco */
+    font-weight: normal;
+    /* Asegura que el asterisco no sea más negrita que el texto */
 }
 
 .form-group input[type="text"],
@@ -78,34 +84,43 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
-    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+    box-sizing: border-box;
+    /* Incluye padding y borde en el ancho total */
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-group textarea {
-    min-height: 120px; /* Altura mínima para la biografía */
-    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 120px;
+    /* Altura mínima para la biografía */
+    resize: vertical;
+    /* Permite redimensionar verticalmente */
 }
 
 /* --- Hover/Focus en campos de texto --- */
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group textarea:focus {
-    outline: none; /* Quitar el contorno predeterminado del navegador */
-    border-color: #cc0000; /* Borde rojo al enfocar */
-    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2); /* Sombra suave roja */
+    outline: none;
+    /* Quitar el contorno predeterminado del navegador */
+    border-color: #cc0000;
+    /* Borde rojo al enfocar */
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+    /* Sombra suave roja */
 }
 
 /* --- Fila para campos de nacimiento y defunción --- */
 .form-row {
     display: flex;
-    gap: 20px; /* Espacio entre los dos campos */
+    gap: 20px;
+    /* Espacio entre los dos campos */
     margin-bottom: 20px;
 }
 
 .form-row .form-group {
-    flex: 1; /* Cada grupo ocupa la mitad del espacio */
-    margin-bottom: 0; /* Eliminar el margen inferior duplicado */
+    flex: 1;
+    /* Cada grupo ocupa la mitad del espacio */
+    margin-bottom: 0;
+    /* Eliminar el margen inferior duplicado */
 }
 
 /* --- Botón de Guardar --- */
@@ -132,7 +147,7 @@ body {
 
 .submit-button:hover {
     background-color: #a00000;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Responsive Design --- */
@@ -151,7 +166,8 @@ body {
     }
 
     .form-row {
-        flex-direction: column; /* Apila los campos en móviles */
+        flex-direction: column;
+        /* Apila los campos en móviles */
         gap: 15px;
     }
 
@@ -160,6 +176,7 @@ body {
     }
 
     .submit-button {
-        width: 100%; /* El botón ocupa todo el ancho */
+        width: 100%;
+        /* El botón ocupa todo el ancho */
     }
 }

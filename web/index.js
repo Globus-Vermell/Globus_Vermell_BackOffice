@@ -38,14 +38,14 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'secretosecreto',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+    secret: 'secretosecreto',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 
 app.get("/home", (req, res) => {
-  res.render("home", { user: req.session?.user });
+    res.render("home", { user: req.session?.user });
 });
 
 app.use("/architects", arquitectosRouter);
@@ -80,5 +80,5 @@ app.use("/users/form", usersFormRouter);
 
 // Start
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <!-- Font Awesome para los iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
     <header class="form-header">
         <a href="/architects" class="back-link">
@@ -15,40 +17,43 @@
         </a>
         <h1 class="page-title">Editar Arquitecte</h1>
     </header>
-<div class="flex-container">
+    <div class="flex-container">
 
-    <main class="form-container">
-        <form id="form-edit-architect">
-            <div class="form-group">
-                <label for="name">Nom <span class="required">*</span></label>
-                <input type="text" id="name" name="name" value="<%= architect.name %>" required />
-            </div>
-
-            <div class="form-row">
+        <main class="form-container">
+            <form id="form-edit-architect">
                 <div class="form-group">
-                    <label for="birth_year">Any de naixement <span class="required">*</span></label>
-                    <input type="number" id="birth_year" name="birth_year" value="<%= architect.birth_year %>" required />
+                    <label for="name">Nom <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" value="<%= architect.name %>" required />
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birth_year">Any de naixement <span class="required">*</span></label>
+                        <input type="number" id="birth_year" name="birth_year" value="<%= architect.birth_year %>"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="death_year">Any de defunció</label>
+                        <input type="number" id="death_year" name="death_year" value="<%= architect.death_year %>" />
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="death_year">Any de defunció</label>
-                    <input type="number" id="death_year" name="death_year" value="<%= architect.death_year %>" />
+                    <label for="nationality">Nacionalitat <span class="required">*</span></label>
+                    <input type="text" id="nationality" name="nationality" value="<%= architect.nationality %>"
+                        required />
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="nationality">Nacionalitat <span class="required">*</span></label>
-                <input type="text" id="nationality" name="nationality" value="<%= architect.nationality %>" required />
-            </div>
+                <div class="form-group">
+                    <label for="description">Biografia <span class="required">*</span></label>
+                    <textarea id="description" name="description" required><%= architect.description %></textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="description">Biografia <span class="required">*</span></label>
-                <textarea id="description" name="description" required><%= architect.description %></textarea>
-            </div>
-
-            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Canvis</button>
-        </form>
-    </main>
-</div>
+                <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Canvis</button>
+            </form>
+        </main>
+    </div>
     <script src="/scripts/architecs/architectsEdit.js"></script>
 </body>
+
 </html>

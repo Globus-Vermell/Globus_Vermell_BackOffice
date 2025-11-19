@@ -2,90 +2,91 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tipologies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipologies</title>
 
-  <link rel="stylesheet" href="/css/paginaPrincipal.css">
+    <link rel="stylesheet" href="/css/paginaPrincipal.css">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
 
-  <header class="page-header">
+    <header class="page-header">
 
-    <div class="header-left">
-      <a href="/" class="back-link">
-        <i class="fas fa-arrow-left"></i>
-      </a>
-      <h1 class="page-title">Llistat de Tipologies</h1>
-    </div>
+        <div class="header-left">
+            <a href="/" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="page-title">Llistat de Tipologies</h1>
+        </div>
 
-    <div class="header-right">
-      <a href="/typology/form" class="add-button">
-        <i class="fas fa-plus"></i> Afegir nova tipologia
-      </a>
-    </div>
+        <div class="header-right">
+            <a href="/typology/form" class="add-button">
+                <i class="fas fa-plus"></i> Afegir nova tipologia
+            </a>
+        </div>
 
-  </header>
-  <div class="flex-container">
+    </header>
+    <div class="flex-container">
 
-    <main class="main-content">
+        <main class="main-content">
 
-      <!-- BARRA DE BÚSQUEDA -->
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Buscar tipologies..." onkeyup="filterTypologies(this.value)">
-      </div>
+            <!-- BARRA DE BÚSQUEDA -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar tipologies..." onkeyup="filterTypologies(this.value)">
+            </div>
 
-      <% if (typologies && typologies.length> 0) { %>
+            <% if (typologies && typologies.length> 0) { %>
 
-        <div class="architect-list">
+                <div class="architect-list">
 
-          <% typologies.forEach(t=> { %>
+                    <% typologies.forEach(t=> { %>
 
-            <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
-              <div class="architect-card" data-name="<%= t.name %>">
+                        <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
+                            <div class="architect-card" data-name="<%= t.name %>">
 
-                <div class="card-header">
+                                <div class="card-header">
 
-                  <div class="card-title-group">
+                                    <div class="card-title-group">
 
-                    <h3>
-                      <%= t.name %>
-                    </h3>
-                  </div>
+                                        <h3>
+                                            <%= t.name %>
+                                        </h3>
+                                    </div>
 
-                  <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteTypology('<%= t.id_typology %>')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+
+                                </div>
+
+                                <% if (t.image) { %>
+                                    <div class="card-image-container">
+                                        <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
+                                    </div>
+                                    <% } %>
+
+                            </div>
+                        </a>
+
+                        <% }); %>
 
                 </div>
 
-                <% if (t.image) { %>
-                  <div class="card-image-container">
-                    <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
-                  </div>
-                  <% } %>
+                <% } else { %>
 
-              </div>
-            </a>
+                    <p class="no-architects">No hi ha tipologies registrades.</p>
 
-            <% }); %>
+                    <% } %>
 
-        </div>
-
-        <% } else { %>
-
-          <p class="no-architects">No hi ha tipologies registrades.</p>
-
-          <% } %>
-
-    </main>
-  </div>
-  <script src="/scripts/typology/typology.js"></script>
+        </main>
+    </div>
+    <script src="/scripts/typology/typology.js"></script>
 </body>
 
 </html>

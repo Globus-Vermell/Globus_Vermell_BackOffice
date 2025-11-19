@@ -2,88 +2,89 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premis</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premis</title>
 
-  <link rel="stylesheet" href="/css/paginaPrincipal.css">
+    <link rel="stylesheet" href="/css/paginaPrincipal.css">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
 
-  <header class="page-header">
-    <div class="header-left">
-      <a href="/" class="back-link">
-        <i class="fas fa-arrow-left"></i>
-      </a>
-      <h1 class="page-title">Llistat de Premis</h1>
-    </div>
+    <header class="page-header">
+        <div class="header-left">
+            <a href="/" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="page-title">Llistat de Premis</h1>
+        </div>
 
-    <div class="header-right">
-      <a href="/prizes/form" class="add-button">
-        <i class="fas fa-plus"></i> Afegir nou premi
-      </a>
-    </div>
-  </header>
-<div class="flex-container">
+        <div class="header-right">
+            <a href="/prizes/form" class="add-button">
+                <i class="fas fa-plus"></i> Afegir nou premi
+            </a>
+        </div>
+    </header>
+    <div class="flex-container">
 
-  <main class="main-content">
+        <main class="main-content">
 
-    <!-- BARRA DE BÚSQUEDA -->
-    <div class="search-bar">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Buscar per nom, any, tipus..." onkeyup="filterPrizes(this.value)">
-    </div>
+            <!-- BARRA DE BÚSQUEDA -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar per nom, any, tipus..." onkeyup="filterPrizes(this.value)">
+            </div>
 
-    <% if (prizes && prizes.length> 0) { %>
+            <% if (prizes && prizes.length> 0) { %>
 
-      <div class="architect-list">
+                <div class="architect-list">
 
-        <% prizes.forEach(prize=> { %>
+                    <% prizes.forEach(prize=> { %>
 
-          <a href="/prizes/edit/<%= prize.id_prize %>" class="architect-card-link">
-            <div class="architect-card" data-name="<%= prize.name %>" data-year="<%= prize.year %>"
-              data-tipe="<%= prize.tipe %>">
+                        <a href="/prizes/edit/<%= prize.id_prize %>" class="architect-card-link">
+                            <div class="architect-card" data-name="<%= prize.name %>" data-year="<%= prize.year %>"
+                                data-tipe="<%= prize.tipe %>">
 
-              <div class="card-header">
+                                <div class="card-header">
 
-                <div class="card-title-group">
+                                    <div class="card-title-group">
 
-                  <h3>
-                    <%= prize.name %>
-                  </h3>
+                                        <h3>
+                                            <%= prize.name %>
+                                        </h3>
 
-                  <div class="card-meta-info">
-                    <span class="dates">(<%= prize.year %>)</span>
-                    <span class="nationality">Tipus: <%= prize.tipe %></span>
-                  </div>
+                                        <div class="card-meta-info">
+                                            <span class="dates">(<%= prize.year %>)</span>
+                                            <span class="nationality">Tipus: <%= prize.tipe %></span>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" onclick="deletePrize('<%= prize.id_prize %>')"
+                                        class="delete-button">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </a>
+
+                        <% }); %>
+
                 </div>
 
-                <button type="button" onclick="deletePrize('<%= prize.id_prize %>')" class="delete-button">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
+                <% } else { %>
 
-              </div>
+                    <p class="no-architects">No hi ha premis registrats.</p>
 
-            </div>
-          </a>
+                    <% } %>
 
-          <% }); %>
-
-      </div>
-
-      <% } else { %>
-
-        <p class="no-architects">No hi ha premis registrats.</p>
-
-        <% } %>
-
-  </main>
-</div>
-  <script src="/scripts/prizes/prizes.js"></script>
+        </main>
+    </div>
+    <script src="/scripts/prizes/prizes.js"></script>
 </body>
 
 </html>

@@ -4,16 +4,16 @@ import supabase from "../../config.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const { data: architects, error } = await supabase
-    .from("architects")
-    .select("*");
+    const { data: architects, error } = await supabase
+        .from("architects")
+        .select("*");
 
-  if (error) {
-    console.error("Error al obtener arquitectos:", error);
-    return res.status(500).send("Error al obtener arquitectos");
-  }
+    if (error) {
+        console.error("Error al obtener arquitectos:", error);
+        return res.status(500).send("Error al obtener arquitectos");
+    }
 
-  res.render("architects/architects", { architects });
+    res.render("architects/architects", { architects });
 });
 
 router.delete("/delete/:id", async (req, res) => {

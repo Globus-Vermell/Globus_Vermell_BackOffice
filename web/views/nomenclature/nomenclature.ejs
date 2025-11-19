@@ -19,43 +19,44 @@
             <a href="/nomenclature/form" class="add-button"><i class="fas fa-plus"></i> Nova nomenclatura</a>
         </div>
     </header>
-<div class="flex-container">
-    <main class="main-content">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar per nom o descripció..." onkeyup="filterNomenclature(this.value)">
-        </div>
+    <div class="flex-container">
+        <main class="main-content">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar per nom o descripció..."
+                    onkeyup="filterNomenclature(this.value)">
+            </div>
 
-        <div class="architect-list">
-            <% if (nomenclaturas && nomenclaturas.length> 0) { %>
-                <% nomenclaturas.forEach(n=> { %>
-                    <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="architect-card-link">
-                        <div class="architect-card" data-name="<%= n.name.toLowerCase() %>"
-                            data-description="<%= (n.description || '').toLowerCase() %>">
-                            <div class="card-header">
-                                <div class="card-title-group">
-                                    <h3>
-                                        <%= n.name %>
-                                    </h3>
+            <div class="architect-list">
+                <% if (nomenclaturas && nomenclaturas.length> 0) { %>
+                    <% nomenclaturas.forEach(n=> { %>
+                        <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="architect-card-link">
+                            <div class="architect-card" data-name="<%= n.name.toLowerCase() %>"
+                                data-description="<%= (n.description || '').toLowerCase() %>">
+                                <div class="card-header">
+                                    <div class="card-title-group">
+                                        <h3>
+                                            <%= n.name %>
+                                        </h3>
+                                    </div>
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteNomenclature('<%= n.id_nomenclature %>')"><i
+                                            class="fas fa-trash-alt"></i></button>
                                 </div>
-                                <button type="button" class="delete-button"
-                                    onclick="deleteNomenclature('<%= n.id_nomenclature %>')"><i
-                                        class="fas fa-trash-alt"></i></button>
+                                <% if (n.description) { %>
+                                    <p class="card-description">
+                                        <%= n.description %>
+                                    </p>
+                                    <% } %>
                             </div>
-                            <% if (n.description) { %>
-                                <p class="card-description">
-                                    <%= n.description %>
-                                </p>
+                        </a>
+                        <% }); %>
+                            <% } else { %>
+                                <p class="no-architects">No hi ha nomenclatures registrades.</p>
                                 <% } %>
-                        </div>
-                    </a>
-                    <% }); %>
-                        <% } else { %>
-                            <p class="no-architects">No hi ha nomenclatures registrades.</p>
-                            <% } %>
-        </div>
-    </main>
-</div>
+            </div>
+        </main>
+    </div>
     <script src="/scripts/nomenclature/nomenclature.js"></script>
 </body>
 

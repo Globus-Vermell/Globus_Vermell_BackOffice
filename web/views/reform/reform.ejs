@@ -2,56 +2,58 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reformes</title>
-  <link rel="stylesheet" href="/css/paginaPrincipal.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reformes</title>
+    <link rel="stylesheet" href="/css/paginaPrincipal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-  <header class="page-header">
-    <div class="header-left">
-      <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-      <h1 class="page-title">Reformes</h1>
-    </div>
-    <div class="header-right">
-      <a href="/reform/form" class="add-button"><i class="fas fa-plus"></i> Nova reforma</a>
-    </div>
-  </header>
-  <div class="flex-container">
-    <main class="main-content">
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
-      </div>
+    <header class="page-header">
+        <div class="header-left">
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
+            <h1 class="page-title">Reformes</h1>
+        </div>
+        <div class="header-right">
+            <a href="/reform/form" class="add-button"><i class="fas fa-plus"></i> Nova reforma</a>
+        </div>
+    </header>
+    <div class="flex-container">
+        <main class="main-content">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
+            </div>
 
-      <div class="architect-list">
-        <% if (reformas && reformas.length> 0) { %>
-          <% reformas.forEach(r=> { %>
-            <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
-              <div class="architect-card" data-year="<%= r.year %>" data-architect="<%= r.id_architect %>">
-                <div class="card-header">
-                  <div class="card-title-group">
-                    <h3>Reforma del año <%= r.year %>
-                    </h3>
-                  </div>
-                  <div class="card-meta-info">
-                    Arquitecto ID: <%= r.id_architect %>
-                  </div>
-                  <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')"><i
-                      class="fas fa-trash-alt"></i></button>
-                </div>
-              </div>
-            </a>
-            <% }); %>
-              <% } else { %>
-                <p class="no-architects">No hi ha reformes registrades.</p>
-                <% } %>
-      </div>
-    </main>
-  </div>
-  <script src="/scripts/reform/reform.js"></script>
+            <div class="architect-list">
+                <% if (reformas && reformas.length> 0) { %>
+                    <% reformas.forEach(r=> { %>
+                        <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
+                            <div class="architect-card" data-year="<%= r.year %>"
+                                data-architect="<%= r.id_architect %>">
+                                <div class="card-header">
+                                    <div class="card-title-group">
+                                        <h3>Reforma del año <%= r.year %>
+                                        </h3>
+                                    </div>
+                                    <div class="card-meta-info">
+                                        Arquitecto ID: <%= r.id_architect %>
+                                    </div>
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteReform('<%= r.id_reform %>')"><i
+                                            class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </a>
+                        <% }); %>
+                            <% } else { %>
+                                <p class="no-architects">No hi ha reformes registrades.</p>
+                                <% } %>
+            </div>
+        </main>
+    </div>
+    <script src="/scripts/reform/reform.js"></script>
 </body>
 
 </html>
