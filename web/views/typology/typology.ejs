@@ -4,53 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tipologies</title>
-  <link rel="stylesheet" href="/css/paginaPrincipal.css"> 
-</head>
-<body>
-  <div class="page-header">
-      <div class="header-left">
-          <a href="/" class="back-link" aria-label="Tornar a l'inici">
-              <!-- <i class="fas fa-arrow-left"></i> --> &#8592; Tornar a l'inici
-          </a>
-          <h1 class="page-title">Llistat de Tipologies</h1>
-      </div>
-      <div class="header-right">
-          <a href="/typology/form" class="add-button">
-              <!-- <i class="fas fa-plus"></i> --> Afegir nova tipologia
-          </a>
-      </div>
-  </div>
 
-  <div class="main-content">
+  <link rel="stylesheet" href="/css/paginaPrincipal.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+  <header class="page-header">
+
+    <div class="header-left">
+      <a href="/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Tornar a l'inici
+      </a>
+      <h1 class="page-title">Llistat de Tipologies</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="/typology/form" class="add-button">
+        <i class="fas fa-plus"></i> Afegir nova tipologia
+      </a>
+    </div>
+
+  </header>
+
+  <main class="main-content">
+
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Buscar tipologies..." onkeyup="filterTypologies(this.value)">
+    </div>
+
     <% if (typologies && typologies.length > 0) { %>
-      <div class="architect-list"> <!-- Usamos architect-list para envolver las tarjetas de tipologías -->
+
+      <div class="architect-list">
+
         <% typologies.forEach(t => { %>
-          <div class="architect-card"> <!-- Cada tipología es una tarjeta -->
+
+          <div class="architect-card"
+               data-name="<%= t.name %>">
+
             <div class="card-header">
+
               <div class="card-title-group">
-                <a href="/typology/edit/<%= t.id_typology %>" class="edit-icon" aria-label="Editar tipologia">
-                    <!-- <i class="fas fa-edit"></i> --> &#9998;
+
+                <a href="/typology/edit/<%= t.id_typology %>" class="edit-icon">
+                  <i class="fas fa-pencil-alt"></i>
                 </a>
+
                 <h3><%= t.name %></h3>
               </div>
-              <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')" aria-label="Eliminar tipologia">
-                  <!-- <i class="fas fa-trash-alt"></i> --> &#128465;
+
+              <button type="button"
+                      class="delete-button"
+                      onclick="deleteTypology('<%= t.id_typology %>')">
+                <i class="fas fa-trash-alt"></i>
               </button>
+
             </div>
+
             <% if (t.image) { %>
               <div class="card-image-container">
-                  <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
+                <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
               </div>
             <% } %>
+
           </div>
+
         <% }); %>
+
       </div>
+
     <% } else { %>
+
       <p class="no-architects">No hi ha tipologies registrades.</p>
+
     <% } %>
-  </div>
+
+  </main>
 
   <script>
+
     async function deleteTypology(id) {
       if (!confirm("Segur que vols eliminar aquesta tipologia?")) return;
 
@@ -63,11 +100,30 @@
         alert(data.message);
 
         if (data.success) location.reload();
+
       } catch (err) {
         console.error(err);
         alert("Error al eliminar la tipologia");
       }
     }
+
+    // FILTRO DE TIPOLIGIES
+    function filterTypologies(searchTerm) {
+      const cards = document.querySelectorAll('.architect-card');
+      const lower = searchTerm.toLowerCase();
+
+      cards.forEach(card => {
+        const name = (card.dataset.name || '').toLowerCase();
+
+        if (name.includes(lower)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
   </script>
+
 </body>
 </html>

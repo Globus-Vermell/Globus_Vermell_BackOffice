@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premis</title>
-  <!-- Enlace a tu archivo CSS -->
+
   <link rel="stylesheet" href="/css/paginaPrincipal.css">
-  <!-- Enlace a Font Awesome para los iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-  <!-- Header de la página (equivalente a .page-header) -->
+
   <header class="page-header">
     <div class="header-left">
       <a href="/" class="back-link">
@@ -20,6 +21,7 @@
       </a>
       <h1 class="page-title">Llistat de Premis</h1>
     </div>
+
     <div class="header-right">
       <a href="/prizes/form" class="add-button">
         <i class="fas fa-plus"></i> Afegir nou premi
@@ -27,49 +29,66 @@
     </div>
   </header>
 
-  <!-- Contenido principal (equivalente a .main-content) -->
   <main class="main-content">
-    <!-- Barra de búsqueda (puedes añadirla si la necesitas, aunque el HTML original no la tenía) -->
-    <!-- <div class="search-bar">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Buscar premios...">
-    </div> -->
 
-    <% if (prizes && prizes.length> 0) { %>
-      <!-- Lista de premios, usando las clases de arquitectos como referencia para las tarjetas -->
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Buscar per nom, any, tipus..." onkeyup="filterPrizes(this.value)">
+    </div>
+
+    <% if (prizes && prizes.length > 0) { %>
+
       <div class="architect-list">
-        <% prizes.forEach(prize=> { %>
-          <div class="architect-card">
+
+        <% prizes.forEach(prize => { %>
+
+          <div class="architect-card"
+               data-name="<%= prize.name %>"
+               data-year="<%= prize.year %>"
+               data-tipe="<%= prize.tipe %>">
+
             <div class="card-header">
+
               <div class="card-title-group">
                 <a href="/prizes/edit/<%= prize.id_prize %>" class="edit-icon">
                   <i class="fas fa-pencil-alt"></i>
                 </a>
-                <h3>
-                  <%= prize.name %>
-                </h3>
+
+                <h3><%= prize.name %></h3>
+
                 <div class="card-meta-info">
                   <span class="dates">(<%= prize.year %>)</span>
-                  <span class="nationality">Tipo: <%= prize.tipe %></span>
+                  <span class="nationality">Tipus: <%= prize.tipe %></span>
                 </div>
               </div>
-              <button type="button" onclick="deletePrize('<%= prize.id_prize %>')" class="delete-button">
+
+              <button type="button"
+                      onclick="deletePrize('<%= prize.id_prize %>')"
+                      class="delete-button">
                 <i class="fas fa-trash-alt"></i>
               </button>
+
             </div>
-            <!-- Puedes añadir una descripción si el premio la tuviera
-            <p class="card-description">Breve descripción del premio o detalles adicionales si los hubiera.</p> -->
+
           </div>
-          <% }); %>
+
+        <% }); %>
+
       </div>
-      <% } else { %>
-        <p class="no-architects">No hi ha premis registrats.</p>
-        <% } %>
+
+    <% } else { %>
+
+      <p class="no-architects">No hi ha premis registrats.</p>
+
+    <% } %>
+
   </main>
 
   <script>
-    async function deletePrize(id) {
 
+    // Eliminar premi
+    async function deletePrize(id) {
       if (!confirm("Segur que vols eliminar aquest premi?")) return;
 
       try {
@@ -81,12 +100,32 @@
         alert(data.message);
 
         if (data.success) location.reload();
+
       } catch (err) {
         console.error(err);
         alert("Error al eliminar el premi");
       }
     }
-  </script>
-</body>
 
+    // FILTRO DE LA BARRA DE BÚSQUEDA
+    function filterPrizes(searchTerm) {
+      const cards = document.querySelectorAll('.architect-card');
+      const lower = searchTerm.toLowerCase();
+
+      cards.forEach(card => {
+        const name = (card.dataset.name || '').toLowerCase();
+        const year = (card.dataset.year || '').toLowerCase();
+        const tipe = (card.dataset.tipe || '').toLowerCase();
+
+        if (name.includes(lower) || year.includes(lower) || tipe.includes(lower)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+  </script>
+
+</body>
 </html>
