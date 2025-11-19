@@ -27,55 +27,58 @@
             </a>
         </div>
     </header>
+    <div class="flex-container">
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <!-- BARRA DE BÚSQUEDA -->
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar per títol, descripció..." onkeyup="filterPublications(this.value)">
-        </div>
-
-        <% if (publications && publications.length> 0) { %>
-
-            <div class="architect-list">
-
-                <% publications.forEach(publication=> { %>
-                    <a href="/publications/edit/<%= publication.id_publication %>" class="architect-card-link">
-                        <div class="architect-card" data-title="<%= publication.title %>"
-                            data-description="<%= publication.description %>">
-
-                            <div class="card-header">
-
-                                <div class="card-title-group">
-                                    <h3>
-                                        <%= publication.title %>
-                                    </h3>
-                                </div>
-
-                                <button type="button" class="delete-button"
-                                    onclick="deletePublication('<%= publication.id_publication %>')"
-                                    aria-label="Eliminar publicació">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-
-                            <p class="card-description">
-                                <%= publication.description %>
-                            </p>
-
-                        </div>
-                    </a>
-
-                    <% }); %>
-
+            <!-- BARRA DE BÚSQUEDA -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar per títol, descripció..."
+                    onkeyup="filterPublications(this.value)">
             </div>
 
-            <% } else { %>
-                <p class="no-architects">No hi ha publicacions disponibles.</p>
-                <% } %>
-                    </div>
-                    <script src="/scripts/publications/publications.js"></script>
+            <% if (publications && publications.length> 0) { %>
+
+                <div class="architect-list">
+
+                    <% publications.forEach(publication=> { %>
+                        <a href="/publications/edit/<%= publication.id_publication %>" class="architect-card-link">
+                            <div class="architect-card" data-title="<%= publication.title %>"
+                                data-description="<%= publication.description %>">
+
+                                <div class="card-header">
+
+                                    <div class="card-title-group">
+                                        <h3>
+                                            <%= publication.title %>
+                                        </h3>
+                                    </div>
+
+                                    <button type="button" class="delete-button"
+                                        onclick="deletePublication('<%= publication.id_publication %>')"
+                                        aria-label="Eliminar publicació">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+
+                                <p class="card-description">
+                                    <%= publication.description %>
+                                </p>
+
+                            </div>
+                        </a>
+
+                        <% }); %>
+
+                </div>
+
+                <% } else { %>
+                    <p class="no-architects">No hi ha publicacions disponibles.</p>
+                    <% } %>
+    </div>
+    <script src="/scripts/publications/publications.js"></script>
 </body>
+</div>
 
 </html>

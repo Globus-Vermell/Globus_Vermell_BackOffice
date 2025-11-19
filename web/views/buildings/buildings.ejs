@@ -21,47 +21,48 @@
             <a href="/buildings/form" class="add-button"><i class="fas fa-plus"></i> Afegir nou edifici</a>
         </div>
     </header>
+    <div class="flex-container">
+        <main class="main-content">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings(this.value)">
+            </div>
 
-    <main class="main-content">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings(this.value)">
-        </div>
+            <div class="architect-list">
+                <% if (buildings && buildings.length> 0) { %>
+                    <% buildings.forEach(building=> { %>
+                        <a href="/buildings/edit/<%= building.id_building %>" class="architect-card-link">
+                            <div class="architect-card" data-name="<%= building.name %>"
+                                data-description="<%= building.description %>">
+                                <div class="card-header">
+                                    <div class="card-title-group">
+                                        <h3>
+                                            <%= building.name %>
+                                        </h3>
+                                    </div>
 
-        <div class="architect-list">
-            <% if (buildings && buildings.length> 0) { %>
-                <% buildings.forEach(building=> { %>
-                    <a href="/buildings/edit/<%= building.id_building %>" class="architect-card-link">
-                        <div class="architect-card" data-name="<%= building.name %>"
-                            data-description="<%= building.description %>">
-                            <div class="card-header">
-                                <div class="card-title-group">
-                                    <h3>
-                                        <%= building.name %>
-                                    </h3>
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteBuilding('<%= building.id_building %>')"><i
+                                            class="fas fa-trash-alt"></i></button>
                                 </div>
-
-                                <button type="button" class="delete-button"
-                                    onclick="deleteBuilding('<%= building.id_building %>')"><i
-                                        class="fas fa-trash-alt"></i></button>
+                                <p class="card-description">
+                                    <%= building.description %>
+                                </p>
+                                <div class="card-footer">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="creation-date">
+                                        <%= new Date(building.creation_date).toLocaleDateString('ca-ES') %>
+                                    </span>
+                                </div>
                             </div>
-                            <p class="card-description">
-                                <%= building.description %>
-                            </p>
-                            <div class="card-footer">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="creation-date">
-                                    <%= new Date(building.creation_date).toLocaleDateString('ca-ES') %>
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                    <% }); %>
-                        <% } else { %>
-                            <p class="no-architects">No hi ha construccions disponibles.</p>
-                            <% } %>
-        </div>
-    </main>
+                        </a>
+                        <% }); %>
+                            <% } else { %>
+                                <p class="no-architects">No hi ha construccions disponibles.</p>
+                                <% } %>
+            </div>
+        </main>
+    </div>
 
     <script src="/scripts/buildings/buildings.js"></script>
 </body>
