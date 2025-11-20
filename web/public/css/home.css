@@ -61,11 +61,11 @@ body {
 }
 
 .session-label {
-    background-color: #cc0000;
+    background-color: #f40202;
     /* Fondo rojo para la sesión */
     color: #fff;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 25px;
     margin-right: 15px;
 }
 
