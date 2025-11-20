@@ -47,7 +47,7 @@ body {
 }
 
 .add-button {
-    background-color: #cc0000;
+    background-color:  #f40202;
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -63,7 +63,7 @@ body {
 }
 
 .add-button:hover {
-    background-color: #a00000;
+    background-color: #cc0000;
 }
 
 .flex-container {
@@ -178,7 +178,7 @@ body {
 .architect-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 2px solid #cc0000; /* ← borde rojo solo al pasar el cursor */
+    border: 2px solid #f40202; /* ← borde rojo solo al pasar el cursor */
     transition: 0.2s ease-in-out;
 }
 
@@ -197,14 +197,14 @@ body {
 }
 
 .edit-icon {
-    color: #cc0000;
+    color: #f40202;
     margin-right: 15px;
     font-size: 1.2em;
     transition: color 0.2s ease;
 }
 
 .edit-icon:hover {
-    color: #a00000;
+    color: #cc0000;
 }
 
 .architect-card h3 {
@@ -231,7 +231,7 @@ body {
 }
 
 .delete-button {
-    background-color: #cc0000;
+    background-color:  #f40202;
     color: #fff;
     padding: 0 30px; 
     border-radius: 8px;
@@ -251,7 +251,7 @@ body {
 }
 
 .delete-button:hover {
-    background-color: #a00000;
+    background-color: #cc0000;
 }
 
 .card-description {

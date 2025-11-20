@@ -69,7 +69,9 @@ body {
     color: #555;
 }
 
-.form-group .required {
+/* #cc0000 */
+/* #f40202 */ 
+.form-group .required { 
     color: #cc0000;
     /* Color rojo para el asterisco */
     font-weight: normal;
@@ -102,7 +104,7 @@ body {
 .form-group textarea:focus {
     outline: none;
     /* Quitar el contorno predeterminado del navegador */
-    border-color: #cc0000;
+    border-color:#f40202;
     /* Borde rojo al enfocar */
     box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
     /* Sombra suave roja */
@@ -125,7 +127,7 @@ body {
 
 /* --- Botón de Guardar --- */
 .submit-button {
-    background-color: #cc0000;
+    background-color:#f40202;
     color: #fff;
     padding: 12px 25px;
     border: none;
@@ -146,7 +148,7 @@ body {
 }
 
 .submit-button:hover {
-    background-color: #a00000;
+    background-color: #cc0000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
