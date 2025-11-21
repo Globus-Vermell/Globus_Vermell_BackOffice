@@ -21,9 +21,9 @@ router.post("/", async (req, res) => {
                 {
                     name,
                     description,
-                    birth_year,
+                    birth_year: birth_year || null,
                     death_year: death_year || null,
-                    nationality
+                    nationality: nationality || null
                 }
             ]);
 
