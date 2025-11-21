@@ -5,44 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llistat de construccions</title>
-    <!-- Asegúrate de que la ruta a tu CSS sea correcta -->
+
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <!-- Font Awesome para los iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+
     <header class="page-header">
         <div class="header-left">
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Construccions</h1>
         </div>
+
         <div class="header-right">
-            <a href="/buildings/form" class="add-button"><i class="fas fa-plus"></i> Afegir nou edifici</a>
+            <a href="/buildings/form" class="add-button">
+                <i class="fas fa-plus"></i> Afegir nou edifici
+            </a>
         </div>
     </header>
+
     <div class="flex-container">
         <main class="main-content">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings(this.value)">
+                <input type="text"
+                       placeholder="Buscar per nom, descripció..."
+                       onkeyup="filterBuildings(this.value)">
             </div>
 
             <div class="architect-list">
-                <% if (buildings && buildings.length> 0) { %>
-                    <% buildings.forEach(building=> { %>
+
+                <% if (buildings && buildings.length > 0) { %>
+
+                    <% buildings.forEach(building => { %>
+
                         <div class="architect-card-container">
                             <div class="holis">
-                                <a href="/buildings/edit/<%= building.id_building %>" class="architect-card-link">
-                                    <div class="architect-card" data-name="<%= building.name %>"
-                                        data-description="<%= building.description %>">
+
+                                <a href="/buildings/edit/<%= building.id_building %>"
+                                   class="architect-card-link">
+
+                                    <div class="architect-card"
+                                         data-name="<%= building.name %>"
+                                         data-description="<%= building.description %>">
                                         <div class="card-header">
                                             <div class="card-title-group">
-                                                <h3>
-                                                    <%= building.name %>
-                                                </h3>
+                                                <h3><%= building.name %></h3>
                                             </div>
                                         </div>
+                                        <% if (building.picture) { %>
+                                            <div class="card-image-container">
+                                                <img src="<%= building.picture %>"
+                                                     alt="<%= building.name %>"
+                                                     class="card-image">
+                                            </div>
+                                        <% } %>
                                         <p class="card-description">
                                             <%= building.description %>
                                         </p>
@@ -52,19 +73,28 @@
                                                 <%= building.construction_year %>
                                             </span>
                                         </div>
+
                                     </div>
                                 </a>
-                                <button type="button" class="delete-button"
-                                    onclick="deleteBuilding('<%= building.id_building %>')">
+                                <button type="button"
+                                        class="delete-button"
+                                        onclick="deleteBuilding('<%= building.id_building %>')">
                                     <img src="/images/icons/trash-2-64.png" alt="Borrar">
                                 </button>
+
                             </div>
-                            <% }); %>
-                                <% } else { %>
-                                    <p class="no-architects">No hi ha construccions disponibles.</p>
-                                    <% } %>
                         </div>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <p class="no-architects">No hi ha construccions disponibles.</p>
+
+                <% } %>
+
             </div>
+
         </main>
     </div>
 
