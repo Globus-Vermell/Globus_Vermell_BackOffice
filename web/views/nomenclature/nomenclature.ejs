@@ -37,31 +37,32 @@
         <!-- Barra de búsqueda para filtrar nomenclatures -->
         <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text"
-                   placeholder="Buscar per nom o descripció..."
-                   onkeyup="filterNomenclature(this.value)">
+            <input type="text" placeholder="Buscar per nom o descripció..." onkeyup="filterNomenclature(this.value)">
         </div>
 
         <!-- Lista de nomenclatures -->
         <section class="list">
 
             <!-- Bucle lógico que recorre todas las nomenclatures -->
-            <% if (nomenclaturas && nomenclaturas.length > 0) { %>
-                <% nomenclaturas.forEach(n => { %>
+            <% if (nomenclaturas && nomenclaturas.length> 0) { %>
+                <% nomenclaturas.forEach(n=> { %>
 
                     <!-- Card de cada nomenclatura, se guardan data para usar en el filtro -->
-                    <article class="card"
-                             data-name="<%= n.name.toLowerCase() %>"
-                             data-description="<%= (n.description || '').toLowerCase() %>">
+                    <article class="card" data-name="<%= n.name.toLowerCase() %>"
+                        data-description="<%= (n.description || '').toLowerCase() %>">
 
                         <!-- Información principal de la nomenclatura -->
                         <div class="card-info">
 
-                            <h3 class="card-title"><%= n.name %></h3>
+                            <h3 class="card-title">
+                                <%= n.name %>
+                            </h3>
 
                             <% if (n.description) { %>
-                                <p class="card-description"><%= n.description %></p>
-                            <% } %>
+                                <p class="card-description">
+                                    <%= n.description %>
+                                </p>
+                                <% } %>
 
                         </div>
 
@@ -69,16 +70,14 @@
                         <div class="card-actions">
 
                             <!-- Editar nomenclatura -->
-                            <a href="/nomenclature/edit/<%= n.id_nomenclature %>"
-                               class="edit-button">
+                            <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="edit-button">
                                 Editar
                                 <img src="" alt="Editar">
                             </a>
 
                             <!-- Eliminar -->
-                            <button type="button"
-                                    class="delete-button"
-                                    onclick="deleteNomenclature('<%= n.id_nomenclature %>')">
+                            <button type="button" class="delete-button"
+                                onclick="deleteNomenclature('<%= n.id_nomenclature %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar">
                                 Eliminar
                             </button>
@@ -87,14 +86,14 @@
 
                     </article>
 
-                <% }) %>
+                    <% }) %>
 
-            <% } else { %>
+                        <% } else { %>
 
-                <!-- Si no hay nomenclatures registradas -->
-                <p class="no-architects">No hi ha nomenclatures registrades.</p>
+                            <!-- Si no hay nomenclatures registradas -->
+                            <p class="no-architects">No hi ha nomenclatures registrades.</p>
 
-            <% } %>
+                            <% } %>
 
         </section>
 
@@ -104,4 +103,5 @@
     <script src="/scripts/nomenclature/nomenclature.js"></script>
 
 </body>
+
 </html>

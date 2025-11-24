@@ -37,79 +37,80 @@
         <!-- Barra de búsqueda para filtrar arquitectos -->
         <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text"
-                   placeholder="Buscar per nom, nacionalitat, biografia..."
-                   onkeyup="filterArchitects(this.value)">
+            <input type="text" placeholder="Buscar per nom, nacionalitat, biografia..."
+                onkeyup="filterArchitects(this.value)">
         </div>
 
         <!-- Lista de arquitectos -->
         <section class="list">
             <!-- Bucle lógico que recorre todos los arquitectos -->
-            <% if (architects && architects.length > 0) { %>
-                <% architects.forEach(architect => { %>
+            <% if (architects && architects.length> 0) { %>
+                <% architects.forEach(architect=> { %>
                     <!-- Card de cada arquitecte, se guardan data en el article para usarlo en el filtro -->
-                    <article class="card"
-                             data-name="<%= architect.name.toLowerCase() %>"
-                             data-description="<%= architect.description.toLowerCase() %>">
+                    <article class="card" data-name="<%= architect.name.toLowerCase() %>"
+                        data-description="<%= architect.description.toLowerCase() %>">
 
                         <!-- Foto del arquitecte  -->
                         <% if (architect.picture) { %>
                             <figure class="card-image">
                                 <img src="<%= architect.picture %>" alt="<%= architect.name %>" class="img_list">
                             </figure>
-                        <% } %>
+                            <% } %>
 
-                        <!-- Información principal del arquitecte -->
-                        <div class="card-info">
+                                <!-- Información principal del arquitecte -->
+                                <div class="card-info">
 
-                            <h3 class="card-title"><%= architect.name %></h3>
+                                    <h3 class="card-title">
+                                        <%= architect.name %>
+                                    </h3>
 
-                            <p class="card-years">
-                                <i class="fas fa-calendar"></i>
-                                <%= architect.birth_year %> - <%= architect.death_year %>
-                            </p>
+                                    <p class="card-years">
+                                        <i class="fas fa-calendar"></i>
+                                        <%= architect.birth_year %> - <%= architect.death_year %>
+                                    </p>
 
-                            <p class="card-nation">
-                                <i class="fas fa-flag"></i>
-                                <%= architect.nationality %>
-                            </p>
+                                    <p class="card-nation">
+                                        <i class="fas fa-flag"></i>
+                                        <%= architect.nationality %>
+                                    </p>
 
-                        </div>
+                                </div>
 
-                        <!-- Descripción del arquitecte -->
-                        <div class="card-description">
-                            <p><%= architect.description %></p>
-                        </div>
+                                <!-- Descripción del arquitecte -->
+                                <div class="card-description">
+                                    <p>
+                                        <%= architect.description %>
+                                    </p>
+                                </div>
 
-                        <!-- Botones clicables para realizar acciones: Editar y Borrar -->
-                        <div class="card-actions">
+                                <!-- Botones clicables para realizar acciones: Editar y Borrar -->
+                                <div class="card-actions">
 
-                            <!-- Botón para editar -->
-                            <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
-                                Editar
-                                <img src="" alt="Editar">
-                            </a>
+                                    <!-- Botón para editar -->
+                                    <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
+                                        Editar
+                                        <img src="" alt="Editar">
+                                    </a>
 
-                            <!-- Botón para eliminar arquitecte -->
-                            <button type="button"
-                                    class="delete-button"
-                                    onclick="deleteArchitect('<%= architect.id_architect %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                                Eliminar
-                            </button>
+                                    <!-- Botón para eliminar arquitecte -->
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteArchitect('<%= architect.id_architect %>')">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                        Eliminar
+                                    </button>
 
-                        </div>
+                                </div>
 
                     </article>
 
-                <% }) %>
+                    <% }) %>
 
-            <% } else { %>
+                        <% } else { %>
 
-                <!-- Si no hay arquitectes registrados se muestra un mensaje -->
-                <p class="no-architects">No hi ha arquitectes registrats.</p>
+                            <!-- Si no hay arquitectes registrados se muestra un mensaje -->
+                            <p class="no-architects">No hi ha arquitectes registrats.</p>
 
-            <% } %>
+                            <% } %>
 
         </section>
 
@@ -119,4 +120,5 @@
     <script src="/scripts/architects/architects.js"></script>
 
 </body>
+
 </html>

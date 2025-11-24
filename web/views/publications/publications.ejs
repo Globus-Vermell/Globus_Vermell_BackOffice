@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicacions</title>
 
+    <!-- Css principal y estilo de Emojis y simbolos usandos en la pagina-->
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
-
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
 
 <body>
 
+    <!-- Cabecera de la página -->
     <header class="page-header">
+
+        <!-- Botón para volver atrás -->
         <div class="header-left">
             <a href="/" class="back-link" aria-label="Tornar al menú principal">
                 <i class="fas fa-arrow-left"></i>
@@ -21,66 +24,87 @@
             <h1 class="page-title">Llistat de publicacions</h1>
         </div>
 
+        <!-- Botón para añadir nueva publicación -->
         <div class="header-right">
             <a href="/publications/form" class="add-button">
                 <i class="fas fa-plus"></i> Afegir nova publicació
             </a>
         </div>
+
     </header>
-    <div class="flex-container">
 
-        <main class="main-content">
+    <!-- Contenido principal -->
+    <main class="main-content">
 
-            <!-- BARRA DE BÚSQUEDA -->
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar per títol, descripció..."
-                    onkeyup="filterPublications(this.value)">
-            </div>
+        <!-- Barra de búsqueda para filtrar publicaciones -->
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar per títol, descripció..." onkeyup="filterPublications(this.value)">
+        </div>
 
+        <!-- Lista de publicaciones -->
+        <section class="list">
+
+            <!-- Bucle lógico que recorre todas las publicaciones -->
             <% if (publications && publications.length> 0) { %>
-                <div class="architect-list">
-                    <% publications.forEach(publication=> { %>
+                <% publications.forEach(publication=> { %>
 
-                        <div class="architect-card-container">
-                            <div class="holis">
-                                <a href="/publications/edit/<%= publication.id_publication %>"
-                                    class="architect-card-link">
-                                    <div class="architect-card" data-title="<%= publication.title %>"
-                                        data-description="<%= publication.description %>">
+                    <!-- Card de cada publicación, se guardan data para usar en filtros -->
+                    <article class="card" data-title="<%= publication.title.toLowerCase() %>"
+                        data-description="<%= (publication.description || '').toLowerCase() %>">
 
-                                        <div class="card-header">
+                        <!-- Información principal de la publicación -->
+                        <div class="card-info">
 
-                                            <div class="card-title-group">
-                                                <h3>
-                                                    <%= publication.title %>
-                                                </h3>
-                                            </div>
-                                        </div>
-
-                                        <p class="card-description">
-                                            <%= publication.description %>
-                                        </p>
-
-                                    </div>
-                                </a>
-                                <button type="button" class="delete-button"
-                                    onclick="deletePublication('<%= publication.id_publication %>')">
-                                    <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                                </button>
-                            </div>
-
-                            <% }); %>
+                            <h3 class="card-title">
+                                <%= publication.title %>
+                            </h3>
 
                         </div>
 
+                        <!-- Descripción de la publicación -->
+                        <div class="card-description">
+                            <p>
+                                <%= publication.description %>
+                            </p>
+                        </div>
+
+                        <!-- Botones para realizar acciones: Editar y Borrar -->
+                        <div class="card-actions">
+
+                            <!-- Editar publicación -->
+                            <a href="/publications/edit/<%= publication.id_publication %>" class="edit-button">
+                                Editar
+                                <img src="" alt="Editar">
+                            </a>
+
+                            <!-- Borrar publicación -->
+                            <button type="button" class="delete-button"
+                                onclick="deletePublication('<%= publication.id_publication %>')">
+                                <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                    <% }) %>
+
                         <% } else { %>
+
+                            <!-- Si no hay publicaciones registradas -->
                             <p class="no-architects">No hi ha publicacions disponibles.</p>
+
                             <% } %>
-                </div>
-    </div>
+
+        </section>
+
+    </main>
+
+    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/publications/publications.js"></script>
+
 </body>
-</div>
 
 </html>
