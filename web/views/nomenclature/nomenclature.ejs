@@ -5,64 +5,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nomenclatures</title>
+
+    <!-- Css principal de la página y estilo de Emojis y simbolos usandos en la pagina-->
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+
+    <!-- Cabecera de la página -->
     <header class="page-header">
+
+        <!-- Botón para volver atrás -->
         <div class="header-left">
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Nomenclatures</h1>
         </div>
+
+        <!-- Botón para añadir nueva nomenclatura -->
         <div class="header-right">
-            <a href="/nomenclature/form" class="add-button"><i class="fas fa-plus"></i> Nova nomenclatura</a>
+            <a href="/nomenclature/form" class="add-button">
+                <i class="fas fa-plus"></i> Nova nomenclatura
+            </a>
         </div>
+
     </header>
-    <div class="flex-container">
-        <main class="main-content">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar per nom o descripció..."
-                    onkeyup="filterNomenclature(this.value)">
-            </div>
 
-            <div class="architect-list">
-                <% if (nomenclaturas && nomenclaturas.length> 0) { %>
-                    <% nomenclaturas.forEach(n=> { %>
-                        <div class="architect-card-container">
-                            <div class="holis">
-                                <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="architect-card-link">
-                                    <div class="architect-card" data-name="<%= n.name.toLowerCase() %>"
-                                        data-description="<%= (n.description || '').toLowerCase() %>">
-                                        <div class="card-header">
-                                            <div class="card-title-group">
-                                                <h3>
-                                                    <%= n.name %>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                        <% if (n.description) { %>
-                                            <p class="card-description">
-                                                <%= n.description %>
-                                            </p>
-                                            <% } %>
-                                    </div>
-                                </a>
-                                <button type="button" class="delete-button"
-                                    onclick="deleteNomenclature('<%= n.id_nomenclature %>')">
-                                    <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                                </button>
-                            </div>
-                            <% }); %>
-                                <% } else { %>
-                                    <p class="no-architects">No hi ha nomenclatures registrades.</p>
-                                    <% } %>
+    <!-- Contenido principal -->
+    <main class="main-content">
+
+        <!-- Barra de búsqueda para filtrar nomenclatures -->
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text"
+                   placeholder="Buscar per nom o descripció..."
+                   onkeyup="filterNomenclature(this.value)">
+        </div>
+
+        <!-- Lista de nomenclatures -->
+        <section class="list">
+
+            <!-- Bucle lógico que recorre todas las nomenclatures -->
+            <% if (nomenclaturas && nomenclaturas.length > 0) { %>
+                <% nomenclaturas.forEach(n => { %>
+
+                    <!-- Card de cada nomenclatura, se guardan data para usar en el filtro -->
+                    <article class="card"
+                             data-name="<%= n.name.toLowerCase() %>"
+                             data-description="<%= (n.description || '').toLowerCase() %>">
+
+                        <!-- Información principal de la nomenclatura -->
+                        <div class="card-info">
+
+                            <h3 class="card-title"><%= n.name %></h3>
+
+                            <% if (n.description) { %>
+                                <p class="card-description"><%= n.description %></p>
+                            <% } %>
+
                         </div>
-            </div>
-        </main>
-    </div>
-    <script src="/scripts/nomenclature/nomenclature.js"></script>
-</body>
 
+                        <!-- Botones para realizar acciones: Editar y Borrar -->
+                        <div class="card-actions">
+
+                            <!-- Editar nomenclatura -->
+                            <a href="/nomenclature/edit/<%= n.id_nomenclature %>"
+                               class="edit-button">
+                                Editar
+                                <img src="" alt="Editar">
+                            </a>
+
+                            <!-- Eliminar -->
+                            <button type="button"
+                                    class="delete-button"
+                                    onclick="deleteNomenclature('<%= n.id_nomenclature %>')">
+                                <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                <% }) %>
+
+            <% } else { %>
+
+                <!-- Si no hay nomenclatures registradas -->
+                <p class="no-architects">No hi ha nomenclatures registrades.</p>
+
+            <% } %>
+
+        </section>
+
+    </main>
+
+    <!-- Script para filtrado y eliminación -->
+    <script src="/scripts/nomenclature/nomenclature.js"></script>
+
+</body>
 </html>
