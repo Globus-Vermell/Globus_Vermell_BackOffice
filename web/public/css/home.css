@@ -90,7 +90,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    /* Alinea las tarjetas al inicio del contenedor */
 }
 
 .card-grid {
