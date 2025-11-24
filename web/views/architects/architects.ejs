@@ -50,54 +50,48 @@
                     <article class="card" data-name="<%= architect.name.toLowerCase() %>"
                         data-description="<%= architect.description.toLowerCase() %>">
 
-                        <!-- Foto del arquitecte  -->
-                        <% if (architect.picture) { %>
-                            <figure class="card-image">
-                                <img src="<%= architect.picture %>" alt="<%= architect.name %>" class="img_list">
-                            </figure>
-                            <% } %>
+                        <!-- Información principal del arquitecte -->
+                        <div class="card-info">
 
-                                <!-- Información principal del arquitecte -->
-                                <div class="card-info">
+                            <h3 class="card-title">
+                                <%= architect.name %>
+                            </h3>
 
-                                    <h3 class="card-title">
-                                        <%= architect.name %>
-                                    </h3>
+                            
+                            <p class="card-years">
+                                <i class="fas fa-calendar"></i>
+                                <%= architect.birth_year %> - <%= architect.death_year %>
+                            </p>
 
-                                    <p class="card-years">
-                                        <i class="fas fa-calendar"></i>
-                                        <%= architect.birth_year %> - <%= architect.death_year %>
-                                    </p>
+                            <p class="card-nation">
+                                <i class="fas fa-flag"></i>
+                                <%= architect.nationality %>
+                            </p>
 
-                                    <p class="card-nation">
-                                        <i class="fas fa-flag"></i>
-                                        <%= architect.nationality %>
-                                    </p>
+                        </div>
 
-                                </div>
+                        <!-- Descripción del arquitecte -->
+                        <div class="card-description">
+                            <p>
+                                <%= architect.description %>
+                            </p>
+                        </div>
 
-                                <!-- Descripción del arquitecte -->
-                                <div class="card-description">
-                                    <p>
-                                        <%= architect.description %>
-                                    </p>
-                                </div>
+                        <!-- Botones clicables para realizar acciones: Editar y Borrar -->
+                        <div class="card-actions">
 
-                                <!-- Botones clicables para realizar acciones: Editar y Borrar -->
-                                <div class="card-actions">
+                            <!-- Botón para editar -->
+                            <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
+                                <img src="/images/icons/edit_icon.png" alt="Editar">Editar
+                            </a>
 
-                                    <!-- Botón para editar -->
-                                    <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">               
-                                        <img src="/images/icons/edit_icon.png" alt="Editar">Editar
-                                    </a>
+                            <!-- Botón para eliminar arquitecte -->
+                            <button type="button" class="delete-button"
+                                onclick="deleteArchitect('<%= architect.id_architect %>')">
+                                <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
+                            </button>
 
-                                    <!-- Botón para eliminar arquitecte -->
-                                    <button type="button" class="delete-button"
-                                        onclick="deleteArchitect('<%= architect.id_architect %>')">
-                                        <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
-                                    </button>
-
-                                </div>
+                        </div>
 
                     </article>
 
