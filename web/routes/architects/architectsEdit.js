@@ -28,7 +28,13 @@ router.put("/:id", async (req, res) => {
     try {
         const { error } = await supabase
             .from("architects")
-            .update({ name, description, birth_year, death_year, nationality})
+            .update({ 
+                name,
+                description: description || null,
+                birth_year : birth_year || null,
+                death_year : death_year || null,
+                nationality: nationality || null
+            })
             .eq("id_architect", id);
 
         if (error) {
