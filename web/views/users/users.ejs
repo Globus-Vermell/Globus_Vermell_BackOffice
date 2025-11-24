@@ -47,8 +47,8 @@
                 <% users.forEach(user => { %>
 
                     <!-- Card de cada usuario, se guardan data para usar en filtros -->
-                    <article class="card" data-name="<%= user.name.toLowerCase() %>"
-                             data-description="<%= user.email.toLowerCase() %>">
+                    <article class="card" data-name="<%= user.name %>"
+                             data-description="<%= user.email %>">
 
                         <!-- Información principal del usuario -->
                         <div class="card-info">

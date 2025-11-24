@@ -50,8 +50,8 @@
                 <% publications.forEach(publication=> { %>
 
                     <!-- Card de cada publicación, se guardan data para usar en filtros -->
-                    <article class="card" data-title="<%= publication.title.toLowerCase() %>"
-                        data-description="<%= (publication.description || '').toLowerCase() %>">
+                    <article class="card" data-title="<%= publication.title %>"
+                        data-description="<%= (publication.description || '') %>">
 
                         <!-- Información principal de la publicación -->
                         <div class="card-info">

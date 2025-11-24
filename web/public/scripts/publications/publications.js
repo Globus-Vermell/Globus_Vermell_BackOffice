@@ -16,7 +16,7 @@ async function deletePublication(id) {
     }
 }
 function filterPublications(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const lower = searchTerm.toLowerCase();
 
     cards.forEach(card => {

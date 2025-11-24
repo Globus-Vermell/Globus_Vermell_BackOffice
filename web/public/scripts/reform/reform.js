@@ -13,11 +13,11 @@ async function deleteReform(id) {
 }
 
 function filterReforms(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const lower = searchTerm.toLowerCase();
     cards.forEach(card => {
         const year = card.dataset.year.toString();
-        const architect = card.dataset.architect.toString();
+        const architect = card.dataset.architect.toString().toLowerCase();
         if (year.includes(lower) || architect.includes(lower)) {
             card.style.display = 'flex';
         } else {

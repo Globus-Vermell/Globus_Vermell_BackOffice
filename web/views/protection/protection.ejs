@@ -48,8 +48,8 @@
                 <% protections.forEach(p=> { %>
 
                     <!-- Card de cada protección, se guardan data para usar en filtros -->
-                    <article class="card" data-level="<%= p.level.toLowerCase() %>"
-                        data-description="<%= (p.description || '').toLowerCase() %>">
+                    <article class="card" data-level="<%= p.level %>"
+                        data-description="<%= (p.description || '') %>">
 
                         <!-- Información principal de la protección -->
                         <div class="card-info">

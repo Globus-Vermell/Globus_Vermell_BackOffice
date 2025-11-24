@@ -48,9 +48,9 @@
                 <% prizes.forEach(prize=> { %>
 
                     <!-- Card de cada premio, se guardan data para usar en filtros -->
-                    <article class="card" data-name="<%= prize.name.toLowerCase() %>" data-year="<%= prize.year %>"
-                        data-type="<%= prize.tipe.toLowerCase() %>"
-                        data-description="<%= prize.description ? prize.description.toLowerCase() : '' %>">
+                    <article class="card" data-name="<%= prize.name %>" data-year="<%= prize.year %>"
+                        data-type="<%= prize.tipe %>"
+                        data-description="<%= prize.description ? prize.description : '' %>">
 
                         <!-- Información principal del premio -->
                         <div class="card-info">

@@ -41,8 +41,8 @@
             <% if (buildings && buildings.length> 0) { %>
                 <% buildings.forEach(building=> { %>
                     <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
-                    <article class="card" data-name="<%= building.name.toLowerCase() %>"
-                        data-description="<%= building.description.toLowerCase() %>">
+                    <article class="card" data-name="<%= building.name %>"
+                        data-description="<%= building.description. %>">
                         <!-- Foto de la construcción -->
                         <% if (building.picture) { %>
                             <figure class="card-image">

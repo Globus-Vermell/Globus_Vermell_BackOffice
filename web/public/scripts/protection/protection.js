@@ -13,11 +13,11 @@ async function deleteProtection(id) {
 }
 
 function filterProtections(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const lower = searchTerm.toLowerCase();
     cards.forEach(card => {
-        const level = card.dataset.level;
-        const description = card.dataset.description;
+        const level = card.dataset.level.toLowerCase();
+        const description = card.dataset.description.toLowerCase();
         if (level.includes(lower) || description.includes(lower)) {
             card.style.display = 'flex';
         } else {

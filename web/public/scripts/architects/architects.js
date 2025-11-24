@@ -16,12 +16,12 @@ async function deleteArchitect(id) {
 }
 
 function filterArchitects(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const s = searchTerm.toLowerCase();
 
     cards.forEach(card => {
-        const name = card.dataset.name;
-        const desc = card.dataset.description;
+        const name = card.dataset.name.toLowerCase();
+        const desc = card.dataset.description.toLowerCase();
         card.style.display = (name.includes(s) || desc.includes(s)) ? 'flex' : 'none';
     });
 }

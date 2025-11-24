@@ -18,12 +18,12 @@ async function deleteBuilding(id) {
 
 // Función de filtrado para la barra de búsqueda
 function filterBuildings(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card'); // Usa la clase de la tarjeta
+    const cards = document.querySelectorAll('.card'); // Usa la clase de la tarjeta
     const lowerCaseSearchTerm = searchTerm;
 
     cards.forEach(card => {
-        const name = card.dataset.name || ''; // Añade fallback para evitar errores si no existe
-        const description = card.dataset.description || ''; // Añade fallback para evitar errores si no existe
+        const name = card.dataset.name.toLowerCase() || ''; // Añade fallback para evitar errores si no existe
+        const description = card.dataset.description.toLowerCase() || ''; // Añade fallback para evitar errores si no existe
 
         if (name.includes(lowerCaseSearchTerm) || description.includes(lowerCaseSearchTerm)) {
             card.style.display = 'flex'; // O 'block' si no es flex

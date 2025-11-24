@@ -17,12 +17,12 @@ async function deletePrize(id) {
     }
 }
 function filterPrizes(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const lower = searchTerm.toLowerCase();
 
     cards.forEach(card => {
         const name = (card.dataset.name || '').toLowerCase();
-        const year = (card.dataset.year || '').toLowerCase();
+        const year = (card.dataset.year || '').toString();
         const tipe = (card.dataset.tipe || '').toLowerCase();
 
         if (name.includes(lower) || year.includes(lower) || tipe.includes(lower)) {

@@ -10,11 +10,11 @@ async function deleteUser(id) {
 
 function filterUsers(text) {
     const s = text.toLowerCase();
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
 
     cards.forEach(c => {
-        const name = c.dataset.name;
-        const desc = c.dataset.description;
+        const name = c.dataset.name.toLowerCase();
+        const desc = c.dataset.description.toLowerCase();
         c.style.display = (name.includes(s) || desc.includes(s)) ? 'flex' : 'none';
     });
 }

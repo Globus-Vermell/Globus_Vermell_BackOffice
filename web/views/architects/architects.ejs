@@ -47,8 +47,8 @@
             <% if (architects && architects.length> 0) { %>
                 <% architects.forEach(architect=> { %>
                     <!-- Card de cada arquitecte, se guardan data en el article para usarlo en el filtro -->
-                    <article class="card" data-name="<%= architect.name.toLowerCase() %>"
-                        data-description="<%= architect.description.toLowerCase() %>">
+                    <article class="card" data-name="<%= architect.name %>"
+                        data-description="<%= architect.description %>">
 
                         <!-- Información principal del arquitecte -->
                         <div class="card-info">
@@ -57,7 +57,7 @@
                                 <%= architect.name %>
                             </h3>
 
-                            
+
                             <p class="card-years">
                                 <i class="fas fa-calendar"></i>
                                 <%= architect.birth_year %> - <%= architect.death_year %>

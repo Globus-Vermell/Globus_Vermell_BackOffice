@@ -16,7 +16,7 @@ async function deleteTypology(id) {
     }
 }
 function filterTypologies(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const lower = searchTerm.toLowerCase();
 
     cards.forEach(card => {

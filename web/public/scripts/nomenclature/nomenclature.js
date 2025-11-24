@@ -17,12 +17,12 @@ async function deleteNomenclature(id) {
 }
 
 function filterNomenclature(searchTerm) {
-    const cards = document.querySelectorAll('.architect-card');
+    const cards = document.querySelectorAll('.card');
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
     cards.forEach(card => {
-        const name = card.dataset.name;
-        const description = card.dataset.description;
+        const name = card.dataset.name.toLowerCase();
+        const description = card.dataset.description.toLowerCase();
         if (name.includes(lowerCaseSearchTerm) || description.includes(lowerCaseSearchTerm)) {
             card.style.display = 'flex';
         } else {
