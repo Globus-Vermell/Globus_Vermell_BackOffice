@@ -97,7 +97,7 @@ body {
     padding: 5px 0;
 }
 
-.architect-list {
+.list {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -112,7 +112,7 @@ body {
     margin-bottom: 15px;
 }
 
-.architect-card {
+.card {
     background-color: #fff;
     border-radius: 8px;
     padding: 25px 300px;
@@ -124,12 +124,12 @@ body {
     gap: 20px;
 }
 
-.architect-card-container {
+.card-title {
     width: 100%;
     margin: 0;
 }
 
-.architect-card-link {
+.card-description {
     flex-grow: 1;
     text-decoration: none;
     color: inherit;
@@ -137,7 +137,7 @@ body {
     min-width: 0;
 }
 
-.architect-card {
+.card {
     background-color: #fff;
     border-radius: 8px;
     padding: 25px;
@@ -152,7 +152,7 @@ body {
     box-sizing: border-box;
 }
 
-.architect-card {
+.card {
     background-color: #fff;
     border-radius: 8px;
     padding: 25px;
@@ -167,7 +167,7 @@ body {
     box-sizing: border-box;
 }
 
-.architect-card:hover {
+.card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     border: 2px solid #f40202; /* ← borde rojo solo al pasar el cursor */
