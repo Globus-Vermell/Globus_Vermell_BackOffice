@@ -1,46 +1,59 @@
+/* =========================================
+   1. CONFIGURACIÓN GENERAL Y CUERPO
+   ========================================= */
+
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f5f5f5;
-    /* Fondo claro */
-    color: #333;
+    margin: 0; /* Elimina márgenes por defecto del navegador */
+    background-color: #f5f5f5; /* Gris muy claro para diferenciar del contenedor blanco */
+    color: #333; /* Texto gris oscuro para mejor lectura que el negro puro */
+    
+    /* Configuración Flexbox para estructura de página completa */
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el 100% de la altura de la ventana */
+    
+    /* IMPORTANTE: Este margen evita que el contenido quede oculto 
+       debajo del encabezado que tiene posición fija (fixed) */
     margin-top: 60px;
 }
 
+/* Utilidad para contenedores flexibles genéricos */
 .flex-container {
     display: flex;
-
 }
 
-/* --- Encabezado del formulario --- */
+/* =========================================
+   2. ENCABEZADO (HEADER)
+   ========================================= */
+
 .form-header {
     display: flex;
-    align-items: center;
+    align-items: center; /* Centra verticalmente el contenido del header */
     padding: 20px 40px;
     background-color: #fff;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #eee; /* Línea sutil de separación */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave para dar profundidad */
+    
+    /* Configuración para que el menú se quede fijo al hacer scroll */
     position: fixed; 
     top: 0; 
     left: 0; 
     right: 0; 
-    z-index: 1000;
+    z-index: 1000; /* Asegura que el header esté siempre por encima del contenido */
 }
 
+/* Estilo del botón/enlace de "Volver" */
 .back-link {
     color: #555;
-    text-decoration: none;
+    text-decoration: none; /* Quita el subrayado */
     margin-right: 20px;
-    font-size: 1.5em;
-    /* Tamaño del icono de flecha */
-    transition: color 0.2s ease;
+    font-size: 1.5em; /* Icono grande para fácil clic */
+    transition: color 0.2s ease; /* Transición suave al pasar el ratón */
 }
 
 .back-link:hover {
-    color: #cc0000;
+    color: #cc0000; /* Cambio a rojo corporativo en hover */
 }
 
 .page-title {
@@ -50,38 +63,46 @@ body {
     color: #333;
 }
 
-/* --- Contenedor del formulario --- */
+/* =========================================
+   3. CONTENEDOR PRINCIPAL DEL FORMULARIO
+   ========================================= */
+
 .form-container {
-    flex-grow: 1;
+    flex-grow: 1; /* Ocupa el espacio vertical disponible */
     padding: 30px 40px;
-    max-width: 1400px;
-    /* Ancho máximo para el formulario */
-    margin: 30px auto;
-    /* Centrar el formulario y dar espacio */
-    background-color: #fff;
-    border-radius: 8px;
+    
+    /* Control de anchura */
+    max-width: 1400px; /* Evita que el formulario sea demasiado ancho en pantallas grandes */
+    margin: 30px auto; /* Centrado horizontal automático y margen vertical */
+    
+    background-color: #fff; /* Fondo blanco tipo "tarjeta" */
+    border-radius: 8px; /* Bordes suavizados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Grupos de formulario (label + input/textarea) */
+/* =========================================
+   4. CAMPOS DE ENTRADA (INPUTS & LABELS)
+   ========================================= */
+
+/* Contenedor de cada campo individual */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Espacio vertical entre campos */
 }
 
 .form-group label {
-    display: block;
+    display: block; /* Fuerza el label a ocupar su propia línea sobre el input */
     margin-bottom: 8px;
     font-weight: bold;
     color: #555;
 }
 
+/* Indicador visual de campo obligatorio (*) */
 .form-group .required {
     color: #cc0000;
-    /* Color rojo para el asterisco */
-    font-weight: normal;
-    /* Asegura que el asterisco no sea más negrita que el texto */
+    font-weight: normal; /* Menos peso visual que la etiqueta */
 }
 
+/* Estilos comunes para todos los inputs y textareas */
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea {
@@ -90,90 +111,99 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
+    
+    /* CRUCIAL: box-sizing hace que el padding y el borde se incluyan 
+       en el cálculo del ancho total, evitando desbordamientos */
     box-sizing: border-box;
-    /* Incluye padding y borde en el ancho total */
+    
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Ajustes específicos para áreas de texto grandes */
 .form-group textarea {
     min-height: 120px;
-    /* Altura mínima para la biografía */
-    resize: vertical;
-    /* Permite redimensionar verticalmente */
+    resize: vertical; /* Permite al usuario agrandar solo hacia abajo, no a los lados */
 }
 
-/* Hover/Focus en campos de texto */
+/* --- Estados de Foco (Accesibilidad) --- */
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group textarea:focus {
-    outline: none;
-    /* Quitar el contorno predeterminado del navegador */
-    border-color:#f40202;
-    /* Borde rojo al enfocar */
-    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
-    /* Sombra suave roja */
+    outline: none; /* Elimina el borde azul estándar del navegador */
+    border-color: #f40202; /* Borde rojo activo */
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2); /* Resplandor rojo suave */
 }
 
-/* Fila para campos de nacimiento y defunción */
+/* =========================================
+   5. DISEÑO DE COLUMNAS (GRID/FLEX)
+   ========================================= */
+
+/* Fila para poner dos campos lado a lado (ej. Fechas) */
 .form-row {
     display: flex;
-    gap: 20px;
-    /* Espacio entre los dos campos */
+    gap: 20px; /* Espacio horizontal entre columnas */
     margin-bottom: 20px;
 }
 
 .form-row .form-group {
-    flex: 1;
-    /* Cada grupo ocupa la mitad del espacio */
-    margin-bottom: 0;
-    /* Eliminar el margen inferior duplicado */
+    flex: 1; /* Fuerza a que ambos campos tengan exactamente el mismo ancho */
+    margin-bottom: 0; /* Elimina el margen inferior individual para usar el de la fila */
 }
 
-/* Botón de Guardar */
+/* =========================================
+   6. BOTONES DE ACCIÓN
+   ========================================= */
+
 .submit-button {
-    background-color:#f40202;
+    background-color: #f40202;
     color: #fff;
     padding: 12px 25px;
     border: none;
     border-radius: 5px;
     font-size: 1.1em;
     font-weight: bold;
-    cursor: pointer;
+    cursor: pointer; /* Cambia el cursor a "mano" */
+    
+    /* Alineación de icono y texto dentro del botón */
     display: flex;
     align-items: center;
     justify-content: center;
+    
     margin-top: 20px;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .submit-button i {
-    margin-right: 10px;
+    margin-right: 10px; /* Espacio entre el icono y el texto */
     font-size: 1.1em;
 }
 
 .submit-button:hover {
-    background-color: #cc0000;
+    background-color: #cc0000; /* Rojo más oscuro al pasar el ratón */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Design */
+/* =========================================
+   7. DISEÑO RESPONSIVO (MÓVILES)
+   ========================================= */
+
 @media (max-width: 768px) {
     .form-header {
-        padding: 15px 20px;
+        padding: 15px 20px; /* Cabecera más compacta */
     }
 
     .page-title {
-        font-size: 1.5em;
+        font-size: 1.5em; /* Título más pequeño para evitar saltos de línea */
     }
 
     .form-container {
-        padding: 20px;
+        padding: 20px; /* Menos relleno en el contenedor principal */
         margin: 20px auto;
     }
 
+    /* Transformar filas en columnas para pantallas estrechas */
     .form-row {
-        flex-direction: column;
-        /* Apila los campos en móviles */
+        flex-direction: column; 
         gap: 15px;
     }
 
@@ -182,7 +212,6 @@ body {
     }
 
     .submit-button {
-        width: 100%;
-        /* El botón ocupa todo el ancho */
+        width: 100%; /* Botón de ancho completo para facilitar el toque táctil */
     }
 }

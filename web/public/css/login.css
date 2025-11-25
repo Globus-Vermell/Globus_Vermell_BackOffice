@@ -1,66 +1,102 @@
+/* =========================================
+   1. CONFIGURACIÓN PRINCIPAL (FONDO Y LAYOUT)
+   ========================================= */
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif; /* Fuente moderna */
     
-    /* Configuración de fondo con tu imagen */
+    /* --- Configuración de imagen de fondo --- */
+    /* no-repeat: La imagen no se repite.
+       center center: Centrada vertical y horizontalmente.
+       fixed: Efecto parallax, el fondo no se mueve al hacer scroll. */
     background: url('/images/fondo_logins.png') no-repeat center center fixed;
-    background-size: cover;
+    background-size: cover; /* Escala la imagen para cubrir toda la pantalla siempre */
 
+    /* Necesario para posicionar el pseudo-elemento ::before relativo al body */
     position: relative;
     
-    /* FLEXBOX PARA CENTRADO SIDE-BY-SIDE (Row) */
-    /* Este es el punto clave: centra el .logo-container y el .container */
+    /* --- Layout Flexbox para centrado completo --- */
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh; /* Ocupa la altura completa de la ventana */
-    gap: 60px; 
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    
+    min-height: 100vh; /* Asegura que ocupe el 100% de la altura de la ventana visual */
+    gap: 60px; /* Separación entre el logo y el formulario */
     box-sizing: border-box;
 }
 
+/* 
+   TRUCO DE SUPERPOSICIÓN (OVERLAY):
+   Usamos un pseudo-elemento para añadir el tinte rojo sobre la imagen.
+   Si pusiéramos 'background-color' con opacidad directamente en el body, 
+   o en un div padre, todo el contenido (incluido el formulario) heredaría la opacidad.
+   Con esto, el tinte va en una capa separada DETRÁS del contenido.
+*/
 body::before {
     content: "";
     position: absolute;
-    inset: 0;
-    /* Usamos un color rojo/vino para la superposición */
+    /* inset: 0 es el atajo moderno para top:0, right:0, bottom:0, left:0 */
+    inset: 0; 
+    
+    /* Color rojo/vino con transparencia (0.35) */
     background: rgba(255, 74, 74, 0.35); 
-    backdrop-filter: blur(2px);
-    z-index: -1;
+    
+    /* Efecto de desenfoque leve en el fondo para mejorar legibilidad del primer plano */
+    backdrop-filter: blur(2px); 
+    
+    z-index: -1; /* Se coloca detrás del contenido del login */
 }
 
+/* =========================================
+   2. LOGOTIPO (LADO IZQUIERDO/SUPERIOR)
+   ========================================= */
+
 .logo-container {
-    /* El body gestiona su posición, solo aseguramos que no se encoja */
+    /* flex-shrink: 0 -> Evita que el contenedor del logo se aplaste 
+       si la pantalla se hace pequeña antes de que entre el media query */
     flex-shrink: 0; 
 }
 
 .logo-container img {
     width: 320px;
-    max-width: 40vw;
-    height: auto;
+    /* max-width: 40vw -> En pantallas muy pequeñas, no ocupará más del 40% del ancho */
+    max-width: 40vw; 
+    height: auto; /* Mantiene la proporción de aspecto */
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para separarlo del fondo */
 }
 
-/* Este contenedor ahora es un flex item del body, y debe ser flexible */
+/* =========================================
+   3. CONTENEDOR DEL FORMULARIO
+   ========================================= */
+
+/* Contenedor flexible wrapper */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    padding: 0; /* Aseguramos que no añade padding extra */
+    padding: 0; 
 }
 
+/* La tarjeta blanca del formulario */
 .form-container {
     color: #cc0000;
-    width: 360px;
-    max-width: 90vw; /* Asegura que no se desborde en móviles */
-    background: rgba(255, 255, 255, 0.98);
+    width: 360px; /* Ancho base ideal */
+    max-width: 90vw; /* Medida de seguridad para móviles muy estrechos */
+    
+    /* Blanco casi opaco (0.98) para que se lea bien pero se sienta integrado */
+    background: rgba(255, 255, 255, 0.98); 
+    
     padding: 35px 40px 25px;
-    border-radius: 14px;
+    border-radius: 14px; /* Bordes bastante redondeados (estilo moderno) */
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    
+    /* Sombra fuerte para efecto de "flotar" sobre el fondo */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
+    z-index: 10; /* Asegura estar encima del overlay */
 }
 
 .form-container h2 {
@@ -70,8 +106,12 @@ body::before {
     font-weight: 700;
 }
 
+/* =========================================
+   4. CAMPOS DE INPUT
+   ========================================= */
+
 .form-container label {
-    display: none; /* Ocultamos las etiquetas ya que usamos placeholders */
+    display: none; /* Diseño minimalista: ocultamos labels y confiamos en placeholders */
 }
 
 .form-container input {
@@ -81,24 +121,32 @@ body::before {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1em;
-    background: #fafafa;
-    box-sizing: border-box;
+    background: #fafafa; /* Fondo gris muy tenue dentro del input */
+    
+    /* Evita que el padding aumente el tamaño total del input */
+    box-sizing: border-box; 
+    
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-container input::placeholder {
-    color: #999;
+    color: #999; /* Color suave para el texto de ayuda */
 }
 
+/* Interacción con Inputs */
 .form-container input:hover {
-    border-color: #ff3838;
+    border-color: #ff3838; /* Feedback visual al pasar el ratón */
 }
 
 .form-container input:focus {
     border-color: #cc0000;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+    outline: none; /* Quitamos el borde azul por defecto */
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2); /* Resplandor rojo */
 }
+
+/* =========================================
+   5. BOTONES Y MENSAJES
+   ========================================= */
 
 .form-container button {
     width: 100%;
@@ -115,11 +163,12 @@ body::before {
 }
 
 .form-container button:hover {
-    background: #a00000;
+    background: #a00000; /* Rojo más oscuro */
 }
 
+/* Efecto de "click" físico */
 .form-container button:active {
-    transform: scale(0.99);
+    transform: scale(0.99); /* Reduce ligeramente el botón al hacer clic */
 }
 
 .footer-message {
@@ -131,27 +180,32 @@ body::before {
     margin-top: 15px;
     color: #cc0000;
     font-size: 0.9em;
-    min-height: 1.5em; 
+    min-height: 1.5em; /* Reserva espacio para evitar saltos si aparece un error */
 }
+
+/* =========================================
+   6. DISEÑO RESPONSIVO (TABLETS Y MÓVILES)
+   ========================================= */
 
 @media (max-width: 900px) {
     body {
-        /* Causa que el logo y el form se apilen verticalmente */
+        /* Cambio crucial: De lado a lado (row) a apilado vertical (column) */
         flex-direction: column; 
         gap: 30px;
         padding: 40px 20px;
-        /* Alinea al inicio de la columna para que el contenido no quede demasiado abajo */
+        
+        /* justify-content: flex-start -> Alinea el contenido arriba 
+           en lugar de centrarlo, útil para evitar problemas de scroll en móviles */
         justify-content: flex-start; 
         align-content: center;
     }
 
     .logo-container img {
-        width: 250px;
+        width: 250px; /* Logo más pequeño */
         max-width: 60vw;
     }
 
     .container {
-        /* Asegura que el contenedor de la forma use el ancho completo si es necesario */
-        width: 100%;
+        width: 100%; /* El contenedor ocupa todo el ancho disponible */
     }
 }

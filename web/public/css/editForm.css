@@ -1,43 +1,59 @@
+/* =========================================
+   ESTILOS GENERALES Y ESTRUCTURA DE PÁGINA
+   ========================================= */
+
+/* Cuerpo del formulario */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f5f5f5;
-    /* Fondo claro */
+    background-color: #f5f5f5; /* Fondo gris claro para contraste */
     color: #333;
+    
+    /* Configuración para 'Sticky Footer' o estructura flexible */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    margin-top: 60px;
+    
+    /* Importante: Compensa la altura del header que está en position: fixed */
+    margin-top: 60px; 
 }
 
-/* Encabezado del formulario */
+/* =========================================
+   ENCABEZADO (HEADER)
+   ========================================= */
+
 .form-header {
     display: flex;
     align-items: center;
     padding: 20px 40px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra sutil para dar profundidad */
+    
+    /* Fijar el encabezado en la parte superior al hacer scroll */
     position: fixed; 
     top: 0; 
     left: 0; 
     right: 0; 
+    
+    /* Asegura que el header esté por encima de cualquier otro elemento */
     z-index: 1000; 
 }
 
+/* Enlace/Botón de "Volver" */
 .back-link {
     color: #555;
     text-decoration: none;
     margin-right: 20px;
-    font-size: 1.5em;
-    /* Tamaño del icono de flecha */
-    transition: color 0.2s ease;
+    font-size: 1.5em; /* Tamaño del icono de flecha */
+    transition: color 0.2s ease; /* Suaviza el cambio de color al pasar el ratón */
 }
 
 .back-link:hover {
-    color: #cc0000;
+    color: #cc0000; /* Color rojo corporativo al interactuar */
 }
 
+/* Título de la página */
 .page-title {
     font-size: 1.8em;
     font-weight: bold;
@@ -45,45 +61,51 @@ body {
     color: #333;
 }
 
+/* Contenedor flexible genérico */
 .flex-container {
     display: flex;
-
 }
 
-/* Contenedor del formulario */
+/* =========================================
+   CONTENEDOR PRINCIPAL DEL FORMULARIO
+   ========================================= */
+
 .form-container {
-    flex-grow: 1;
+    flex-grow: 1; /* Ocupa el espacio restante verticalmente */
     padding: 30px 40px;
+    
+    /* Control del ancho: se adapta pero no excede los 1400px */
     max-width: 1400px;
-    /* Ancho máximo para el formulario */
-    margin: 30px auto;
-    /* Centrar el formulario y dar espacio */
+    margin: 30px auto; /* Centrado horizontal y margen vertical */
+    
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 8px; /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
+/* =========================================
+   CAMPOS DEL FORMULARIO (INPUTS & LABELS)
+   ========================================= */
+
 /* Grupos de formulario (label + input/textarea) */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Separación entre cada campo */
 }
 
 .form-group label {
-    display: block;
+    display: block; /* Fuerza que el label ocupe su propia línea */
     margin-bottom: 8px;
     font-weight: bold;
     color: #555;
 }
-
-/* #cc0000 */
-/* #f40202 */ 
+ 
+/* Estilo para el asterisco de campo obligatorio */
 .form-group .required { 
     color: #cc0000;
-    /* Color rojo para el asterisco */
-    font-weight: normal;
-    /* Asegura que el asterisco no sea más negrita que el texto */
+    font-weight: normal; /* Diferenciación visual del texto de la etiqueta */
 }
 
+/* Estilos base para todos los campos de entrada */
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea {
@@ -92,48 +114,54 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
-    box-sizing: border-box;
-    /* Incluye padding y borde en el ancho total */
+    
+    /* Crucial: Incluye el padding y el borde dentro del cálculo del ancho total 
+       para evitar que se desborde del contenedor */
+    box-sizing: border-box; 
+    
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Configuración específica para áreas de texto */
 .form-group textarea {
     min-height: 120px;
-    /* Altura mínima para la biografía */
-    resize: vertical;
-    /* Permite redimensionar verticalmente */
+    resize: vertical; /* Evita que el usuario rompa el diseño horizontalmente */
 }
 
-/* Hover/Focus en campos de texto */
+/* =========================================
+   ESTADOS DE FOCO (ACCESIBILIDAD Y UI)
+   ========================================= */
+
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group textarea:focus {
-    outline: none;
-    /* Quitar el contorno predeterminado del navegador */
-    border-color:#f40202;
-    /* Borde rojo al enfocar */
-    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
-    /* Sombra suave roja */
+    outline: none; /* Elimina el borde azul por defecto del navegador */
+    border-color: #f40202; /* Borde rojo activo */
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2); /* "Glow" o resplandor rojo suave */
 }
 
-/* Fila para campos de nacimiento y defunción */
+/* =========================================
+   LAYOUT DE COLUMNAS (FILAS)
+   ========================================= */
+
+/* Fila para agrupar campos (ej. Fechas de nacimiento y defunción) */
 .form-row {
     display: flex;
-    gap: 20px;
-    /* Espacio entre los dos campos */
+    gap: 20px; /* Espacio entre las columnas */
     margin-bottom: 20px;
 }
 
 .form-row .form-group {
-    flex: 1;
-    /* Cada grupo ocupa la mitad del espacio */
-    margin-bottom: 0;
-    /* Eliminar el margen inferior duplicado */
+    flex: 1; /* Hace que ambos campos ocupen el mismo ancho (50%) */
+    margin-bottom: 0; /* Elimina el margen inferior porque ya lo tiene el .form-row */
 }
 
-/* Botón de Guardar */
+/* =========================================
+   BOTONES DE ACCIÓN
+   ========================================= */
+
 .submit-button {
-    background-color:#f40202;
+    background-color: #f40202;
     color: #fff;
     padding: 12px 25px;
     border: none;
@@ -141,31 +169,38 @@ body {
     font-size: 1.1em;
     font-weight: bold;
     cursor: pointer;
+    
+    /* Flexbox para alinear el icono y el texto dentro del botón */
     display: flex;
     align-items: center;
     justify-content: center;
+    
     margin-top: 20px;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .submit-button i {
-    margin-right: 10px;
+    margin-right: 10px; /* Separación entre icono y texto */
     font-size: 1.1em;
 }
 
+/* Efecto Hover del botón */
 .submit-button:hover {
-    background-color: #cc0000;
+    background-color: #cc0000; /* Rojo más oscuro */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Design */
+/* =========================================
+   DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
+   ========================================= */
+
 @media (max-width: 768px) {
     .form-header {
-        padding: 15px 20px;
+        padding: 15px 20px; /* Reducción de padding en cabecera */
     }
 
     .page-title {
-        font-size: 1.5em;
+        font-size: 1.5em; /* Fuente más pequeña para evitar saltos de línea */
     }
 
     .form-container {
@@ -173,9 +208,9 @@ body {
         margin: 20px auto;
     }
 
+    /* Transformación de filas a columnas */
     .form-row {
-        flex-direction: column;
-        /* Apila los campos en móviles */
+        flex-direction: column; /* Apila los campos verticalmente */
         gap: 15px;
     }
 
@@ -184,7 +219,6 @@ body {
     }
 
     .submit-button {
-        width: 100%;
-        /* El botón ocupa todo el ancho */
+        width: 100%; /* Botón de ancho completo para facilitar el "tap" */
     }
 }

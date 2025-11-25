@@ -1,31 +1,48 @@
+/* =========================================
+   1. CONFIGURACIÓN GENERAL Y CUERPO
+   ========================================= */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f5f5f5;
+    background-color: #f5f5f5; /* Fondo gris claro general */
     color: #333;
+    
+    /* Estructura Flex vertical para ocupar toda la pantalla */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    
+    /* NOTA: En este diseño el header NO es fijo (position: fixed), 
+       por eso no necesitamos margin-top aquí como en el formulario anterior */
 }
 
-/* HEADER */
+/* =========================================
+   2. ENCABEZADO (HEADER)
+   ========================================= */
+
 .header {
     display: flex;
-    align-items: center;
-    /* flex-wrap permite que los elementos bajen si no caben (por zoom o pantalla pequeña) */
+    align-items: center; /* Centra verticalmente los elementos */
+    
+    /* flex-wrap: Permite que los elementos bajen de línea si no caben 
+       (útil si el usuario hace mucho zoom o la pantalla es pequeña) */
     flex-wrap: wrap; 
-    /* gap maneja el espacio entre elementos mejor que margin-right fijos */
+    
+    /* gap: Maneja el espacio entre hijos de forma más limpia que los márgenes */
     gap: 20px; 
+    
     padding: 20px 40px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* --- Logotipo --- */
 .logo {
     display: flex;
     align-items: center;
-    /* Eliminamos margin-right porque usamos gap en el padre (.header) */
+    /* No hace falta margin-right gracias al 'gap' del padre (.header) */
 }
 
 .logo img {
@@ -37,14 +54,16 @@ body {
     font-size: 1.2em;
     color: #cc0000;
     margin: 0;
-    /* Evita que el texto del logo se parta en dos líneas feamente */
+    
+    /* white-space: nowrap -> Fuerza que el nombre de la marca se mantenga 
+       en una sola línea, evitando roturas feas */
     white-space: nowrap; 
 }
 
+/* --- Información Central (Título Página) --- */
 .header-info {
-    flex-grow: 1;
-    /* Asegura que este contenedor no sea más pequeño que su contenido */
-    min-width: 200px; 
+    flex-grow: 1; /* Empuja el contenido, ocupando todo el espacio sobrante */
+    min-width: 200px; /* Asegura un tamaño mínimo antes de que el wrap actúe */
 }
 
 .page-title {
@@ -56,26 +75,28 @@ body {
 
 .page-description {
     font-size: 0.9em;
-    color: #777;
+    color: #777; /* Texto secundario más suave */
     margin-top: 5px;
 }
 
+/* --- Sesión de Usuario (Derecha) --- */
 .user-session {
     display: flex;
     align-items: center;
     font-size: 0.9em;
-    /* NUEVO: Si hace mucho zoom, que esto no se aplaste */
+    
+    /* flex-shrink: 0 -> "No te encojas". Evita que el nombre del usuario 
+       o el botón de salir se aplasten si falta espacio */
     flex-shrink: 0; 
 }
 
 .session-label {
-    background-color: #f40202;
+    background-color: #f40202; /* Etiqueta roja tipo "pill" */
     color: #fff;
     padding: 5px 10px;
     border-radius: 25px;
     margin-right: 15px;
-    /* NUEVO: Evita que el texto se rompa */
-    white-space: nowrap; 
+    white-space: nowrap; /* Evita que el nombre de usuario se parta */
 }
 
 .logout-link {
@@ -94,51 +115,74 @@ body {
     text-decoration: underline;
 }
 
-/* MAIN CONTENT */
+/* =========================================
+   3. CONTENIDO PRINCIPAL Y GRID DE TARJETAS
+   ========================================= */
+
 .main-content {
-    flex-grow: 1;
+    flex-grow: 1; /* Ocupa el espacio vertical restante */
     padding: 40px;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: center; /* Centra el grid horizontalmente */
+    align-items: flex-start; /* Alinea el contenido arriba */
 }
 
 .card-grid {
     display: grid;
-    /* EL CAMBIO MÁGICO */
-    /* En lugar de repeat(3, 1fr), usamos auto-fit con minmax */
-    /* Esto dice: "Pon tantas columnas como quepan, siempre que midan al menos 280px" */
+    
+    /* LÓGICA RESPONSIVA AUTOMÁTICA (La magia del CSS Grid):
+       - auto-fit: Crea tantas columnas como quepan.
+       - minmax(280px, 1fr): Cada columna debe medir al menos 280px.
+         Si sobra espacio, se estira (1fr). Si no cabe, baja a la siguiente fila.
+       Esto elimina la necesidad de media queries para columnas. */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 20px;
-    max-width: 1000px;
+    
+    gap: 20px; /* Espacio entre tarjetas */
+    max-width: 1000px; /* Ancho máximo del grid completo */
     width: 100%;
 }
+
+/* =========================================
+   4. COMPONENTE TARJETA (CARD)
+   ========================================= */
 
 .card {
     background-color: #fff;
     border-radius: 8px;
     padding: 30px;
+    
+    /* Alineación interna */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
+    
+    text-decoration: none; /* Quita subrayado de enlaces */
     color: #333;
+    
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    
+    /* Transiciones suaves para todos los efectos hover */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+    
     min-height: 150px;
+    
+    /* TRUCO VISUAL: Borde transparente inicial.
+       Si no ponemos esto, al hacer hover y añadir borde de 2px, 
+       la tarjeta "saltaría" de tamaño moviendo a las de al lado. */
     border: 2px solid transparent;
 }
 
+/* --- Efectos Hover --- */
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 2px solid #f40202;
+    transform: translateY(-5px); /* Levanta la tarjeta ligeramente */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    border: 2px solid #f40202; /* Borde rojo */
 }
 
 .card i {
     font-size: 3em;
-    color: #a0a0a0;
+    color: #a0a0a0; /* Gris inicial */
     margin-bottom: 15px;
     transition: color 0.2s ease-in-out;
 }
@@ -150,37 +194,43 @@ body {
     transition: color 0.2s ease-in-out;
 }
 
+/* Cambiar color de icono y texto al pasar el ratón por la tarjeta completa */
 .card:hover i,
 .card:hover span {
     color: #cc0000;
 }
 
 
-/* MEDIA QUERIES SIMPLIFICADAS */
-/* Ya no necesitamos definir columnas aquí gracias al truco del Grid anterior */
+/* =========================================
+   5. DISEÑO RESPONSIVO (MÓVILES)
+   ========================================= */
+
 @media (max-width: 768px) {
     .header {
-        /* En móviles forzamos columna para mejor lectura */
+        /* En móviles cambiamos de fila a columna para apilar elementos */
         flex-direction: column; 
-        align-items: flex-start; /* Alineamos a la izquierda */
+        align-items: flex-start; /* Alineación a la izquierda */
         padding: 15px 20px;
     }
 
+    /* Hacemos que los bloques del header ocupen todo el ancho disponible */
     .logo, .header-info, .user-session {
-        width: 100%; /* Que ocupen todo el ancho */
-        margin-bottom: 10px; /* Espacio vertical */
+        width: 100%; 
+        margin-bottom: 10px; /* Separación vertical */
     }
     
-    /* Quitamos márgenes laterales viejos si existieran */
-    .logo { margin-right: 0; }
+    .logo { margin-right: 0; } /* Reset de márgenes si los hubiera */
 
     .user-session {
-        justify-content: space-between; /* Separar usuario y logout en móvil */
+        /* justify-content: space-between -> Separa nombre y salir a extremos opuestos */
+        justify-content: space-between; 
         margin-top: 10px;
     }
 
     .main-content {
-        padding: 20px; /* Menos padding en móvil */
+        padding: 20px; /* Reducción de padding general */
     }
     
+    /* NOTA: No necesitamos tocar .card-grid aquí porque el grid-template-columns 
+       con minmax(280px) ya se adapta solo a una columna en móviles. */
 }
