@@ -1,44 +1,64 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <title>Editar Tipologia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Tipología</title>
+
+    <!-- Estilos del formulario -->
     <link rel="stylesheet" href="/css/editForm.css">
+
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
-<body class="p-6">
-    <div class="form-header">
+<body>
+
+    <!-- Header del formulario -->
+    <header class="form-header">
         <a href="/typology" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
-        <h1 class="page-title">Editar Tipologia</h1>
-    </div>
-    <div class="flex-container">
-        <div class="form-container">
+        <h1 class="page-title">Editar Tipología</h1>
+    </header>
+
+    <main class="flex-container">
+
+        <!-- Contenedor del formulario -->
+        <section class="form-container">
             <form id="form-typology-edit">
+
+                <!-- Nombre de la tipología -->
                 <div class="form-group">
-                    <label for="name">Nom:<span class="required">*</span></label>
+                    <label for="name">Nombre: <span class="required">*</span></label>
                     <input type="text" id="name" name="name" value="<%= typology.name %>" required />
                 </div>
 
+                <!-- Imagen de la tipología -->
                 <div class="form-group">
-                    <label for="image">Imatge:</label>
+                    <label for="image">Imagen:</label>
                     <input type="text" id="image" name="image" value="<%= typology.image %>" />
                 </div>
 
+                <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> 
-                    Guardar canvis
+                    <i class="fas fa-save"></i> Guardar cambios
                 </button>
+
             </form>
-        </div>
-    </div>
+        </section>
+
+    </main>
+
+    <!-- Script que guarda la información de la tipología para poder editarla -->
     <script>
         const typology = JSON.parse('<%- JSON.stringify(typology) %>');
     </script>
+
+    <!-- Script que maneja la lógica del formulario de edición -->
     <script src="/scripts/typology/typologyEdit.js"></script>
+
 </body>
 
 </html>

@@ -1,41 +1,62 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Protecció</title>
+    <title>Editar Protección</title>
+
+    <!-- Estilos del formulario -->
     <link rel="stylesheet" href="/css/editForm.css">
+
+    <!-- Iconos con Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
 
 <body>
+
+    <!-- Encabezado de la página -->
     <header class="form-header">
         <a href="/protection" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
-        <h1 class="page-title">Editar Protecció</h1>
+        <h1 class="page-title">Editar Protección</h1>
     </header>
-    <div class="flex-container">
-        <main class="form-container">
+
+    <main class="flex-container">
+
+        <!-- Contenedor del formulario -->
+        <section class="form-container">
             <form id="form-protection-edit">
+
                 <div class="form-group">
-                    <label for="level">Nivell <span class="required">*</span></label>
+                    <label for="level">Nivel <span class="required">*</span></label>
                     <input type="text" id="level" name="level" value="<%= protection.level %>" required />
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Descripció</label>
+                    <label for="description">Descripción</label>
                     <textarea id="description" name="description"><%= protection.description %></textarea>
                 </div>
 
-                <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar canvis</button>
+                <!-- Botón de enviar -->
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+
             </form>
-        </main>
-    </div>
+        </section>
+
+    </main>
+
+    <!-- Script para mantener los datos cargados -->
     <script>
         const protection = JSON.parse('<%- JSON.stringify(protection) %>');
     </script>
+
+    <!-- Script con la lógica del formulario -->
     <script src="/scripts/protection/protectionEdit.js"></script>
+
 </body>
 
 </html>

@@ -5,22 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Arquitecte</title>
+    <!-- Estilos del formulario de edición -->
     <link rel="stylesheet" href="/css/editForm.css">
-    <!-- Font Awesome para los iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+
+    <!-- Header de la página -->
     <header class="form-header">
         <a href="/architects" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
         <h1 class="page-title">Editar Arquitecte</h1>
     </header>
-    <div class="flex-container">
 
-        <main class="form-container">
+    <main class="flex-container">
+        <!-- Formulario de edición del arquitecto -->
+        <section class="form-container">
             <form id="form-edit-architect">
+
+                <!-- Campos del formulario -->
                 <div class="form-group">
                     <label for="name">Nom <span class="required">*</span></label>
                     <input type="text" id="name" name="name" value="<%= architect.name %>" required />
@@ -31,6 +36,7 @@
                         <label for="birth_year">Any de naixement</label>
                         <input type="number" id="birth_year" name="birth_year" value="<%= architect.birth_year %>" />
                     </div>
+
                     <div class="form-group">
                         <label for="death_year">Any de defunció</label>
                         <input type="number" id="death_year" name="death_year" value="<%= architect.death_year %>" />
@@ -38,23 +44,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="nationality">Nacionalitat </label>
-                    <input type="text" id="nationality" name="nationality" value="<%= architect.nationality %>"/>
+                    <label for="nationality">Nacionalitat</label>
+                    <input type="text" id="nationality" name="nationality" value="<%= architect.nationality %>" />
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Biografia </label>
+                    <label for="description">Biografia</label>
                     <textarea id="description" name="description"><%= architect.description %></textarea>
                 </div>
 
-                <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Canvis</button>
+                <!-- Botón de enviado -->
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-save"></i> Guardar canvis
+                </button>
+
             </form>
-        </main>
-    </div>
+        </section>
+    </main>
+
+    <!-- Script con la info del arquitecto para edición -->
     <script>
         const architect = JSON.parse('<%- JSON.stringify(architect) %>');
     </script>
+
+    <!-- Script con la lógica del formulario -->
     <script src="/scripts/architects/architectsEdit.js"></script>
+
 </body>
 
 </html>

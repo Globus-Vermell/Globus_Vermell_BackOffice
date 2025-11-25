@@ -1,67 +1,88 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <title>Editar Publicació</title>
-    <link rel="stylesheet" href="/css/editForm.css">
-    <!-- Si estás usando Font Awesome para los iconos (como el de la flecha o el de guardar), asegúrate de incluirlo aquí -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Publicación</title>
 
-<body class="p-6">
-    <div class="form-header">
+    <!-- Estilos del formulario -->
+    <link rel="stylesheet" href="/css/editForm.css">
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Encabezado del formulario -->
+    <header class="form-header">
         <a href="/publications" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
-        <h1 class="page-title">Editar Publicació</h1>
-    </div>
-    <div class="flex-container">
-        <div class="form-container">
+        <h1 class="page-title">Editar Publicación</h1>
+    </header>
+
+    <main class="flex-container">
+
+        <!-- Contenedor del formulario -->
+        <section class="form-container">
             <form id="form-publication-edit">
+
+                <!-- Título de la publicación -->
                 <div class="form-group">
-                    <label for="title">Títol:<span class="required">*</span></label>
+                    <label for="title">Título: <span class="required">*</span></label>
                     <input type="text" id="title" name="title" value="<%= publication.title %>" required />
                 </div>
 
+                <!-- Descripción -->
                 <div class="form-group">
-                    <label for="description">Descripció:</label>
+                    <label for="description">Descripción:</label>
                     <textarea id="description" name="description"><%= publication.description %></textarea>
                 </div>
 
+                <!-- Tema -->
                 <div class="form-group">
-                    <label for="themes">Tema:<span class="required">*</span></label>
+                    <label for="themes">Tema: <span class="required">*</span></label>
                     <select id="themes" name="themes" required>
-                        <!-- Asegúrate de que la opción correcta esté seleccionada dinámicamente -->
-                        <option value="etapes" <%=publication.themes==='etapes' ? 'selected' : '' %>>etapes</option>
-                        <option value="arquitectura tematica" <%=publication.themes==='arquitectura tematica'
-                            ? 'selected' : '' %>>arquitectura tematica</option>
-                        <option value="barris" <%=publication.themes==='barris' ? 'selected' : '' %>>barris</option>
+                        <option value="etapes" <%= publication.themes === 'etapes' ? 'selected' : '' %>>etapes</option>
+                        <option value="arquitectura tematica" <%= publication.themes === 'arquitectura tematica' ? 'selected' : '' %>>
+                            arquitectura temática</option>
+                        <option value="barris" <%= publication.themes === 'barris' ? 'selected' : '' %>>barris</option>
                     </select>
                 </div>
 
+                <!-- Acknowledgment -->
                 <div class="form-group">
                     <label for="acknowledgment">Acknowledgment:</label>
-                    <input type="text" id="acknowledgment" name="acknowledgment"
-                        value="<%= publication.acknowledgment %>" />
+                    <input type="text" id="acknowledgment" name="acknowledgment" value="<%= publication.acknowledgment %>" />
                 </div>
 
+                <!-- Edición de la publicación -->
                 <div class="form-group">
-                    <label for="publication_edition">Edició de la publicació:</label>
+                    <label for="publication_edition">Edición de la publicación:</label>
                     <input type="text" id="publication_edition" name="publication_edition"
                         value="<%= publication.publication_edition %>" />
                 </div>
 
+                <!-- Botón de enviar -->
                 <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> 
-                    Guardar canvis
+                    <i class="fas fa-save"></i> Guardar cambios
                 </button>
+
             </form>
-        </div>
-    </div>
+        </section>
+
+    </main>
+
+    <!-- Script que guarda la información de la publicación para poder editarla -->
     <script>
         const publication = JSON.parse('<%- JSON.stringify(publication) %>');
     </script>
+
+    <!-- Script que maneja la lógica del formulario de edición -->
     <script src="/scripts/publications/publicationsEdit.js"></script>
+
 </body>
 
 </html>

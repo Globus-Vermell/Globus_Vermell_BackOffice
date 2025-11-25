@@ -5,20 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Nomenclatura</title>
+    <!-- Estilos del formulario de edición -->
     <link rel="stylesheet" href="/css/editForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+    <!-- Header de la página -->
     <header class="form-header">
         <a href="/nomenclature" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
         <h1 class="page-title">Editar Nomenclatura</h1>
     </header>
-    <div class="flex-container">
-        <main class="form-container">
+
+    <main class="flex-container">
+        <!-- Formulario de edición de la nomenclatura -->
+        <section class="form-container">
             <form id="form-nomenclature-edit">
+
+                <!-- Campos del formulario -->
                 <div class="form-group">
                     <label for="name">Nom <span class="required">*</span></label>
                     <input type="text" id="name" name="name" value="<%= nomenclature.name %>" required />
@@ -29,14 +35,23 @@
                     <textarea id="description" name="description"><%= nomenclature.description %></textarea>
                 </div>
 
-                <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar canvis</button>
+                <!-- Botón de enviado -->
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-save"></i> Guardar canvis
+                </button>
+
             </form>
-        </main>
-    </div>
+        </section>
+    </main>
+
+    <!-- Script con los datos de la nomenclatura -->
     <script>
         const nomenclature = JSON.parse('<%- JSON.stringify(nomenclature) %>');
     </script>
+
+    <!-- Script de la lógica del formulario -->
     <script src="/scripts/nomenclature/nomenclatureEdit.js"></script>
+
 </body>
 
 </html>

@@ -4,21 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar edificació</title>
+    <!-- Estilos para el formulario de edición -->
     <link rel="stylesheet" href="/css/editForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <div class="form-header">
+
+    <!-- Header de la página -->
+    <header class="form-header">
         <a href="/buildings" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
         <h1 class="page-title">Editar edificació</h1>
-    </div>
-    <div class="flex-container">
+    </header>
 
-        <div class="form-container">
+
+    <main class="flex-container">
+        <!-- Formulario de edición del edificio -->
+        <section class="form-container">
             <form id="form-edificacio">
+                <!-- Campos del formulario -->
                 <div class="form-group">
                     <label for="nom">Nom: <span class="required">*</span></label>
                     <input type="text" id="nom" name="nom" value="<%= building.name %>" required />
@@ -83,15 +89,21 @@
                     </div>
                 </div>
 
+                <!-- Botón de enviado -->
                 <button type="submit" class="submit-button">
                     <i class="fas fa-save"></i> Guardar canvis
                 </button>
+
             </form>
-        </div>
-    </div>
+        </section>
+
+    </main>
+
+    <!-- Script que guarda la información del edificio para poder editarla -->
     <script>
         const building = JSON.parse('<%- JSON.stringify(building) %>');
     </script>
+    <!-- Script que maneja la lógica del formulario de edición -->
     <script src="/scripts/buildings/buildingsEdit.js"></script>
 
 </body>
