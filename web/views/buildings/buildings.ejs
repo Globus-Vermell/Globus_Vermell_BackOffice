@@ -75,7 +75,7 @@
                                     </p>
                                 </div>
 
-                                <!-- Botones clicables para poder hacer diferentes acciones: Editar y Borrar -->
+                                <!-- Botones clicables para poder hacer diferentes acciones: Editar, Borrar y validar -->
                                 <div class="card-actions">
                                     <a href="/buildings/edit/<%= building.id_building %>" class="edit-button"> 
                                         <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
@@ -84,6 +84,11 @@
                                     <button class="delete-button"
                                         onclick="deleteBuilding('<%= building.id_building %>')">
                                         <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
+                                    </button>
+
+                                    <button class="validation-button"
+                                        onclick="validateBuilding('<%= building.id_building %>')">
+                                        <img src="/images/icons/check-icon.png" alt="Validar">Validar
                                     </button>
                                 </div>
 

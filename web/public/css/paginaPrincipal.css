@@ -178,7 +178,8 @@ body {
 }
 
 .card:not(:has(.card-image)) .edit-button,
-.card:not(:has(.card-image)) .delete-button {
+.card:not(:has(.card-image)) .delete-button,
+.card:not(:has(.card-image)) .validation-button {
     flex: 1;
 }
 
@@ -246,6 +247,7 @@ body {
     min-width: 120px;
 }
 
+.validation-button,
 .edit-button,
 .delete-button {
     font-family: Arial, sans-serif;
@@ -307,6 +309,36 @@ body {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     background-color: #cc0000;
+}
+
+/* BOTÓN VALIDAR */
+.validation-button {
+    background-color: #aecb2b;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    border: none; 
+    cursor: pointer;  
+}
+
+.validation-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+    background-color: #91a924;
+}
+
+.validation-button img {
+    width: 20px;
+    height: 20px;
+    mix-blend-mode: screen;
 }
 
 /* MENSAJE SIN CONSTRUCCIONES */
