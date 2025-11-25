@@ -1,11 +1,14 @@
+// Función para eliminar un edificio
 async function deleteBuilding(id) {
+    // Confirmar la eliminación
     if (!confirm("Segur que vols eliminar aquest edifici?")) return;
 
     try {
+        // Realizar la solicitud DELETE al servidor
         const res = await fetch(`/buildings/delete/${id}`, {
             method: "DELETE"
         });
-
+        // Procesar la respuesta del servidor
         const data = await res.json();
         alert(data.message);
 
