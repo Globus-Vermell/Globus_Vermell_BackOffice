@@ -3,19 +3,29 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Reforma</title>
+    <!-- Estilos para el formulario de creación -->
     <link rel="stylesheet" href="/css/createForm.css">
+    <!-- Font Awesome para los iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
 
 <body>
+    <!-- Encabezado del formulario -->
     <header class="form-header">
-        <a href="/reform" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <!-- Enlace para volver a la lista de reformas -->
+        <a href="/reform" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+        </a>
         <h1 class="page-title">Nova Reforma</h1>
     </header>
-    <div class="flex-container">
-        <main class="form-container">
+
+    <!-- Contenedor principal del formulario -->
+    <main class="flex-container">
+        <section class="form-container">
+            <!-- Formulario para añadir nueva reforma -->
             <form id="form-reform">
+                <!-- Campos del formulario -->
                 <div class="form-group">
                     <label for="year">Any de reforma</label>
                     <input type="number" id="year" name="year" />
@@ -28,10 +38,15 @@
                     </select>
                 </div>
 
-                <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Reforma</button>
+                <!-- Botón de envío -->
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-save"></i> Guardar Reforma
+                </button>
             </form>
-        </main>
-    </div>
+        </section>
+    </main>
+
+    <!-- Script con la lógica del formulario -->
     <script src="/scripts/reform/reformForm.js"></script>
 </body>
 

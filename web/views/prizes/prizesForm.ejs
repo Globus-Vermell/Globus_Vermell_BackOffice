@@ -4,20 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Nou Premi</title>
+    <!-- Estilos para el formulario de creación -->
     <link rel="stylesheet" href="/css/createForm.css">
+    <!-- Font Awesome para los iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
-<body class="p-6">
-    <div class="form-header">
+<body>
+    <!-- Encabezado del formulario -->
+    <header class="form-header">
+        <!-- Enlace para volver a la lista de premios -->
         <a href="/prizes" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
         <h1 class="page-title">Afegir un nou premi</h1>
-    </div>
-    <div class="flex-container">
-        <div class="form-container">
+    </header>
+
+    <!-- Contenedor principal del formulario -->
+    <main class="flex-container">
+        <section class="form-container">
+            <!-- Formulario para añadir un nuevo premio -->
             <form id="form-prize">
+                <!-- Campos del formulario -->
                 <div class="form-group">
                     <label for="name">Nom del premi:<span class="required">*</span></label>
                     <input type="text" id="name" name="name" required />
@@ -38,13 +46,15 @@
                     <textarea id="description" name="description"></textarea>
                 </div>
 
+                <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i>
-                    Guardar
+                    <i class="fas fa-save"></i> Guardar
                 </button>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
+
+    <!-- Script con la lógica del formulario -->
     <script src="/scripts/prizes/prizesForm.js"></script>
 </body>
 

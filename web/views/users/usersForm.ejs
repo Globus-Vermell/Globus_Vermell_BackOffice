@@ -4,20 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Nou Usuari</title>
+    <!-- Estilos para el formulario de creación -->
     <link rel="stylesheet" href="/css/createForm.css">
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
-<body class="p-6">
-    <div class="form-header">
-        <a href="/users" class="back-link"><i class="fas fa-arrow-left"></i></a>
+<body>
+    <!-- Encabezado del formulario -->
+    <header class="form-header">
+        <a href="/users" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+        </a>
         <h1 class="page-title">Nou Usuari</h1>
-    </div>
+    </header>
 
-    <div class="flex-container">
-        <div class="form-container">
+    <!-- Contenedor principal del formulario -->
+    <main class="flex-container">
+        <section class="form-container">
+            <!-- Formulario para añadir nuevo usuario -->
             <form id="form-user">
-
+                <!-- Campos del formulario -->
                 <div class="form-group">
                     <label>Nom <span class="required">*</span></label>
                     <input type="text" name="name" required />
@@ -46,16 +53,16 @@
                     </select>
                 </div>
 
+                <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
                     <i class="fas fa-save"></i> Crear Usuari
                 </button>
             </form>
+        </section>
+    </main>
 
-        </div>
-    </div>
-
+    <!-- Script con la lógica del formulario -->
     <script src="/scripts/users/usersForm.js"></script>
-
 </body>
 
 </html>
