@@ -194,27 +194,6 @@ body {
     color: #333;
 }
 
-/* 
-   --- SELECTOR AVANZADO :has() ---
-   Si la tarjeta NO tiene imagen (ej. una Protección), cambiamos el diseño.
-   Esto reorganiza los botones para que estén abajo en fila en vez de a la derecha.
-*/
-.card:not(:has(.card-image)) {
-    flex-direction: column;
-}
-
-.card:not(:has(.card-image)) .card-actions {
-    flex-direction: row;
-    width: 100%;
-    min-width: auto;
-}
-
-.card:not(:has(.card-image)) .edit-button,
-.card:not(:has(.card-image)) .delete-button,
-.card:not(:has(.card-image)) .validation-button {
-    flex: 1; /* Botones del mismo ancho */
-}
-
 /* --- Metadatos (Fechas, Coordenadas, Autor) --- */
 .card-coords {
     margin: 0;
