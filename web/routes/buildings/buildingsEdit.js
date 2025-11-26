@@ -88,7 +88,7 @@ router.put("/:id", async (req, res) => {
             .from("buildings")
             .update({
                 name: nom,
-                coordinates: adreca,
+                location: adreca,
                 construction_year: parseInt(any_construccio),
                 picture,
                 description,

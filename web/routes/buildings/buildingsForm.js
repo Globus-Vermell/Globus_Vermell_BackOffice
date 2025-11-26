@@ -73,7 +73,7 @@ router.post("/", async (req, res) => {
         const { error } = await supabase.from("buildings").insert([{
             name: nom,
             picture: pictureUrl,
-            coordinates: adreca,
+            location: adreca,
             construction_year: parseInt(any_construccio),
             description,
             surface_area: parseInt(surface_area),
