@@ -8,7 +8,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const { data: publications, error } = await supabase
         .from("publications")
-        .select("*");
+        .select("*")
+        .order("name");
 
     if (error) {
         console.error("Error al obtener publicaciones:", error);

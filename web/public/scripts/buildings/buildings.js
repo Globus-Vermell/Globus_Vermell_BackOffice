@@ -25,8 +25,8 @@ function filterBuildings(searchTerm) {
     const s = searchTerm.toLowerCase();
 
     cards.forEach(card => {
-        const name = card.dataset.name.toLowerCase(); // Añade fallback para evitar errores si no existe
-        const description = card.dataset.description.toLowerCase(); // Añade fallback para evitar errores si no existe
+        const name = card.dataset.name.toLowerCase();
+        const description = card.dataset.description.toLowerCase();
         card.style.display = (name.includes(s) || description.includes(s)) ? 'flex' : 'none';
 
 

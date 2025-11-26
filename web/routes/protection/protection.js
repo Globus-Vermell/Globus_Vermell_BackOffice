@@ -9,7 +9,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const { data: protections, error } = await supabase
         .from("protection")
-        .select("*");
+        .select("*")
+        .order("name");
 
     if (error) {
         console.error("Error al obtener protecciones:", error);

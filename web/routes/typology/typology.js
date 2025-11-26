@@ -9,7 +9,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const { data: typologies, error } = await supabase
         .from("typology")
-        .select("*");
+        .select("*")
+        .order("name");
 
     if (error) {
         console.error("Error al obtener tipologías:", error);

@@ -9,7 +9,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const { data: prizes, error } = await supabase
         .from("prizes")
-        .select("*");
+        .select("*")
+        .order("name");
 
     if (error) {
         console.error("Error al obtener premios:", error);
