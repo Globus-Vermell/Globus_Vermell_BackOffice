@@ -1,13 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const form = document.getElementById("form-publication");
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
 
+        // Convertimos FormData a un objeto, gestionando los checkboxes múltiples
+        const data = {};
+
+        // Iteramos manualmente para no perder valores repetidos (checkboxes)
+        for (const [key, value] of formData.entries()) {
+            if (data[key]) {
+                // Si la clave ya existe, convertimos en array y añadimos el nuevo valor
+                if (!Array.isArray(data[key])) {
+                    data[key] = [data[key]];
+                }
+                // Añadimos el nuevo valor al array
+                data[key].push(value);
+            }
+            // Si la clave no existe, la inicializamos con el valor
+            else {
+                data[key] = value;
+            }
+        }
+
+        // 2. Aseguramos que selectedTypologies sea siempre un array (incluso si solo se marcó uno)
+        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) {
+            data.selectedTypologies = [data.selectedTypologies];
+        }
+
+        // 3. Enviamos los datos
         try {
             const res = await fetch("/publications/form", {
                 method: "POST",

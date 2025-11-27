@@ -45,17 +45,19 @@
                 <div class="form-group">
                     <label for="themes">Tema: <span class="required">*</span></label>
                     <select id="themes" name="themes" required>
-                        <option value="etapes" <%= publication.themes === 'etapes' ? 'selected' : '' %>>etapes</option>
-                        <option value="arquitectura tematica" <%= publication.themes === 'arquitectura tematica' ? 'selected' : '' %>>
+                        <option value="etapes" <%=publication.themes==='etapes' ? 'selected' : '' %>>etapes</option>
+                        <option value="arquitectura tematica" <%=publication.themes==='arquitectura tematica'
+                            ? 'selected' : '' %>>
                             arquitectura temática</option>
-                        <option value="barris" <%= publication.themes === 'barris' ? 'selected' : '' %>>barris</option>
+                        <option value="barris" <%=publication.themes==='barris' ? 'selected' : '' %>>barris</option>
                     </select>
                 </div>
 
                 <!-- Acknowledgment -->
                 <div class="form-group">
                     <label for="acknowledgment">Acknowledgment:</label>
-                    <input type="text" id="acknowledgment" name="acknowledgment" value="<%= publication.acknowledgment %>" />
+                    <input type="text" id="acknowledgment" name="acknowledgment"
+                        value="<%= publication.acknowledgment %>" />
                 </div>
 
                 <!-- Edición de la publicación -->
@@ -63,6 +65,30 @@
                     <label for="publication_edition">Edición de la publicación:</label>
                     <input type="text" id="publication_edition" name="publication_edition"
                         value="<%= publication.publication_edition %>" />
+                </div>
+
+                <!-- Tipologías -->
+                <div class="form-group">
+                    <fieldset class="checkbox-container">
+                        <legend class="checkbox-legend">Tipologies Relacionades:</legend>
+
+                        <div class="checkbox-grid">
+                            <% if (typologies && typologies.length> 0) { %>
+                                <% typologies.forEach(t=> { %>
+                                    <% const isChecked=currentTypologies.includes(t.id_typology) ? 'checked' : '' %>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" name="selectedTypologies"
+                                                value="<%= t.id_typology %>" <%=isChecked %>>
+                                            <span class="checkbox-label">
+                                                <%= t.name %>
+                                            </span>
+                                        </label>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <p class="no-data-msg">No hi ha tipologies disponibles.</p>
+                                                <% } %>
+                        </div>
+                    </fieldset>
                 </div>
 
                 <!-- Botón de enviar -->

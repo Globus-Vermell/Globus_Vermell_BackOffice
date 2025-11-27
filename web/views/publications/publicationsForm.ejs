@@ -56,6 +56,24 @@
                     <input type="text" id="publication_edition" name="publication_edition" required />
                 </div>
 
+                <div class="form-group">
+                    <fieldset class="checkbox-container">
+                        <legend class="checkbox-legend">Tipologies Relacionades:</legend>
+                        <% if (typologies && typologies.length> 0) { %>
+                            <% typologies.forEach(t=> { %>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="selectedTypologies" value="<%= t.id_typology %>">
+                                    <span class="checkbox-label">
+                                        <%= t.name %>
+                                    </span>
+                                </label>
+                                <% }) %>
+                                    <% } else { %>
+                                        <p class="no-data-msg">No hi ha tipologies disponibles.</p>
+                                        <% } %>
+                    </fieldset>
+                </div>
+
                 <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
                     <i class="fas fa-save"></i> Guardar
