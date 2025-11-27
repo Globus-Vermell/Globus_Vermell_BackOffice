@@ -1,6 +1,9 @@
 import express from "express";
 import supabase from "../../config.js";
+import multer from "multer";
 
+// Configuración de multer para subir imágenes
+const upload = multer({ dest: 'public/images/buildings' });
 
 // Constante y configuración del srvidor Express
 const router = express.Router();
@@ -56,7 +59,15 @@ router.get("/:id/protections", async (req, res) => {
     res.json(data || []);
 });
 
-
+// Ruta para manejar la subida de imágenes en la edición
+router.post("/upload", upload.single('picture'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ success: false, message: "No se ha subido ningún archivo." });
+    }
+    // Devolver la ruta del archivo subido
+    const filePath = `/images/buildings/${req.file.filename}`;
+    res.json({ success: true, filePath });
+});
 
 // Ruta para actualizar un edificio
 router.put("/:id", async (req, res) => {

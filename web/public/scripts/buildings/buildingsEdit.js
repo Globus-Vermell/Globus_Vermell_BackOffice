@@ -56,8 +56,47 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(form).entries());
 
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Decidir qué imagen usar (la nueva o la antigua)
+        let pictureUrl = building.picture;
+
+        // Obtenemos el archivo de la imagen
+        const pictureFile = formData.get("picture");
+
+        // Si el usuario ha seleccionado un archivo nuevo, lo subimos
+        if (pictureFile && pictureFile.size > 0) {
+            const uploadData = new FormData();
+            uploadData.append("picture", pictureFile);
+
+            try {
+                // Subimos la imagen
+                const uploadRes = await fetch("/buildings/edit/upload", {
+                    method: "POST",
+                    body: uploadData
+                });
+
+                // Obtenemos el resultado de la subida
+                const uploadResult = await uploadRes.json();
+                if (uploadResult.success) {
+                    pictureUrl = uploadResult.filePath;
+                } else {
+                    alert("Error al subir la nueva imagen.");
+                    return;
+                }
+            } catch (err) {
+                console.error("Error al subir la imagen:", err);
+                alert("Error de conexión al subir imagen.");
+                return;
+            }
+        }
+
+        // Asignamos la URL final (nueva o vieja) al objeto data que enviaremos
+        data.picture = pictureUrl;
+
+        // Validación de campos obligatorios
         const oblig = ["nom", "adreca", "any_construccio", "publicacio_id"];
         for (let field of oblig) {
             if (!data[field]) {
@@ -66,7 +105,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
 
+        // Petición PUT (actualizar datos)
         try {
+
             const res = await fetch(`/buildings/edit/${building.id_building}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -82,3 +123,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 });
+

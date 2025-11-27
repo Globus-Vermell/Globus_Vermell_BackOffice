@@ -48,7 +48,10 @@
 
                 <div class="form-group">
                     <label for="picture">Imatge:</label>
-                    <input type="text" id="picture" name="picture" value="<%= building.picture %>" />
+                    <% if (building.picture) { %>
+                        <img src="<%= building.picture %>" alt="Imatge actual">
+                        <% } %>
+                            <input type="file" id="picture" name="picture" accept="image/*" />
                 </div>
 
                 <div class="form-group">
