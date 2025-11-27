@@ -19,16 +19,39 @@ async function deleteBuilding(id) {
     }
 }
 
-// Función de filtrado para la barra de búsqueda
-function filterBuildings(searchTerm) {
-    const cards = document.querySelectorAll('.card'); // Usa la clase de la tarjeta
-    const s = searchTerm.toLowerCase();
+// Función de filtrado combinada (Texto + Validación)
+function filterBuildings() {
+    // 1. Obtenemos los valores actuales del input y del select
+    const inputVal = document.getElementById('searchInput').value.toLowerCase();
+    const selectVal = document.getElementById('filterValidation').value; // 'all', 'true', 'false'
+    
+    // 2. Seleccionamos todas las tarjetas
+    const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
+        // --- Comprobación de TEXTO ---
         const name = card.dataset.name.toLowerCase();
         const description = card.dataset.description.toLowerCase();
-        card.style.display = (name.includes(s) || description.includes(s)) ? 'flex' : 'none';
+        // Verifica si el nombre o descripción contiene el texto escrito
+        const matchesText = name.includes(inputVal) || description.includes(inputVal);
 
+        // --- Comprobación de VALIDACIÓN ---
+        const isBuildingValidated = card.dataset.validated; // Esto devuelve el string "true" o "false"
+        
+        let matchesStatus = false;
+        if (selectVal === 'all') {
+            matchesStatus = true; // Si es all, todos valen
+        } else {
+            // Comparamos si el valor del select coincide con el del atributo data
+            matchesStatus = (isBuildingValidated === selectVal);
+        }
 
+        // --- Resultado Final ---
+        // Solo mostramos la tarjeta si CUMPLE AMBAS condiciones
+        if (matchesText && matchesStatus) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
     });
 }

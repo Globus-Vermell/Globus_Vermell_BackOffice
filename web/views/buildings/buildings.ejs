@@ -29,11 +29,17 @@
     <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Buscador -->
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings(this.value)">
-        </div>
+<div class="search-bar">
+    <i class="fas fa-search"></i>
+    
+    <input id="searchInput" type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings()">
+
+    <select id="filterValidation" onchange="filterBuildings()" style="margin-left: 10px; padding: 5px; border-radius: 5px;">
+        <option value="all">Tots</option>
+        <option value="true">Validats</option>
+        <option value="false">Pendents</option>
+    </select>
+</div>
 
         <!-- Lista de construcciones -->
         <section class="list">
@@ -42,7 +48,7 @@
                 <% buildings.forEach(building=> { %>
                     <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
                     <article class="card" data-name="<%= building.name %>"
-                        data-description="<%= building.description %>">
+                        data-description="<%= building.description %>" data-validated="<%= building.validated %>">
                         <!-- Foto de la construcción -->
                         <% if (building.picture) { %>
                             <figure class="card-image">
@@ -58,10 +64,6 @@
 
                                     <p class="card-coords">
                                         <%= building.location %>
-                                    </p>
-                                    
-                                    <p class="card-coords">
-                                        <%= building.coordinates %>
                                     </p>
 
                                     <p class="card-date">
