@@ -39,6 +39,17 @@
         <option value="true">Validats</option>
         <option value="false">Pendents</option>
     </select>
+    <!-- Filtro Publicaciones Dinámico -->
+    <select id="filterPublication" onchange="filterBuildings()" class="filter-select">
+        <option value="all">Publicació: Totes</option>
+        
+        <!-- Bucle EJS para crear las opciones desde la BD -->
+        <% if (publications && publications.length > 0) { %>
+            <% publications.forEach(pub => { %>
+                <option value="<%= pub.id_publication %>"><%= pub.title %></option>
+            <% }) %>
+        <% } %>
+    </select>
 </div>
 
         <!-- Lista de construcciones -->
@@ -48,7 +59,9 @@
                 <% buildings.forEach(building=> { %>
                     <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
                     <article class="card" data-name="<%= building.name %>"
-                        data-description="<%= building.description %>" data-validated="<%= building.validated %>">
+                        data-description="<%= building.description %>" data-validated="<%= building.validated %>"
+                        data-publication="<%= building.id_publication %>">
+                        
                         <!-- Foto de la construcción -->
                         <% if (building.picture) { %>
                             <figure class="card-image">

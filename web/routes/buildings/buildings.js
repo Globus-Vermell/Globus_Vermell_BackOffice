@@ -6,16 +6,41 @@ const router = express.Router();
 
 // Ruta para obtener todas las construcciones
 router.get("/", async (req, res) => {
-    const { data: buildings, error } = await supabase
-        .from("buildings")
-        .select("*")
-        .order("name");
+try {
+        // 1. Petición para obtener los edificios (igual que antes)
+        const buildingsQuery = supabase
+            .from("buildings")
+            .select("*")
+            .order("name");
 
-    if (error) {
-        console.error("Error al obtener las construcciones:", error);
-        return res.status(500).send("Error al obtener construcciones");
+        // 2. Petición para obtener las publicaciones (NUEVO)
+        const publicationsQuery = supabase
+            .from("publications") 
+            .select("*")
+            .order("title"); // Opcional: ordenarlas alfabéticamente para el select
+
+        // Ejecutamos ambas peticiones a la vez 
+        const [buildingsResult, publicationsResult] = await Promise.all([
+            buildingsQuery,
+            publicationsQuery
+        ]);
+
+        // Verificamos si hubo error en alguna de las dos
+        if (buildingsResult.error || publicationsResult.error) {
+            console.error("Error en DB:", buildingsResult.error || publicationsResult.error);
+            return res.status(500).send("Error al obtener datos");
+        }
+
+        // 3. Renderizamos pasando AMBAS listas a la vista
+        res.render("buildings/buildings", { 
+            buildings: buildingsResult.data, 
+            publications: publicationsResult.data // <--- Esto es lo que usará el <select> del EJS
+        });
+
+    } catch (err) {
+        console.error("Error inesperado:", err);
+        res.status(500).send("Error del servidor");
     }
-    res.render("buildings/buildings", { buildings });
 });
 
 // Ruta para eliminar una construcción

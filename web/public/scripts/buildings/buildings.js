@@ -19,36 +19,41 @@ async function deleteBuilding(id) {
     }
 }
 
-// Función de filtrado combinada (Texto + Validación)
+// Función de filtrado combinada (Texto + Validación + Publicación)
 function filterBuildings() {
-    // 1. Obtenemos los valores actuales del input y del select
     const inputVal = document.getElementById('searchInput').value.toLowerCase();
-    const selectVal = document.getElementById('filterValidation').value; // 'all', 'true', 'false'
-    
-    // 2. Seleccionamos todas las tarjetas
+    const valSelect = document.getElementById('filterValidation').value;
+    const pubSelect = document.getElementById('filterPublication').value;
+    console.log('Filtrando con:', inputVal, valSelect, pubSelect);
+
     const cards = document.querySelectorAll('.card');
+    
 
     cards.forEach(card => {
-        // --- Comprobación de TEXTO ---
+        // 1. Texto
         const name = card.dataset.name.toLowerCase();
         const description = card.dataset.description.toLowerCase();
-        // Verifica si el nombre o descripción contiene el texto escrito
         const matchesText = name.includes(inputVal) || description.includes(inputVal);
+            console.log('Ocultando card:', card);
 
-        // --- Comprobación de VALIDACIÓN ---
-        const isBuildingValidated = card.dataset.validated; // Esto devuelve el string "true" o "false"
-        
-        let matchesStatus = false;
-        if (selectVal === 'all') {
-            matchesStatus = true; // Si es all, todos valen
+
+        // 2. Validación
+        const isValidated = card.dataset.validated; 
+        let matchesValidation = (valSelect === 'all') ? true : (isValidated === valSelect);
+
+        // 3. Publicación
+        const cardPubId = card.dataset.publication; // Leemos el ID guardado en la tarjeta
+        let matchesPublication = false;
+
+        if (pubSelect === 'all') {
+            matchesPublication = true;
         } else {
-            // Comparamos si el valor del select coincide con el del atributo data
-            matchesStatus = (isBuildingValidated === selectVal);
+            // Comparamos el ID seleccionado con el ID de la tarjeta
+            matchesPublication = (cardPubId == pubSelect); 
         }
 
-        // --- Resultado Final ---
-        // Solo mostramos la tarjeta si CUMPLE AMBAS condiciones
-        if (matchesText && matchesStatus) {
+        // Mostrar u ocultar
+        if (matchesText && matchesValidation && matchesPublication) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
