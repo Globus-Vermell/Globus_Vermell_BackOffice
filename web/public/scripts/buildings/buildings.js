@@ -24,7 +24,9 @@ function filterBuildings() {
     const inputVal = document.getElementById('searchInput').value.toLowerCase();
     const valSelect = document.getElementById('filterValidation').value;
     const pubSelect = document.getElementById('filterPublication').value;
-    console.log('Filtrando con:', inputVal, valSelect, pubSelect);
+    const imgSelect = document.getElementById('filterImage').value;
+
+    console.log('Filtrando con:', inputVal, valSelect, pubSelect, imgSelect);
 
     const cards = document.querySelectorAll('.card');
     
@@ -34,12 +36,26 @@ function filterBuildings() {
         const name = card.dataset.name.toLowerCase();
         const description = card.dataset.description.toLowerCase();
         const matchesText = name.includes(inputVal) || description.includes(inputVal);
-            console.log('Ocultando card:', card);
-
 
         // 2. Validación
         const isValidated = card.dataset.validated; 
         let matchesValidation = (valSelect === 'all') ? true : (isValidated === valSelect);
+
+        // 3 Imagen
+        const hasImage = card.querySelector('.card-image') !== null;
+        let matchesImage = false;
+
+        if (imgSelect === 'all') {
+            matchesImage = true;
+        } else if (imgSelect === 'true') {
+            matchesImage = hasImage;
+        } else {
+            matchesImage = !hasImage;
+        }
+
+        if (!matchesImage) {
+            matchesValidation = false;
+        }
 
         // 3. Publicación
         const cardPubId = card.dataset.publication; // Leemos el ID guardado en la tarjeta
