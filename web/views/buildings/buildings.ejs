@@ -28,36 +28,40 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
+        <!-- Barra de búsqueda para filtrar construcciones -->
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
 
-<div class="search-bar">
-    <i class="fas fa-search"></i>
-    
-    <input id="searchInput" type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings()">
+            <input id="searchInput" type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings()">
 
-    <select id="filterValidation" onchange="filterBuildings()" style="margin-left: 10px; padding: 5px; border-radius: 5px;">
-        <option value="all">Tots</option>
-        <option value="true">Validats</option>
-        <option value="false">Pendents</option>
-    </select>
+            <select id="filterValidation" onchange="filterBuildings()"
+                style="margin-left: 10px; padding: 5px; border-radius: 5px;">
+                <option value="all">Tots</option>
+                <option value="true">Validats</option>
+                <option value="false">Pendents</option>
+            </select>
 
-    <select id="filterImage" onchange="filterBuildings()" style="margin-left: 10px; padding: 5px; border-radius: 5px;">
-        <option value="all">Tots</option>
-        <option value="true">Amb imatge</option>
-        <option value="false">Sense imatge</option>
-    </select>
+            <select id="filterImage" onchange="filterBuildings()"
+                style="margin-left: 10px; padding: 5px; border-radius: 5px;">
+                <option value="all">Tots</option>
+                <option value="true">Amb imatge</option>
+                <option value="false">Sense imatge</option>
+            </select>
 
-    <!-- Filtro Publicaciones Dinámico -->
-    <select id="filterPublication" onchange="filterBuildings()" class="filter-select">
-        <option value="all">Publicació: Totes</option>
-        
-        <!-- Bucle EJS para crear las opciones desde la BD -->
-        <% if (publications && publications.length > 0) { %>
-            <% publications.forEach(pub => { %>
-                <option value="<%= pub.id_publication %>"><%= pub.title %></option>
-            <% }) %>
-        <% } %>
-    </select>
-</div>
+            <!-- Filtro Publicaciones Dinámico -->
+            <select id="filterPublication" onchange="filterBuildings()" class="filter-select">
+                <option value="all">Publicació: Totes</option>
+
+                <!-- Bucle EJS para crear las opciones desde la BD -->
+                <% if (publications && publications.length> 0) { %>
+                    <% publications.forEach(pub=> { %>
+                        <option value="<%= pub.id_publication %>">
+                            <%= pub.title %>
+                        </option>
+                        <% }) %>
+                            <% } %>
+            </select>
+        </div>
 
         <!-- Lista de construcciones -->
         <section class="list">
@@ -68,7 +72,7 @@
                     <article class="card" data-name="<%= building.name %>"
                         data-description="<%= building.description %>" data-validated="<%= building.validated %>"
                         data-publication="<%= building.id_publication %>">
-                        
+
                         <!-- Foto de la construcción -->
                         <% if (building.picture) { %>
                             <figure class="card-image">
@@ -103,7 +107,7 @@
 
                                 <!-- Botones clicables para poder hacer diferentes acciones: Editar, Borrar y validar -->
                                 <div class="card-actions">
-                                    <a href="/buildings/edit/<%= building.id_building %>" class="edit-button"> 
+                                    <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
                                         <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
                                     </a>
 

@@ -35,11 +35,18 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-
-        <!-- Barra de búsqueda para filtrar publicaciones -->
+        <!-- Barra de búsqueda para filtrar Publicaciones -->
         <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar per títol, descripció..." onkeyup="filterPublications(this.value)">
+
+            <input id="searchInput" type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterPublications()">
+
+            <select id="filterValidation" onchange="filterPublications()"
+                style="margin-left: 10px; padding: 5px; border-radius: 5px;">
+                <option value="all">Tots</option>
+                <option value="true">Validats</option>
+                <option value="false">Pendents</option>
+            </select>
         </div>
 
         <!-- Lista de publicaciones -->
@@ -51,7 +58,7 @@
 
                     <!-- Card de cada publicación, se guardan data para usar en filtros -->
                     <article class="card" data-title="<%= publication.title %>"
-                        data-description="<%= (publication.description || '') %>">
+                        data-description="<%= (publication.description || '') %>", data-validated="<%= publication.validated %>">
 
                         <!-- Información principal de la publicación -->
                         <div class="card-info">
@@ -82,7 +89,8 @@
                             </button>
 
                             <!-- Validar publicación -->
-                            <button class="validation-button" onclick="validateBuilding('<%= publication.id_publication %>')">
+                            <button class="validation-button"
+                                onclick="validateBuilding('<%= publication.id_publication %>')">
                                 <img src="/images/icons/check-icon.png" alt="Validar">Validar
                             </button>
 

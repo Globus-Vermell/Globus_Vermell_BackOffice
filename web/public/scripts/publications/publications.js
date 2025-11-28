@@ -20,22 +20,28 @@ async function deletePublication(id) {
     }
 }
 
-// Función para filtrar publicaciones
-function filterPublications(searchTerm) {
-    // Obtenemos todas las partes relevantes directamente desde el ejs 
+// Función de filtrado combinada (Texto + Validación + Publicación)
+function filterPublications() {
+    const inputVal = document.getElementById('searchInput').value.toLowerCase();
+    const valSelect = document.getElementById('filterValidation').value;
+
     const cards = document.querySelectorAll('.card');
-    const lower = searchTerm.toLowerCase();
 
-    //Filtramos las cards por título o descripción para ver si coinciden con el término de búsqueda
     cards.forEach(card => {
-        const title = (card.dataset.title || '').toLowerCase();
-        const desc = (card.dataset.description || '').toLowerCase();
+        // 1. Texto
+        const title = card.dataset.title.toLowerCase();
+        const description = card.dataset.description.toLowerCase();
+        const matchesText = title.includes(inputVal) || description.includes(inputVal);
 
-        if (title.includes(lower) || desc.includes(lower)) {
+        // 2. Validación
+        const isValidated = card.dataset.validated; 
+        let matchesValidation = (valSelect === 'all') ? true : (isValidated === valSelect);
+
+        // Mostrar u ocultar
+        if (matchesText && matchesValidation ) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
         }
     });
 }
-

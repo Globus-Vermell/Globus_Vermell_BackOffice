@@ -26,8 +26,6 @@ function filterBuildings() {
     const pubSelect = document.getElementById('filterPublication').value;
     const imgSelect = document.getElementById('filterImage').value;
 
-    console.log('Filtrando con:', inputVal, valSelect, pubSelect, imgSelect);
-
     const cards = document.querySelectorAll('.card');
     
 
