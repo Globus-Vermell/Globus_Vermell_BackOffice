@@ -9,39 +9,53 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Función para cargar los desplegables
     async function carregarDesplegables() {
+        try {
+            // pedimos todos los datos en paralelo para que no tarde tanto
+            const [publicacions, arquitectes, protections] = await Promise.all([
 
-        // Cargar publicaciones
-        const resPub = await fetch("/buildings/form/publications");
-        const publicacions = await resPub.json();
-        selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
-        publicacions.forEach(pub => {
-            const opt = document.createElement("option");
-            opt.value = pub.id_publication;
-            opt.textContent = pub.title;
-            selectPublicacions.appendChild(opt);
-        });
+                fetch("/buildings/form/publications").then(res => res.json()),
 
-        // Cargar arquitectos
-        const resArq = await fetch("/buildings/form/architects");
-        const arquitectes = await resArq.json();
-        selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
-        arquitectes.forEach(arq => {
-            const opt = document.createElement("option");
-            opt.value = arq.id_architect;
-            opt.textContent = arq.name;
-            selectArquitectes.appendChild(opt);
-        });
+                fetch("/buildings/form/architects").then(res => res.json()),
 
-        // Cargar protección
-        const resProtection = await fetch("/buildings/form/protection");
-        const protections = await resProtection.json();
-        selectProtection.innerHTML = '<option value="">-- Cap --</option>';
-        protections.forEach(p => {
-            const opt = document.createElement("option");
-            opt.value = p.id_protection;
-            opt.textContent = p.level;
-            selectProtection.appendChild(opt);
-        });
+                fetch("/buildings/form/protection").then(res => res.json())
+                //Logica para pedirlo, convertirlo a JSON y esperar a que todas las peticiones terminen
+            ]);
+            // Logica para pintar los desplegables
+
+            //Rellenamos el desplegable de publicaciones
+            selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
+            publicacions.forEach(pub => {
+                const opt = document.createElement("option");
+                opt.value = pub.id_publication;
+                opt.textContent = pub.title;
+                selectPublicacions.appendChild(opt);
+            });
+
+            //Rellenamos el desplegable de arquitectos
+            selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
+            arquitectes.forEach(arq => {
+                const opt = document.createElement("option");
+                opt.value = arq.id_architect;
+                opt.textContent = arq.name;
+                selectArquitectes.appendChild(opt);
+            });
+
+            //Rellenamos el desplegable de protecciones
+            selectProtection.innerHTML = '<option value="">-- Cap --</option>';
+            protections.forEach(p => {
+                const opt = document.createElement("option");
+                opt.value = p.id_protection;
+                opt.textContent = p.level;
+                selectProtection.appendChild(opt);
+            });
+            // Importante promise all devuelve un array con los resultados de todas las peticiones en el mismo orden que se hicieron
+            // por lo que publicacions es el primer elemento, arquitectes el segundo y protections el tercero
+            // Si se añade un nuevo desplegable al final del array luego el desplegable se debe rellenar al final tambien 
+        } catch (error) {
+            console.error("Error cargando los desplegables:", error);
+            alert("Error al cargar los datos iniciales.");
+        }
+
     }
 
     // Evento para cargar tipologías cuando se selecciona una publicación
