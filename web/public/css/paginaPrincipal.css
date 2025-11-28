@@ -435,6 +435,7 @@ input:not(:placeholder-shown) ~ .reset {
 }
 
 /* Estilos comunes para todos los botones de acción */
+.validated-button
 .validation-button,
 .edit-button,
 .delete-button {
@@ -525,6 +526,36 @@ input:not(:placeholder-shown) ~ .reset {
 }
 
 .validation-button img {
+    width: 20px;
+    height: 20px;
+    mix-blend-mode: screen; /* Fusión de color para el icono */
+}
+
+/* --- Botón Validado (Verde Lima) --- */
+.validated-button {
+    background-color: #3f3f3f;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    border: none; 
+    cursor: pointer;  
+}
+
+.validated-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+    background-color: #3f3f3f;
+}
+
+.validated-button img {
     width: 20px;
     height: 20px;
     mix-blend-mode: screen; /* Fusión de color para el icono */

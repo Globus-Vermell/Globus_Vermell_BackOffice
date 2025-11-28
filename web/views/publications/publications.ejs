@@ -89,11 +89,16 @@
                             </button>
 
                             <!-- Validar publicación -->
+                             <% if (publication.validated) { %>
+                            <button class="validated-button" disabled>
+                                <img src="/images/icons/check-icon.png" alt="Validat">Validat
+                            </button>
+                            <% } else { %>
                             <button class="validation-button"
                                 onclick="validatePublication('<%= publication.id_publication %>')">
                                 <img src="/images/icons/check-icon.png" alt="Validar">Validar
                             </button>
-
+                            <% } %>
                         </div>
 
                     </article>
