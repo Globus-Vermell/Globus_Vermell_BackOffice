@@ -118,3 +118,30 @@ function resetFilters() {
     document.getElementById('filterPublication').value = 'all';
     filterBuildings(); // Refrescar la lista
 }
+
+// Función para validar una edificacion
+async function validateBuilding(id) {
+    // Confirmar el cambio de validación
+    if (!confirm("Segur que vols canviar l'estat de validació d'aquesta construcció?")) return;
+
+    try {
+        // Realizar la solicitud UPDATE al servidor
+        const res = await fetch(`/buildings/validation/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ validated: true })
+        });
+        console.log(res);
+
+        // Procesar la respuesta del servidor
+        const data = await res.json();
+        alert(data.message);
+
+        if (data.success) location.reload();
+    } catch (err) {
+        console.error(err);
+        alert("Error al validar la construcció");
+    }
+}

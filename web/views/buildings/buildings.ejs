@@ -130,7 +130,7 @@
                     <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
                     <article class="card" data-name="<%= building.name %>"
                         data-description="<%= building.description %>" data-validated="<%= building.validated %>"
-                        data-publication="<%= building.id_publication %>">
+                        data-publication="<%= building.id_publication %>" data-validated="<%= building.validated %>">
 
                         <!-- Foto de la construcción -->
                         <% if (building.picture) { %>
@@ -175,10 +175,17 @@
                                         <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
                                     </button>
 
-                                    <button class="validation-button"
-                                        onclick="validateBuilding('<%= building.id_building %>')">
-                                        <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                                    </button>
+                                   <!-- Validar publicación -->
+                             <% if (building.validated) { %>
+                            <button class="validated-button" disabled>
+                                <img src="/images/icons/check-icon.png" alt="Validat">Validat
+                            </button>
+                            <% } else { %>
+                            <button class="validation-button"
+                                onclick="validateBuilding('<%= building.id_building %>')">
+                                <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                            </button>
+                            <% } %>
                                 </div>
 
                     </article>

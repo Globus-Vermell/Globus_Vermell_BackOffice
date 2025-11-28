@@ -11,33 +11,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function carregarDesplegables() {
         try {
             // pedimos todos los datos en paralelo para que no tarde tanto
-            const [publicacions, arquitectes, protections] = await Promise.all([
-
+            const [publicacions, architects, protections] = await Promise.all([
                 fetch("/buildings/form/publications").then(res => res.json()),
-
                 fetch("/buildings/form/architects").then(res => res.json()),
-
                 fetch("/buildings/form/protection").then(res => res.json())
-                //Logica para pedirlo, convertirlo a JSON y esperar a que todas las peticiones terminen
+                // Tipologías las pedimos luego según la publicación
             ]);
+
             // Logica para pintar los desplegables
 
             //Rellenamos el desplegable de publicaciones
-            selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
             publicacions.forEach(pub => {
-                const opt = document.createElement("option");
-                opt.value = pub.id_publication;
-                opt.textContent = pub.title;
-                selectPublicacions.appendChild(opt);
+                const opt = new Option(pub.title, pub.id_publication);
+                selectPublicacions.add(opt);
             });
 
             //Rellenamos el desplegable de arquitectos
-            selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
-            arquitectes.forEach(arq => {
-                const opt = document.createElement("option");
-                opt.value = arq.id_architect;
-                opt.textContent = arq.name;
-                selectArquitectes.appendChild(opt);
+            architects.forEach(arq => {
+                const opt = new Option(arq.name, arq.id_architect);
+                selectArquitectes.add(opt);
             });
 
             //Rellenamos el desplegable de protecciones
@@ -48,46 +40,68 @@ document.addEventListener("DOMContentLoaded", async () => {
                 opt.textContent = p.level;
                 selectProtection.appendChild(opt);
             });
-            // Importante promise all devuelve un array con los resultados de todas las peticiones en el mismo orden que se hicieron
-            // por lo que publicacions es el primer elemento, arquitectes el segundo y protections el tercero
-            // Si se añade un nuevo desplegable al final del array luego el desplegable se debe rellenar al final tambien 
+
+            // Importante promise all devuelve un array con los resultados en el mismo orden que se hicieron, asi que luego hay que rellenar los desplegables en el mismo orden
+
+            // Importación MultiSelect
+            new MultiSelect(selectArquitectes, {
+                placeholder: 'Selecciona arquitectes...',
+                search: true, // Activa el buscador
+                selectAll: true // Botón para seleccionar todo
+            });
+
+            new MultiSelect(selectPublicacions, {
+                placeholder: 'Selecciona publicacions...',
+                search: true,   // Activa el buscador
+                selectAll: true, // Botón para seleccionar todo
+                onChange: function () {
+                    // Evento para cargar tipologías cuando se selecciona una publicación
+                    actualizarTipologias();
+                }
+            });
+
         } catch (error) {
             console.error("Error cargando los desplegables:", error);
             alert("Error al cargar los datos iniciales.");
         }
-
     }
 
-    // Evento para cargar tipologías cuando se selecciona una publicación
-    selectPublicacions.addEventListener("change", async (e) => {
-        const pubId = e.target.value;
+    // Función auxiliar para cargar tipologías 
+    async function actualizarTipologias() {
+        // Obtenemos los valores seleccionados del select nativo 
+        const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
+        const selectedIds = Array.from(hiddenInputs).map(input => input.value);
+
         // Resetear tipología
-        selectTipologia.innerHTML = '';
-        containerTipologia.style.display = 'none';
+        selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
 
-        if (pubId) {
-            try {
-                // Pedir las tipologías específicas de esta publicación
-                const res = await fetch(`/buildings/form/typologies/${pubId}`);
-                const tipologies = await res.json();
-
-                if (tipologies && tipologies.length > 0) {
-                    // Si hay tipologías, llenamos el select y mostramos el div
-                    selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
-                    tipologies.forEach(t => {
-                        const opt = document.createElement("option");
-                        opt.value = t.id_typology;
-                        opt.textContent = t.name;
-                        selectTipologia.appendChild(opt);
-                    });
-                    // Mostrar el contenedor
-                    containerTipologia.style.display = 'block';
-                }
-            } catch (err) {
-                console.error("Error cargando tipologías:", err);
-            }
+        if (selectedIds.length === 0) {
+            containerTipologia.style.display = 'none';
+            return;
         }
-    });
+
+        // Mostrar el contenedor de tipologías
+        containerTipologia.style.display = 'block';
+
+        try {
+            // Pedir las tipologías específicas de estas publicaciones 
+            const idsString = selectedIds.join(',');
+            const res = await fetch(`/buildings/form/typologies/filter?ids=${idsString}`);
+            const tipologies = await res.json();
+
+            if (tipologies && tipologies.length > 0) {
+                // Si hay tipologías, llenamos el select
+                tipologies.forEach(t => {
+                    const opt = document.createElement("option");
+                    opt.value = t.id_typology;
+                    opt.textContent = t.name;
+                    selectTipologia.appendChild(opt);
+                });
+            }
+        } catch (err) {
+            console.error("Error cargando tipologías:", err);
+        }
+    }
 
     // Cargar los desplegables al cargar la página
     await carregarDesplegables();
@@ -97,15 +111,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         // Obtenemos los datos del formulario
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        //creamos variable pictureUrl
-        let pictureUrl = "";
+        const data = {};
 
-        const pictureFile = formData.get("picture");
-        // Si se ha seleccionado un archivo
-        if (pictureFile && pictureFile.size > 0) {
+        // Recorremos el formData para construir el objeto y gestionar arrays
+        for (const [key, value] of formData.entries()) {
+            if (key === 'pictures') continue; // Saltamos las imágenes aqui
+
+            // Quitamos los corchetes [] que añade la librería
+            const cleanKey = key.replace('[]', '');
+
+            // Si es un campo múltiple o ya existe, creamos array
+            if (data[cleanKey]) {
+                if (!Array.isArray(data[cleanKey])) {
+                    data[cleanKey] = [data[cleanKey]];
+                }
+                data[cleanKey].push(value);
+            } else {
+                data[cleanKey] = value;
+            }
+        }
+
+        // Aseguramos que sean arrays si solo hay uno seleccionado
+        if (data.publications && !Array.isArray(data.publications)) data.publications = [data.publications];
+        if (data.architects && !Array.isArray(data.architects)) data.architects = [data.architects];
+
+        // creamos variable pictureUrl (ahora es array para múltiples)
+        let pictureUrls = [];
+        const pictureInput = document.getElementById("picture"); // Asegúrate de que el input tenga id="picture"
+
+        // Si se ha seleccionado un archivo (o varios)
+        if (pictureInput.files && pictureInput.files.length > 0) {
             const uploadData = new FormData();
-            uploadData.append("picture", pictureFile);
+            // Añadimos todos los archivos seleccionados
+            for (const file of pictureInput.files) {
+                uploadData.append("pictures", file); // Nombre 'pictures' debe coincidir con el backend
+            }
 
             // Subir la imagen al servidor
             try {
@@ -116,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // Obtenemos la respuesta
                 const uploadResult = await uploadRes.json();
                 if (uploadResult.success) {
-                    pictureUrl = uploadResult.filePath;
+                    pictureUrls = uploadResult.filePaths; // El backend devuelve filePaths (array)
                 } else {
                     alert("Error al subir la imagen.");
                     return;
@@ -128,12 +168,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
         // Asignamos la URL de la imagen al objeto data
-        data.pictureUrl = pictureUrl;
+        data.pictureUrls = pictureUrls;
 
         const oblig = ["name", "address", "construction_year", "publications"];
         // Validamos los campos obligatorios
         for (let field of oblig) {
-            if (!data[field]) {
+            const val = data[field];
+            // Comprobamos si está vacío o si es un array vacío
+            if (!val || (Array.isArray(val) && val.length === 0)) {
                 alert(`El camp "${field}" és obligatori.`);
                 return;
             }
