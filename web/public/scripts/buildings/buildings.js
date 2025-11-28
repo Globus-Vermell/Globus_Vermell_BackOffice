@@ -74,3 +74,47 @@ function filterBuildings() {
         }
     });
 }
+
+/* --- Lógica del Dropdown Visual --- */
+
+// Abrir/Cerrar el menú principal
+function toggleDropdown() {
+    const menu = document.getElementById('multi-dropdown');
+    menu.classList.toggle('show');
+}
+
+// Cerrar el menú si se hace clic fuera
+window.onclick = function(event) {
+    if (!event.target.closest('.dropdown-btn') && !event.target.closest('.dropdown-menu')) {
+        const dropdowns = document.getElementsByClassName("dropdown-menu");
+        for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+// Función mágica para aplicar filtros desde el menú
+function setFilter(filterId, value) {
+    // 1. Actualizamos el input oculto (que sustituye al select antiguo)
+    document.getElementById(filterId).value = value;
+    
+    // 2. Llamamos a tu función de filtrado original
+    filterBuildings(); 
+    
+    // 3. (Opcional) Cerramos el menú
+    // toggleDropdown(); 
+    
+    console.log(`Filtro ${filterId} actualizado a: ${value}`);
+}
+
+// Función para reiniciar todo
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('filterValidation').value = 'all';
+    document.getElementById('filterImage').value = 'all';
+    document.getElementById('filterPublication').value = 'all';
+    filterBuildings(); // Refrescar la lista
+}

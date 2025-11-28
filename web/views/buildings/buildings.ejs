@@ -29,39 +29,90 @@
     <!-- Contenido principal -->
     <main class="main-content">
         <!-- Barra de búsqueda para filtrar construcciones -->
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
+        <div class="search-container-modern">
 
-            <input id="searchInput" type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings()">
+            <form class="form" onsubmit="event.preventDefault()">
+                <button type="button">
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                        aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
+                        </path>
+                    </svg>
+                </button>
+                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required=""
+                    type="text" onkeyup="filterBuildings()">
+                <button class="reset" type="reset" onclick="filterBuildings()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </form>
 
-            <select id="filterValidation" onchange="filterBuildings()"
-                style="margin-left: 10px; padding: 5px; border-radius: 5px;">
-                <option value="all">Tots</option>
-                <option value="true">Validats</option>
-                <option value="false">Pendents</option>
-            </select>
+            <div class="dropdown-wrapper">
+                <button id="multiLevelDropdownButton" class="dropdown-btn" type="button" onclick="toggleDropdown()">
+                    <i class="fas fa-filter"></i> Filtres
+                    <i class="fas fa-chevron-down"></i>
+                </button>
 
-            <select id="filterImage" onchange="filterBuildings()"
-                style="margin-left: 10px; padding: 5px; border-radius: 5px;">
-                <option value="all">Tots</option>
-                <option value="true">Amb imatge</option>
-                <option value="false">Sense imatge</option>
-            </select>
+                <div id="multi-dropdown" class="dropdown-menu">
 
-            <!-- Filtro Publicaciones Dinámico -->
-            <select id="filterPublication" onchange="filterBuildings()" class="filter-select">
-                <option value="all">Publicació: Totes</option>
+                    <div class="dropdown-item-group">
+                        <div class="dropdown-item">
+                            <span>Estat Validació</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="submenu">
+                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'all')">Tots</div>
+                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'true')">Validats</div>
+                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'false')">Pendents</div>
+                        </div>
+                    </div>
 
-                <!-- Bucle EJS para crear las opciones desde la BD -->
-                <% if (publications && publications.length> 0) { %>
-                    <% publications.forEach(pub=> { %>
-                        <option value="<%= pub.id_publication %>">
-                            <%= pub.title %>
-                        </option>
-                        <% }) %>
-                            <% } %>
-            </select>
+                    <div class="dropdown-item-group">
+                        <div class="dropdown-item">
+                            <span>Imatge</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="submenu">
+                            <div class="dropdown-item" onclick="setFilter('filterImage', 'all')">Tots</div>
+                            <div class="dropdown-item" onclick="setFilter('filterImage', 'true')">Amb imatge</div>
+                            <div class="dropdown-item" onclick="setFilter('filterImage', 'false')">Sense imatge</div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-item-group">
+                        <div class="dropdown-item">
+                            <span>Publicació</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="submenu" style="max-height: 200px; overflow-y: auto;">
+                            <div class="dropdown-item" onclick="setFilter('filterPublication', 'all')">Totes</div>
+                            <% if (publications && publications.length> 0) { %>
+                                <% publications.forEach(pub=> { %>
+                                    <div class="dropdown-item"
+                                        onclick="setFilter('filterPublication', '<%= pub.id_publication %>')">
+                                        <%= pub.title %>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid #eee; margin-top: 5px;">
+                        <div class="dropdown-item" onclick="resetFilters()" style="color: #666;">
+                            <i class="fas fa-times" style="margin-right: 8px;"></i> Netejar filtres
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
+
+        <input type="hidden" id="filterValidation" value="all">
+        <input type="hidden" id="filterImage" value="all">
+        <input type="hidden" id="filterPublication" value="all">
 
         <!-- Lista de construcciones -->
         <section class="list">

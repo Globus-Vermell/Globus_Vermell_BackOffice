@@ -90,6 +90,174 @@ body {
 }
 
 /* =========================================
+   NUEVA BARRA DE BÚSQUEDA (Estilo Uiverse)
+   ========================================= */
+.search-container-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.form {
+  --timing: 0.3s;
+  --width-of-input: 100%; /* Adaptable */
+  --height-of-input: 45px;
+  --border-height: 2px;
+  --input-bg: #fff;
+  --border-color: #cc0000; /* Rojo Globus Vermell */
+  --border-radius: 30px;
+  --after-border-radius: 1px;
+  position: relative;
+  width: var(--width-of-input);
+  height: var(--height-of-input);
+  display: flex;
+  align-items: center;
+  padding-inline: 0.8em;
+  border-radius: var(--border-radius);
+  transition: border-radius 0.5s ease;
+  background: var(--input-bg,#fff);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sombrita extra */
+  flex-grow: 1; /* Ocupa el espacio disponible */
+}
+
+.input {
+  font-size: 0.9rem;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  padding-inline: 0.5em;
+  padding-block: 0.7em;
+  border: none;
+  outline: none;
+}
+
+.form:before {
+  content: "";
+  position: absolute;
+  background: var(--border-color);
+  transform: scaleX(0);
+  transform-origin: center;
+  width: 100%;
+  height: var(--border-height);
+  left: 0;
+  bottom: 0;
+  border-radius: 1px;
+  transition: transform var(--timing) ease;
+}
+
+.form:focus-within {
+  border-radius: var(--after-border-radius);
+}
+
+.form:focus-within:before {
+  transform: scale(1);
+}
+
+.reset {
+  border: none;
+  background: none;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  color: #cc0000;
+}
+
+input:not(:placeholder-shown) ~ .reset {
+  opacity: 1;
+  visibility: visible;
+}
+
+.form svg {
+  width: 17px;
+  margin-top: 3px;
+  color: #8b8ba7;
+}
+
+/* =========================================
+   DROPDOWN MULTINIVEL (Estilo Tailwind convertido)
+   ========================================= */
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background-color: #f40202;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+    height: 45px; /* Misma altura que el buscador */
+}
+
+.dropdown-btn:hover {
+    background-color: #a00000;
+}
+
+.dropdown-menu {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    right: 0; /* Alineado a la derecha */
+    top: 100%;
+    margin-top: 10px;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 10px 0;
+    z-index: 100;
+    border: 1px solid #eee;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.95em;
+    position: relative; /* Para posicionar el submenú */
+}
+
+.dropdown-item:hover {
+    background-color: #f9f9f9;
+    color: #cc0000;
+}
+
+/* Submenú lateral */
+.submenu {
+    display: none;
+    position: absolute;
+    right: 100%; /* Aparece a la izquierda del menú padre */
+    top: 0;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 10px 0;
+    border: 1px solid #eee;
+}
+
+/* Mostrar submenú al hacer hover (versión CSS simple) */
+.dropdown-item-group:hover .submenu {
+    display: block;
+}
+
+/* =========================================
    3. CONTENIDO PRINCIPAL
    ========================================= */
 
