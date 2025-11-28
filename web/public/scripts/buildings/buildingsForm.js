@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
     // Elementos del formulario
     const form = document.getElementById("form-edificacio");
-    const selectPublicacions = document.getElementById("publicacio_id");
-    const selectArquitectes = document.getElementById("arquitectes");
-    const selectTipologia = document.getElementById("tipologia");
-    const containerTipologia = document.getElementById("typology-container");
-    const selectProtection = document.getElementById("id_protection");
+    const selectPublicacions = document.getElementById("publications");
+    const selectArquitectes = document.getElementById("architects");
+    const selectTipologia = document.getElementById("tipologies");
+    const containerTipologia = document.getElementById("typologies-container");
+    const selectProtection = document.getElementById("protection");
 
     // Función para cargar los desplegables
     async function carregarDesplegables() {
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Asignamos la URL de la imagen al objeto data
         data.pictureUrl = pictureUrl;
 
-        const oblig = ["nom", "adreca", "any_construccio", "publicacio_id"];
+        const oblig = ["name", "address", "construction_year", "publications"];
         // Validamos los campos obligatorios
         for (let field of oblig) {
             if (!data[field]) {

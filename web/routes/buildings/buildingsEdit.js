@@ -98,17 +98,17 @@ router.post("/upload", upload.single('picture'), (req, res) => {
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
     const {
-        nom,
-        adreca,
-        cordenades,
-        any_construccio,
+        name,
+        address,
+        coordinates,
+        construction_year,
         picture,
         description,
         surface_area,
-        publicacio_id,
-        arquitectes,
-        tipologia,
-        id_protection,
+        publications,
+        architects,
+        tipologies,
+        protection,
     } = req.body;
 
     try {
@@ -117,17 +117,17 @@ router.put("/:id", async (req, res) => {
         const { error } = await supabase
             .from("buildings")
             .update({
-                name: nom,
-                location: adreca,
-                coordinates: cordenades,
-                construction_year: parseInt(any_construccio),
+                name,
+                location: address,
+                coordinates,
+                construction_year: parseInt(construction_year),
                 picture,
                 description,
                 surface_area: parseInt(surface_area),
-                id_publication: parseInt(publicacio_id),
-                id_architect: parseInt(arquitectes),
-                id_typology: parseInt(tipologia),
-                id_protection: parseInt(id_protection)
+                id_publication: parseInt(publications),
+                id_architect: parseInt(architects),
+                id_typology: parseInt(tipologies),
+                id_protection: parseInt(protection)
             })
             .eq("id_building", id);
 

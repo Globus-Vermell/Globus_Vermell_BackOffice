@@ -66,37 +66,37 @@ router.get("/typologies/:publicationId", async (req, res) => {
 });
 
 // Ruta para manejar la subida de imágenes
-router.post("/upload", upload.single('picture'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ success: false, message: "No se ha subido ningún archivo." });
+router.post("/upload", upload.array('pictures', 10), (req, res) => {
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ success: false, message: "No s'ha pujat cap fitxer." });
     }
-    // Devolver la ruta del archivo subido
-    const filePath = `/images/buildings/${req.file.filename}`;
-    res.json({ success: true, filePath });
+    // Devolvemos un array de rutas
+    const filePaths = req.files.map(f => `/images/buildings/${f.filename}`);
+    res.json({ success: true, filePaths });
 });
 
 // Ruta para manejar el envío del formulario de nueva construcción
 router.post("/", async (req, res) => {
     const {
-        nom, adreca, any_construccio, description, surface_area,
-        publicacio_id, arquitectes, tipologia, id_protection,
-        pictureUrl, cordenades
+        name, address, construction_year, description, surface_area,
+        publications, architects, tipologies, protection,
+        pictureUrl, coordinates
     } = req.body;
 
     try {
         // Insertar la nueva construcción en la base de datos
         const { error } = await supabase.from("buildings").insert([{
-            name: nom,
+            name,
             picture: pictureUrl,
-            location: adreca,
-            coordinates: cordenades,
-            construction_year: parseInt(any_construccio),
+            location: address,
+            coordinates,
+            construction_year: parseInt(construction_year),
             description,
             surface_area: parseInt(surface_area),
-            id_publication: parseInt(publicacio_id),
-            id_architect: parseInt(arquitectes),
-            id_typology: parseInt(tipologia),
-            id_protection: parseInt(id_protection),
+            id_publication: parseInt(publications),
+            id_architect: parseInt(architects),
+            id_typology: parseInt(tipologies),
+            id_protection: parseInt(protection),
         }]);
         if (error) throw error;
         res.json({ success: true, message: "Edificación guardada correctamente!" });

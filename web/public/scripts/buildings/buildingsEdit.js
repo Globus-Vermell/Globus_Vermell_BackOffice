@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
     // Obtenemos los elementos del formulario
     const form = document.getElementById("form-edificacio");
-    const selectPublicacions = document.getElementById("publicacio_id");
-    const selectArquitectes = document.getElementById("arquitectes");
-    const selectTipologia = document.getElementById("tipologia");
-    const containerTipologia = document.getElementById("typology-container");
-    const selectProtection = document.getElementById("id_protection");
+    const selectPublicacions = document.getElementById("publications");
+    const selectArquitectes = document.getElementById("architects");
+    const selectTipologia = document.getElementById("tipologies");
+    const containerTipologia = document.getElementById("typologies-container");
+    const selectProtection = document.getElementById("protection");
 
     // Función para cargar las tipologías
     async function cargarTipologias(pubId, preselectedId = null) {
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.picture = pictureUrl;
 
         // Validación de campos obligatorios
-        const oblig = ["nom", "adreca", "any_construccio", "publicacio_id"];
+        const oblig = ["name", "address", "construction_year", "publications"];
         for (let field of oblig) {
             if (!data[field]) {
                 alert(`El camp "${field}" és obligatori.`);

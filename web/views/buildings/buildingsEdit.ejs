@@ -32,24 +32,24 @@
                     <!-- Campos izquierdos -->
                     <div class="fields-left">
                         <div class="form-group">
-                            <label for="nom">Nom: <span class="required">*</span></label>
-                            <input type="text" id="nom" name="nom" value="<%= building.name %>" required />
+                            <label for="name">Nom: <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" value="<%= building.name %>" required />
                         </div>
 
                         <div class="form-group">
-                            <label for="adreca">Adreça: <span class="required">*</span></label>
-                            <input type="text" id="adreca" name="adreca" value="<%= building.location %>" required />
+                            <label for="address">Adreça: <span class="required">*</span></label>
+                            <input type="text" id="address" name="address" value="<%= building.location %>" required />
                         </div>
 
                         <div class="form-group">
-                            <label for="cordenades">Cordenades: <span class="required">*</span></label>
-                            <input type="text" id="cordenades" name="cordenades" value="<%= building.coordinates %>"
+                            <label for="coordinates">Cordenades: <span class="required">*</span></label>
+                            <input type="text" id="coordinates" name="coordinates" value="<%= building.coordinates %>"
                                 required />
                         </div>
 
                         <div class="form-group">
-                            <label for="any_construccio">Any construcció: <span class="required">*</span></label>
-                            <input type="number" id="any_construccio" name="any_construccio"
+                            <label for="construction_year">Any construcció: <span class="required">*</span></label>
+                            <input type="number" id="construction_year" name="construction_year"
                                 value="<%= building.construction_year %>" required />
                         </div>
                     </div>
@@ -79,8 +79,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Descripció Extra:</label>
-                    <textarea id="extra-description" name="extra-description"></textarea>
+                    <label for="extra_description">Descripció Extra:</label>
+                    <textarea id="extra_description" name="extra_description"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -89,12 +89,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="publicacio_id">Publicació: <span class="required">*</span></label>
-                        <select id="publicacio_id" name="publicacio_id" required></select>
+                        <label for="publications">Publicació: <span class="required">*</span></label>
+                        <select id="publications" name="publications" required></select>
                     </div>
                     <div class="form-group">
-                        <label for="arquitectes">Arquitectes:</label>
-                        <select id="arquitectes" name="arquitectes"></select>
+                        <label for="architects">Arquitectes:</label>
+                        <select id="architects" name="architects"></select>
                     </div>
                 </div>
 
@@ -102,15 +102,15 @@
                 <div class="form-row">
 
                     <div class="form-group">
-                        <label for="id_protection">Protecció:</label>
-                        <select id="id_protection" name="id_protection">
+                        <label for="protection">Protecció:</label>
+                        <select id="protection" name="protection">
                             <option value="">-- Cap --</option>
                         </select>
                     </div>
 
-                    <div class="form-group" id="typology-container">
-                        <label for="tipologia">Tipologia:</label>
-                        <select id="tipologia" name="tipologia"></select>
+                    <div class="form-group" id="typologies-container">
+                        <label for="typologies">Tipologia:</label>
+                        <select id="typologies" name="typologies"></select>
                     </div>
                 </div>
 
