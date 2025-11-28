@@ -20,6 +20,33 @@ async function deletePublication(id) {
     }
 }
 
+// Función para validar una publicación
+async function validatePublication(id) {
+    // Confirmar el cambio de validación
+    if (!confirm("Segur que vols canviar l'estat de validació d'aquesta publicació?")) return;
+
+    try {
+        // Realizar la solicitud UPDATE al servidor
+        const res = await fetch(`/publications/validation/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ validated: true })
+        });
+        console.log(res);
+
+        // Procesar la respuesta del servidor
+        const data = await res.json();
+        alert(data.message);
+
+        if (data.success) location.reload();
+    } catch (err) {
+        console.error(err);
+        alert("Error al validar la publicació");
+    }
+}
+
 // Función de filtrado combinada (Texto + Validación + Publicación)
 function filterPublications() {
     const inputVal = document.getElementById('searchInput').value.toLowerCase();

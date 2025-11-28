@@ -34,6 +34,23 @@ router.delete("/delete/:id", async (req, res) => {
 
     return res.json({ success: true, message: "Publicación eliminada correctament!" });
 });
+// Ruta para validar una publicación
+router.put('/validation/:id', async (req, res) => {
+    const id = Number(req.params.id);
+    const { validated } = req.body;
+    try {
+        // Actualizamos la publicación
+        const { error: updateError } = await supabase
+            .from('publications')
+            .update({ validated })
+            .eq('id_publication', id);
 
+        if (updateError) throw updateError;
+        res.json({ success: true, message: 'Estat de validació actualitzat correctament!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Error intern del servidor' });
+    }
+});
 // Exportar el router para usarlo en index.js
 export default router;
