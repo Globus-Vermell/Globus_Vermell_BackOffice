@@ -100,7 +100,7 @@ function setFilter(filterId, value) {
     document.getElementById(filterId).value = value;
     
     // 2. Llamamos a tu función de filtrado original
-    filterBuildings(); 
+    filterPublications(); 
     
     // 3. (Opcional) Cerramos el menú
     // toggleDropdown(); 
@@ -112,7 +112,5 @@ function setFilter(filterId, value) {
 function resetFilters() {
     document.getElementById('searchInput').value = '';
     document.getElementById('filterValidation').value = 'all';
-    document.getElementById('filterImage').value = 'all';
-    document.getElementById('filterPublication').value = 'all';
-    filterBuildings(); // Refrescar la lista
+    filterPublications(); // Refrescar la lista
 }
