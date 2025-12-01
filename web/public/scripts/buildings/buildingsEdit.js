@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 selectProtection.appendChild(opt);
             });
 
-            // Importante: Inicializamos la librería MultiSelect
+            // Inicializamos la librería MultiSelect
             new MultiSelect(selectArquitectes, {
                 placeholder: 'Selecciona arquitectes...',
                 search: true,
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
         let selectedIds = Array.from(hiddenInputs).map(input => input.value);
 
-        // Fallback para carga inicial si la librería tarda: leer del array global
+        // Si no hay publicación, ocultamos el contenedor
         if (selectedIds.length === 0 && isInitialLoad) {
             selectedIds = initialPubs.map(String);
         }
@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         containerTipologia.style.display = 'block';
 
         try {
-            // Petición al endpoint que creamos en el backend (filtrado múltiple)
             const idsString = selectedIds.join(',');
             const res = await fetch(`/buildings/edit/typologies/filter?ids=${idsString}`);
             const tipologies = await res.json();
@@ -125,6 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // Obtenemos los datos del formulario
         const formData = new FormData(form);
         const data = {};
 
@@ -132,8 +132,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         for (const [key, value] of formData.entries()) {
             if (key === 'pictures') continue;
 
+            // Limpiamos los nombres de la librería
             const cleanKey = key.replace('[]', '');
 
+            // Si el campo es un array, lo convertimos
             if (data[cleanKey]) {
                 if (!Array.isArray(data[cleanKey])) data[cleanKey] = [data[cleanKey]];
                 data[cleanKey].push(value);
@@ -185,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.pictureUrls = pictureUrls;
 
         // Validación de campos obligatorios
-        const oblig = ["nom", "adreca", "any_construccio", "publications"];
+        const oblig = ["name", "address", "construction_year", "publications"];
         for (let field of oblig) {
             const val = data[field];
             if (!val || (Array.isArray(val) && val.length === 0)) {
@@ -194,8 +196,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
 
-        // Petición PUT (actualizar datos)
+
         try {
+            // subimos los datos
             const res = await fetch(`/buildings/edit/${building.id_building}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

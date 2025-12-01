@@ -97,7 +97,7 @@ router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
     // Desestructuramos el body
     const {
-        nom, adreca, cordenades, any_construccio, description,
+        name, address, coordinates, construction_year, description,
         surface_area, tipologia, id_protection,
         architects, publications, pictureUrls
     } = req.body;
@@ -105,10 +105,10 @@ router.put("/:id", async (req, res) => {
     try {
         // Preparamos los datos para la actualización
         const updateData = {
-            name: nom,
-            location: adreca,
-            coordinates: cordenades,
-            construction_year: parseInt(any_construccio),
+            name: name,
+            location: address,
+            coordinates: coordinates,
+            construction_year: parseInt(construction_year),
             description,
             surface_area: parseInt(surface_area),
             id_typology: parseInt(tipologia),
