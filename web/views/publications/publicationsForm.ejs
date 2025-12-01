@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/createForm.css">
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Libreria MultiSelect -->
+    <link rel="stylesheet" href="/css/MultiSelect.css">
 </head>
 
 <body>
@@ -56,22 +58,16 @@
                     <input type="text" id="publication_edition" name="publication_edition" required />
                 </div>
 
+                <!-- Este es el apartado del MultiSelec para poder seleccionar más de una opción en el formulario -->
                 <div class="form-group">
-                    <fieldset class="checkbox-container">
-                        <legend class="checkbox-legend">Tipologies Relacionades:</legend>
-                        <% if (typologies && typologies.length> 0) { %>
-                            <% typologies.forEach(t=> { %>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="selectedTypologies" value="<%= t.id_typology %>">
-                                    <span class="checkbox-label">
-                                        <%= t.name %>
-                                    </span>
-                                </label>
-                                <% }) %>
-                                    <% } else { %>
-                                        <p class="no-data-msg">No hi ha tipologies disponibles.</p>
-                                        <% } %>
-                    </fieldset>
+                    <label for="typologies">Tipologies Relacionades:</label>
+                    <select id="typologies" name="selectedTypologies" multiple>
+                        <% if (typologies && typologies.length > 0) { %>
+                            <% typologies.forEach(t => { %>
+                                <option value="<%= t.id_typology %>"><%= t.name %></option>
+                            <% }) %>
+                        <% } %>
+                    </select>
                 </div>
 
                 <!-- Botón de envío -->
@@ -84,6 +80,8 @@
 
     <!-- Script con la lógica del formulario -->
     <script src="/scripts/publications/publicationsForm.js"></script>
+    <!-- Script MultiSelect -->
+    <script src="/scripts/MultiSelect.js"></script>
 </body>
 
 </html>
