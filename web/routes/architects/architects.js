@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         const architects = await ArchitectModel.getAll();
         res.render("architects/architects", { architects });
     } catch (error) {
-        res.status(500).send("Error al obtener arquitectos");
+        res.status(500).send("Error al obtenir arquitectes");
     }
 });
 
@@ -22,9 +22,9 @@ router.delete("/delete/:id", async (req, res) => {
     try {
         // Eliminamos el arquitecto
         await ArchitectModel.delete(id);
-        return res.json({ success: true, message: "Arquitecto eliminado correctament!" });
+        return res.json({ success: true, message: "Arquitecte eliminat correctament!" });
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Error al borrar." });
+        return res.status(500).json({ success: false, message: "Error al eliminar." });
     }
 });
 

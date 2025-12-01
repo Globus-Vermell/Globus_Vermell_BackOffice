@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         const protections = await ProtectionModel.getAll();
         res.render("protection/protection", { protections });
     } catch (error) {
-        res.status(500).send("Error al obtener protecciones");
+        res.status(500).send("Error al obtenir proteccions");
     }
 });
 
@@ -22,9 +22,9 @@ router.delete("/delete/:id", async (req, res) => {
     try {
         // Eliminamos la protección
         await ProtectionModel.delete(id);
-        return res.json({ success: true, message: "Protección eliminada correctament!" });
+        return res.json({ success: true, message: "Protecció eliminada correctament!" });
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Error al borrar." });
+        return res.status(500).json({ success: false, message: "Error al eliminar." });
     }
 });
 

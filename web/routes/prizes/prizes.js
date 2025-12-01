@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         const prizes = await PrizeModel.getAll();
         res.render("prizes/prizes", { prizes });
     } catch (error) {
-        res.status(500).send("Error al obtener premios");
+        res.status(500).send("Error al obtenir premis");
     }
 });
 
@@ -24,7 +24,7 @@ router.delete("/delete/:id", async (req, res) => {
         await PrizeModel.delete(id);
         return res.json({ success: true, message: "Premi eliminat correctament!" });
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Error al borrar." });
+        return res.status(500).json({ success: false, message: "Error al eliminar." });
     }
 });
 
