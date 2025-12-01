@@ -1,43 +1,32 @@
 import express from "express";
-import supabase from "../../config.js";
+import { ArchitectModel } from "../../models/ArchitectModel.js";
 
-
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
-
 
 // Ruta para obtener todos los arquitectos
 router.get("/", async (req, res) => {
-    const { data: architects, error } = await supabase
-        .from("architects")
-        .select("*")
-        .order("name");
-
-    if (error) {
-        console.error("Error al obtener arquitectos:", error);
-        return res.status(500).send("Error al obtener arquitectos");
+    try {
+        // Obtenemos todos los arquitectos
+        const architects = await ArchitectModel.getAll();
+        res.render("architects/architects", { architects });
+    } catch (error) {
+        res.status(500).send("Error al obtener arquitectos");
     }
-
-    res.render("architects/architects", { architects });
 });
 
 // Ruta para eliminar un arquitecto
 router.delete("/delete/:id", async (req, res) => {
+    // Obtenemos el ID del arquitecto
     const id = Number(req.params.id);
-
-    const { error } = await supabase
-        .from("architects")
-        .delete()
-        .eq("id_architect", id);
-
-    if (error) {
-        console.error("Error borrando:", error);
+    try {
+        // Eliminamos el arquitecto
+        await ArchitectModel.delete(id);
+        return res.json({ success: true, message: "Arquitecto eliminado correctament!" });
+    } catch (error) {
         return res.status(500).json({ success: false, message: "Error al borrar." });
     }
-
-    return res.json({ success: true, message: "Arquitecto eliminado correctament!" });
 });
 
-
-// Exportar el router para usarlo en index.js
+// Exportamos el router para usarlo en index.js
 export default router;
