@@ -1,41 +1,32 @@
 import express from "express";
-import supabase from "../../config.js";
+import { PrizeModel } from "../../models/PrizeModel.js";
 
-
-// Constante y configuración del srvidor Express
+//Constante y configuración del servidor Express
 const router = express.Router();
 
-// Ruta para obtener todas las construcciones
+//Ruta para obtener todos los premios
 router.get("/", async (req, res) => {
-    const { data: prizes, error } = await supabase
-        .from("prizes")
-        .select("*")
-        .order("name");
-
-    if (error) {
-        console.error("Error al obtener premios:", error);
-        return res.status(500).send("Error al obtener premios");
+    try {
+        //Obtenemos todos los premios
+        const prizes = await PrizeModel.getAll();
+        res.render("prizes/prizes", { prizes });
+    } catch (error) {
+        res.status(500).send("Error al obtener premios");
     }
-
-    res.render("prizes/prizes", { prizes });
 });
 
-// Ruta para eliminar una construcción
+//Ruta para eliminar un premio
 router.delete("/delete/:id", async (req, res) => {
+    //Obtenemos el ID del premio
     const id = Number(req.params.id);
-
-    const { error } = await supabase
-        .from("prizes")
-        .delete()
-        .eq("id_prize", id);
-
-    if (error) {
-        console.error("Error borrando:", error);
+    try {
+        //Eliminamos el premio
+        await PrizeModel.delete(id);
+        return res.json({ success: true, message: "Premi eliminat correctament!" });
+    } catch (error) {
         return res.status(500).json({ success: false, message: "Error al borrar." });
     }
-
-    return res.json({ success: true, message: "Premi eliminat correctament!" });
 });
 
-// Exportar el router para usarlo en index.js
+//Exportamos el router para usarlo en index.js
 export default router;
