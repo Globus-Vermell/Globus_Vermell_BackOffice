@@ -11,6 +11,9 @@
 
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Libreria MultiSelect -->
+    <link rel="stylesheet" href="/css/MultiSelect.css">
 </head>
 
 <body>
@@ -43,7 +46,7 @@
 
                 <!-- Tema -->
                 <div class="form-group">
-                    <label for="themes">Tema: <span class="required">*</span></label>
+                    <label for="themes">Temàtica: <span class="required">*</span></label>
                     <select id="themes" name="themes" required>
                         <option value="etapes" <%=publication.themes==='etapes' ? 'selected' : '' %>>etapes</option>
                         <option value="arquitectura tematica" <%=publication.themes==='arquitectura tematica'
@@ -53,9 +56,9 @@
                     </select>
                 </div>
 
-                <!-- Acknowledgment -->
+                <!-- Agradecimientos -->
                 <div class="form-group">
-                    <label for="acknowledgment">Acknowledgment:</label>
+                    <label for="acknowledgment">Agraïments:</label>
                     <input type="text" id="acknowledgment" name="acknowledgment"
                         value="<%= publication.acknowledgment %>" />
                 </div>
@@ -69,26 +72,19 @@
 
                 <!-- Tipologías -->
                 <div class="form-group">
-                    <fieldset class="checkbox-container">
-                        <legend class="checkbox-legend">Tipologies Relacionades:</legend>
+                    <label for="typologies">Tipologies Relacionades:</label>
 
-                        <div class="checkbox-grid">
-                            <% if (typologies && typologies.length> 0) { %>
-                                <% typologies.forEach(t=> { %>
-                                    <% const isChecked=currentTypologies.includes(t.id_typology) ? 'checked' : '' %>
-                                        <label class="checkbox-item">
-                                            <input type="checkbox" name="selectedTypologies"
-                                                value="<%= t.id_typology %>" <%=isChecked %>>
-                                            <span class="checkbox-label">
-                                                <%= t.name %>
-                                            </span>
-                                        </label>
-                                        <% }) %>
-                                            <% } else { %>
-                                                <p class="no-data-msg">No hi ha tipologies disponibles.</p>
-                                                <% } %>
-                        </div>
-                    </fieldset>
+                    <select id="typologies" name="selectedTypologies" multiple>
+                        <% if (typologies && typologies.length> 0) { %>
+                            <% typologies.forEach(t=> { %>
+                                <% const isSelected=currentTypologies.includes(t.id_typology) ? 'selected' : '' %>
+
+                                    <option value="<%= t.id_typology %>" <%=isSelected %>>
+                                        <%= t.name %>
+                                    </option>
+                                    <% }) %>
+                                        <% } %>
+                    </select>
                 </div>
 
                 <!-- Botón de enviar -->
@@ -109,6 +105,8 @@
     <!-- Script que maneja la lógica del formulario de edición -->
     <script src="/scripts/publications/publicationsEdit.js"></script>
 
+    <!-- Script para el MultiSelect -->
+    <script src="/scriptss/MultiSelect.js"></script>
 </body>
 
 </html>

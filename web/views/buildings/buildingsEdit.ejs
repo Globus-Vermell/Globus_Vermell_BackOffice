@@ -56,6 +56,17 @@
                         </div>
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="publications">Publicació: <span class="required">*</span></label>
+                            <select id="publications" name="publications" required multiple></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="architects">Arquitectes:</label>
+                            <select id="architects" name="architects" multiple></select>
+                        </div>
+                    </div>
+
                     <!-- Imagen derecha -->
                     <div class="image-container-building">
                         <% if (building.picture) { %>
@@ -88,16 +99,6 @@
                 <div class="form-group">
                     <label for="surface_area">Superfície (m²):</label>
                     <input type="number" id="surface_area" name="surface_area" value="<%= building.surface_area %>" />
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="publications">Publicació: <span class="required">*</span></label>
-                        <select id="publications" name="publications" required multiple></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="architects">Arquitectes:</label>
-                        <select id="architects" name="architects" multiple></select>
-                    </div>
                 </div>
 
 
