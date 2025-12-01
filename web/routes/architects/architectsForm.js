@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
             nationality: nationality || null
         });
 
-        return res.json({ success: true, message: "Arquitecto guardado correctamente!" });
+        return res.json({ success: true, message: "Arquitecte guardat correctament!" });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Error intern del servidor" });
     }

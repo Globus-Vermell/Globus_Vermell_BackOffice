@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         const typologies = await TypologyModel.getAll();
         res.render("typology/typology", { typologies });
     } catch (error) {
-        res.status(500).send("Error al obtener tipologías");
+        res.status(500).send("Error al obtenir tipologies");
     }
 });
 
@@ -22,9 +22,9 @@ router.delete("/delete/:id", async (req, res) => {
     try {
         // Eliminamos la tipología
         await TypologyModel.delete(id);
-        return res.json({ success: true, message: "Tipología eliminada correctament!" });
+        return res.json({ success: true, message: "Tipologia eliminada correctament!" });
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Error al borrar." });
+        return res.status(500).json({ success: false, message: "Error al eliminar." });
     }
 });
 
