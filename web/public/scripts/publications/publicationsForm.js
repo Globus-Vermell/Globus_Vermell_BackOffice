@@ -29,23 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) {
             data.selectedTypologies = [data.selectedTypologies];
         }
-
-        // 3. Enviamos los datos
-        try {
-            const res = await fetch("/publications/form", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const result = await res.json();
-            alert(result.message);
-
-            if (result.success) form.reset();
-        } catch (err) {
-            console.error("Error:", err);
-            alert("Error al enviar el formulari.");
-        }
     });
 
     // Inicializamos el MultiSelect para el campo de tipologías
