@@ -1,21 +1,9 @@
 import express from "express";
 import { UserModel } from "../../models/UserModel.js";
+import { isAdmin } from "../../middlewares/auth.js";
 
 // Constante y configuración del srvidor Express
 const router = express.Router();
-
-// Middleware para verificar si el usuario es Admin o no
-function isAdmin(req, res, next) {
-    if (!req.session?.user) {
-        return res.redirect("/");
-    }
-
-    if (req.session.user.level !== "Admin") {
-        return res.status(403).send("Accés denegat. Només els administradors poden accedir aquí.");
-    }
-
-    next();
-}
 
 // Ruta para obtener todos los usuarios
 router.get("/", isAdmin, async (req, res) => {
