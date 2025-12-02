@@ -40,6 +40,11 @@
                             <input type="number" id="construction_year" name="construction_year"
                                 value="<%= building.construction_year %>" required />
                         </div>
+                        <div class="form-group">
+                            <label for="surface_area">Superfície (m²):</label>
+                            <input type="number" id="surface_area" name="surface_area"
+                                value="<%= building.surface_area %>" />
+                        </div>
                     </div>
 
                     <div class="col-center">
@@ -65,6 +70,10 @@
                                 <select id="typologies" name="typologies"></select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="picture">Canviar Imatge:</label>
+                            <input type="file" id="picture" name="picture" multiple accept="image/*" />
+                        </div>
                     </div>
 
                     <div class="col-right">
@@ -81,10 +90,6 @@
                     </div>
 
                 </div>
-                <div class="form-group">
-                    <label for="picture">Canviar Imatge:</label>
-                    <input type="file" id="picture" name="picture" multiple accept="image/*" />
-                </div>
 
                 <div class="form-group">
                     <label for="description">Descripció:</label>
@@ -95,11 +100,6 @@
                     <label for="extra_description">Descripció Extra:</label>
                     <textarea id="extra_description"
                         name="extra_description"><%= building.extra_description %></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="surface_area">Superfície (m²):</label>
-                    <input type="number" id="surface_area" name="surface_area" value="<%= building.surface_area %>" />
                 </div>
 
                 <button type="submit" class="submit-button">
