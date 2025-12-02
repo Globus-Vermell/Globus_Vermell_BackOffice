@@ -48,6 +48,27 @@ export class TypologyModel {
 
     // Método para eliminar una tipología
     static async delete(id) {
+        // Buscar la tipología por ID para obtener su imagen
+        const { data: typology, error: findError } = await supabase
+            .from("typology")
+            .select("image")
+            .eq("id_typology", id)
+            .single();
+
+        if (findError) throw findError;
+
+        // Si tiene imagen, borrarla del Storage
+        if (typology.image) {
+            // Extraer la ruta relativa de la imagen
+            const pathParts = typology.image.split('/images/');
+            if (pathParts.length > 1) {
+                // Borrar la imagen del Storage
+                const relativePath = pathParts[1];
+                await supabase.storage.from('images').remove([relativePath]);
+            }
+        }
+
+        // Borrar la tipología de la BDD
         const { error } = await supabase
             .from("typology")
             .delete()

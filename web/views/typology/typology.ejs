@@ -71,14 +71,12 @@
                     <article class="card" data-name="<%= t.name %>">
 
                         <!-- Imagen de la tipología -->
-
                         <figure class="card-image">
                             <% if (t.image) { %>
                                 <img src="<%= t.image %>" alt="<%= t.name %>" class="img_list">
-                                <% } %>
-                                    <% else { %>
-                                        <img src="/images/buildings/provisional.png" alt="no image" class="img_list">
-                                        <% } %>
+                                <% } else { %>
+                                    <img src="/images/buildings/provisional.png" alt="no image" class="img_list">
+                                    <% } %>
                         </figure>
 
                         <!-- Información principal de la tipología -->
