@@ -1,18 +1,11 @@
 // Función para eliminar una publicación
 async function deletePublication(id) {
-    // Confirmar la eliminación
     if (!confirm("Segur que vols eliminar aquesta publicació?")) return;
 
     try {
-        // Realizar la solicitud DELETE al servidor
-        const res = await fetch(`/publications/delete/${id}`, {
-            method: "DELETE"
-        });
-
-        // Procesar la respuesta del servidor
+        const res = await fetch(`/publications/delete/${id}`, { method: "DELETE" });
         const data = await res.json();
         alert(data.message);
-
         if (data.success) location.reload();
     } catch (err) {
         console.error(err);
@@ -22,24 +15,17 @@ async function deletePublication(id) {
 
 // Función para validar una publicación
 async function validatePublication(id) {
-    // Confirmar el cambio de validación
     if (!confirm("Segur que vols canviar l'estat de validació d'aquesta publicació?")) return;
 
     try {
-        // Realizar la solicitud UPDATE al servidor
         const res = await fetch(`/publications/validation/${id}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ validated: true })
         });
-        console.log(res);
 
-        // Procesar la respuesta del servidor
         const data = await res.json();
         alert(data.message);
-
         if (data.success) location.reload();
     } catch (err) {
         console.error(err);
@@ -47,7 +33,7 @@ async function validatePublication(id) {
     }
 }
 
-// Función de filtrado combinada (Texto + Validación + Publicación)
+// Función de filtrado
 function filterPublications() {
     const inputVal = document.getElementById('searchInput').value.toLowerCase();
     const valSelect = document.getElementById('filterValidation').value;
@@ -55,17 +41,18 @@ function filterPublications() {
     const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        // 1. Texto
-        const title = card.dataset.title.toLowerCase();
-        const description = card.dataset.description.toLowerCase();
+        // 1. Filtro Texto (Usamos dataset.title que es lo que pusiste en el EJS)
+        const title = (card.dataset.title || '').toLowerCase();
+        const description = (card.dataset.description || '').toLowerCase();
+        
         const matchesText = title.includes(inputVal) || description.includes(inputVal);
 
-        // 2. Validación
+        // 2. Filtro Validación
         const isValidated = card.dataset.validated; 
-        let matchesValidation = (valSelect === 'all') ? true : (isValidated === valSelect);
+        const matchesValidation = (valSelect === 'all') ? true : (isValidated === valSelect);
 
-        // Mostrar u ocultar
-        if (matchesText && matchesValidation ) {
+        // Mostrar u ocultar (¡Solo comprobamos Text y Validation!)
+        if (matchesText && matchesValidation) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
@@ -73,44 +60,9 @@ function filterPublications() {
     });
 }
 
-/* --- Lógica del Dropdown Visual --- */
-
-// Abrir/Cerrar el menú principal
-function toggleDropdown() {
-    const menu = document.getElementById('multi-dropdown');
-    menu.classList.toggle('show');
-}
-
-// Cerrar el menú si se hace clic fuera
-window.onclick = function(event) {
-    if (!event.target.closest('.dropdown-btn') && !event.target.closest('.dropdown-menu')) {
-        const dropdowns = document.getElementsByClassName("dropdown-menu");
-        for (let i = 0; i < dropdowns.length; i++) {
-            const openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-}
-
-// Función mágica para aplicar filtros desde el menú
-function setFilter(filterId, value) {
-    // 1. Actualizamos el input oculto (que sustituye al select antiguo)
-    document.getElementById(filterId).value = value;
-    
-    // 2. Llamamos a tu función de filtrado original
-    filterPublications(); 
-    
-    // 3. (Opcional) Cerramos el menú
-    // toggleDropdown(); 
-    
-    console.log(`Filtro ${filterId} actualizado a: ${value}`);
-}
-
 // Función para reiniciar todo
 function resetFilters() {
     document.getElementById('searchInput').value = '';
     document.getElementById('filterValidation').value = 'all';
-    filterPublications(); // Refrescar la lista
+    filterPublications(); 
 }

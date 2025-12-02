@@ -15,22 +15,28 @@
 
     <!-- Cabecera de la página -->
     <header class="page-header">
-
-        <!-- Botón para volver atrás -->
         <div class="header-left">
+            <!-- Botón para volver para atrás -->
             <a href="/" class="back-link" aria-label="Tornar al menú principal">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <h1 class="page-title">Llistat de publicacions</h1>
+            <h1 class="page-title">Publicacions</h1>
         </div>
 
-        <!-- Botón para añadir nueva publicación -->
+        <!-- Filtrado de las publicaciones  -->
+        <div class="header-filters">
+            <select id="filterValidation" class="header-select" onchange="filterPublications()">
+                <option value="all">Estat: Tots</option>
+                <option value="true">Validats</option>
+                <option value="false">Pendents</option>
+            </select>
+        </div>
+
         <div class="header-right">
             <a href="/publications/form" class="add-button">
                 <i class="fas fa-plus"></i> Afegir nova publicació
             </a>
         </div>
-
     </header>
 
     <!-- Contenido principal -->
@@ -60,39 +66,6 @@
                     </svg>
                 </button>
             </form>
-
-            <!-- Al hacer clic, ejecuta toggleDropdown() para mostrar u ocultar el menú -->
-            <div class="dropdown-wrapper">
-                <button id="multiLevelDropdownButton" class="dropdown-btn" type="button" onclick="toggleDropdown()">
-                    <i class="fas fa-filter"></i> Filtres
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-
-                <!-- Está oculto por defecto. JS le añade la clase .show para mostrarlo -->
-                <div id="multi-dropdown" class="dropdown-menu">
-
-                    <!-- Muestra el título y despliega un submenú lateral al pasar el ratón por encima (hover) -->
-                    <div class="dropdown-item-group">
-                        <div class="dropdown-item">
-                            <span>Estat Validació</span>
-                            <i class="fas fa-chevron-left"></i>
-                        </div>
-                        <!-- Al hacer clic, llama a setFilter() enviando el ID del input oculto y el valor que queremos aplicar -->
-                        <div class="submenu">
-                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'all')">Tots</div>
-                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'true')">Validats</div>
-                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'false')">Pendents</div>
-                        </div>
-                    </div>
-
-                    <div style="border-top: 1px solid #eee; margin-top: 5px;">
-                        <div class="dropdown-item" onclick="resetFilters()" style="color: #666;">
-                            <i class="fas fa-times" style="margin-right: 8px;"></i> Netejar filtres
-                        </div>
-                    </div>
-
-                </div>
-            </div>
         </div>
 
         <!-- Estos inputs no se ven en la pantalla, pero guardan la selección actual de los filtros en el código JavaScript pueda leerlos -->

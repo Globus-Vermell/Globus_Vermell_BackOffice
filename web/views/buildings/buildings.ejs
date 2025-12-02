@@ -10,15 +10,17 @@
 </head>
 
 <body>
+    <!-- Cabecera de la página -->
     <header class="page-header">
         
+        <!-- Botón para volver para atrás -->
         <div class="header-left">
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Construccions</h1>
         </div>
 
-        <div class="header-filters">
-            
+        <!-- Filtrado de los edificios -->
+        <div class="header-filters">           
             <select id="filterValidation" class="header-select" onchange="filterBuildings()">
                 <option value="all">Estat: Tots</option>
                 <option value="true">Validats</option>
@@ -41,6 +43,7 @@
             </select>
         </div>
 
+        <!-- Botón para añadir nuevo edificio  -->
         <div class="header-right">
             <a href="/buildings/form" class="add-button">
                 <i class="fas fa-plus"></i> Afegir nou edifici
