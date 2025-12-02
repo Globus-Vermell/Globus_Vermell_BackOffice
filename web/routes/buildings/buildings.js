@@ -45,19 +45,56 @@ router.get("/", async (req, res) => {
 
 // Ruta para eliminar una construcción
 router.delete("/delete/:id", async (req, res) => {
+    // Recogemos el ID de la construcción
     const id = Number(req.params.id);
 
-    const { error } = await supabase
-        .from("buildings")
-        .delete()
-        .eq("id_building", id);
+    try {
+        // Recogemos las imágenes de la construcción
+        const { data: images, error: findError } = await supabase
+            .from("building_images")
+            .select("image_url")
+            .eq("id_building", id);
 
-    if (error) {
-        console.error("Error borrando:", error);
+        if (findError) throw findError;
+
+        // Si hay imágenes, las recogemos para borrarlas
+        if (images && images.length > 0) {
+
+            // Extraemos las rutas de las imágenes
+            const pathsToDelete = images.map(img => {
+                // Extraemos la ruta de la imagen
+                const parts = img.image_url.split('/images/');
+                // Devolvemos la ruta de la imagen
+                return parts.length > 1 ? parts[1] : null;
+            }).filter(path => path !== null);
+
+            // Si hay imágenes, las borramos del storage
+            if (pathsToDelete.length > 0) {
+                // Borramos las imágenes del storage
+                const { error: storageError } = await supabase.storage
+                    .from('images')
+                    .remove(pathsToDelete);
+
+                if (storageError) {
+                    console.error("Error borrando archivos de Storage:", storageError);
+                }
+            }
+        }
+
+        // Borramos la construcción
+        const { error } = await supabase
+            .from("buildings")
+            .delete()
+            .eq("id_building", id);
+
+        if (error) throw error;
+
+        return res.json({ success: true, message: "Edificació eliminada correctament!" });
+
+    } catch (err) {
+        console.error("Error borrando:", err);
         return res.status(500).json({ success: false, message: "Error al borrar." });
     }
-
-    return res.json({ success: true, message: "Edificació eliminada correctament!" });
 });
 
 // Ruta para validar una edificación

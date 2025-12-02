@@ -71,34 +71,38 @@
                     <article class="card" data-name="<%= t.name %>">
 
                         <!-- Imagen de la tipología -->
-                        <% if (t.image) { %>
-                            <figure class="card-image">
+
+                        <figure class="card-image">
+                            <% if (t.image) { %>
                                 <img src="<%= t.image %>" alt="<%= t.name %>" class="img_list">
-                            </figure>
-                            <% } %>
+                                <% } %>
+                                    <% else { %>
+                                        <img src="/images/buildings/provisional.png" alt="no image" class="img_list">
+                                        <% } %>
+                        </figure>
 
-                                <!-- Información principal de la tipología -->
-                                <div class="card-info">
-                                    <h3 class="card-title">
-                                        <%= t.name %>
-                                    </h3>
-                                </div>
+                        <!-- Información principal de la tipología -->
+                        <div class="card-info">
+                            <h3 class="card-title">
+                                <%= t.name %>
+                            </h3>
+                        </div>
 
-                                <!-- Botones para realizar acciones: Editar y Borrar -->
-                                <div class="card-actions">
+                        <!-- Botones para realizar acciones: Editar y Borrar -->
+                        <div class="card-actions">
 
-                                    <!-- Editar tipología -->
-                                    <a href="/typology/edit/<%= t.id_typology %>" class="edit-button">
-                                        <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
-                                    </a>
+                            <!-- Editar tipología -->
+                            <a href="/typology/edit/<%= t.id_typology %>" class="edit-button">
+                                <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
+                            </a>
 
-                                    <!-- Borrar tipología -->
-                                    <button type="button" class="delete-button"
-                                        onclick="deleteTypology('<%= t.id_typology %>')">
-                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
-                                    </button>
+                            <!-- Borrar tipología -->
+                            <button type="button" class="delete-button"
+                                onclick="deleteTypology('<%= t.id_typology %>')">
+                                <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                            </button>
 
-                                </div>
+                        </div>
 
                     </article>
 
