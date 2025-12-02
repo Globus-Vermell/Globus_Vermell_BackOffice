@@ -3,14 +3,26 @@ import supabase from "../config.js";
 // Modelo de reformas
 export class ReformModel {
     // Método para obtener todas las reformas
-    static async getAll() {
-        const { data, error } = await supabase
+    static async getAll(page = null, limit = null) {
+        let query = supabase
             .from("reform")
             .select("*, architects(name)")
             .order("year", { ascending: false });
+        if (page && limit) {
+            const from = (page - 1) * limit;
+            const to = from + limit - 1;
+            query = query.range(from, to);
+        }
+        const { data, count, error } = await query;
 
         if (error) throw error;
-        return data;
+        return {
+            data,
+            count,
+            page: page || 1,
+            limit: limit || count,
+            totalPages: limit ? Math.ceil(count / limit) : 1
+        };
     }
 
     // Método para obtener una reforma por ID

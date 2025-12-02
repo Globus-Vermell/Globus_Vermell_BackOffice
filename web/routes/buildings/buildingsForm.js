@@ -20,15 +20,15 @@ router.get("/", (req, res) => {
 // Rutas para obtener datos relacionados para el formulario
 router.get("/publications", async (req, res) => {
     try {
-        const data = await PublicationModel.getAll();
-        res.json(data || []);
+        const result = await PublicationModel.getAll();
+        res.json(result.data || []);
     } catch (e) { res.status(500).json([]); }
 });
 
 router.get("/architects", async (req, res) => {
     try {
-        const data = await ArchitectModel.getAll();
-        res.json(data || []);
+        const result = await ArchitectModel.getAll();
+        res.json(result.data || []);
     } catch (e) { res.status(500).json([]); }
 });
 

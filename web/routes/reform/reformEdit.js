@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
         // Obtener los arquitectos para el formulario de edición
         const architects = await ArchitectModel.getAll();
 
-        res.render('reform/reformEdit', { reform, architects });
+        res.render('reform/reformEdit', { reform, architects: architects.data });
     } catch (error) {
         console.error('Error fetching reform:', error);
         return res.status(500).send('Error al obtenir dades');

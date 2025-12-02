@@ -9,8 +9,11 @@ const router = express.Router();
 router.get("/", isAdmin, async (req, res) => {
     try {
         // Obtenemos todos los usuarios
-        const users = await UserModel.getAll();
-        res.render("users/users", { users });
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 15;
+        const result = await UserModel.getAll(page, limit);
+        const users = result.data;
+        res.render("users/users", { users, pagination: result });
     } catch (error) {
         console.error("Error al obtener usuarios:", error);
         res.status(500).send("Error en obtenir usuaris");
