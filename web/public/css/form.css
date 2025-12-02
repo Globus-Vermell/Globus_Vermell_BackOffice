@@ -132,24 +132,56 @@ body {
 /* =========================================
    4. IMÁGENES (Solo se usarán en Edit)
    ========================================= */
-.image-container-building, 
-.image-container-typology {
+.image-container-building{
     background-color: #f9f9f9;
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     margin-top: 10px;
 }
-.image-container-building { width: 300px; }
-.image-container-typology { width: 150px; }
 
-.typology-image, .building-image {
+.image-container-building { 
+    width: 100%; 
+    max-width: 300px; 
+}
+
+.image-container-typology {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    width: 300px; 
+    margin: 10px auto; 
+    height: auto;
+}
+
+.typology-image {
+    width: 100%; 
+    height: auto; 
+    border-radius: 6px;
+    object-fit: cover; 
+    display: block;
+}
+
+.building-image {
     width: 100%;
     height: auto;
     border-radius: 6px;
     object-fit: cover;
     max-height: 320px;
     display: block;
+}
+
+.no-image-placeholder-typologies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    color: #999;
+    min-height: 100px;
 }
 
 .no-image-placeholder {

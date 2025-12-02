@@ -27,14 +27,34 @@
 
         <!-- Contenedor del formulario -->
         <section class="form-container">
-            <form id="form-typology-edit">
+            <form action="/typology/edit/<%= typology.id_typology %>" method="POST" enctype="multipart/form-data"
+                class="edit-form-layout">
 
                 <div class="top-section">
-                    <div class="fields-left">
+
+                    <div class="col-left">
+
                         <!-- Nombre de la tipología -->
                         <div class="form-group">
                             <label for="name">Nom: <span class="required">*</span></label>
                             <input type="text" id="name" name="name" value="<%= typology.name %>" required />
+                        </div>
+                    </div>
+
+                    <div class="col-right">
+                        <div class="form-group">
+                            <label>Imatge actual:</label>
+                            <div class="image-container-typology">
+                                <% if (typology.image_typology) { %>
+                                    <img src="/images/typologies/<%= typology.image_typology %>" alt="Imatge tipologia"
+                                        class="typology-image">
+                                    <% } else { %>
+                                        <div class="no-image-placeholder-typologies">
+                                            <i class="fas fa-image"></i>
+                                            <span>Sense imatge</span>
+                                        </div>
+                                        <% } %>
+                            </div>
                         </div>
 
                         <!-- Imagen de la tipología -->
@@ -44,23 +64,13 @@
                         </div>
                     </div>
 
-                    <!-- Imagen a la derecha -->
-                    <div class="image-container-typology">
-                        <% if (typology.image) { %>
-                            <img src="<%= typology.image %>" alt="Imatge de la tipologia" class="typology-image">
-                            <% } else { %>
-                                <div class="no-image-placeholder">
-                                    <i class="fas fa-th-large"></i>
-                                    <p>Sense imatge</p>
-                                </div>
-                                <% } %>
-                    </div>
                 </div>
 
-                <!-- Botón de envío -->
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Desar
-                </button>
+                <div class="form-actions">
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-save"></i> Guardar Canvis
+                    </button>
+                </div>
 
             </form>
         </section>
