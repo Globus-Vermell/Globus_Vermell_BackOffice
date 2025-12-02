@@ -8,8 +8,14 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         // Obtenemos todas las publicaciones
-        const publications = await PublicationModel.getAll();
-        res.render("publications/publications", { publications });
+        const page = parseInt(req.query.page) || 1;
+        const limit = 15;
+        const result = await PublicationModel.getAll(page, limit);
+
+        res.render("publications/publications", {
+            publications: result.data,
+            pagination: result
+        });
     } catch (error) {
         console.error("Error al obtener publicaciones:", error);
         return res.status(500).send("Error al obtener publicaciones");

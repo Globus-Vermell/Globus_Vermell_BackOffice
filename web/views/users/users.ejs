@@ -62,17 +62,18 @@
         <!-- Lista de usuarios -->
         <section class="list">
 
-            <% if (users && users.length > 0) { %>
-                <% users.forEach(user => { %>
+            <% if (users && users.length> 0) { %>
+                <% users.forEach(user=> { %>
 
                     <!-- Card de cada usuario, se guardan data para usar en filtros -->
-                    <article class="card" data-name="<%= user.name %>"
-                             data-description="<%= user.email %>">
+                    <article class="card" data-name="<%= user.name %>" data-description="<%= user.email %>">
 
                         <!-- Información principal del usuario -->
                         <div class="card-info">
 
-                            <h3 class="card-title"><%= user.name %> — <%= user.level %></h3>
+                            <h3 class="card-title">
+                                <%= user.name %> — <%= user.level %>
+                            </h3>
 
                             <p class="card-email">
                                 Email: <%= user.email %>
@@ -97,16 +98,44 @@
 
                     </article>
 
-                <% }) %>
+                    <% }) %>
 
-            <% } else { %>
+                        <% } else { %>
 
-                <!-- Si no hay usuarios registrados -->
-                <p class="no-architects">No hi ha usuaris registrats.</p>
+                            <!-- Si no hay usuarios registrados -->
+                            <p class="no-architects">No hi ha usuaris registrats.</p>
 
-            <% } %>
+                            <% } %>
 
         </section>
+        <% if (pagination && pagination.totalPages> 1) { %>
+            <div class="pagination-container">
+
+                <% if (pagination.page> 1) { %>
+                    <a href="/users?page=<%= pagination.page - 1 %>" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </a>
+                    <% } else { %>
+                        <span class="pagination-btn disabled">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </span>
+                        <% } %>
+
+                            <span class="pagination-info">
+                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
+                            </span>
+
+                            <% if (pagination.page < pagination.totalPages) { %>
+                                <a href="/users?page=<%= pagination.page + 1 %>" class="pagination-btn">
+                                    Següent <i class="fas fa-chevron-right"></i>
+                                </a>
+                                <% } else { %>
+                                    <span class="pagination-btn disabled">
+                                        Següent <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                    <% } %>
+            </div>
+            <% } %>
 
     </main>
 
@@ -114,4 +143,5 @@
     <script src="/scripts/users/users.js"></script>
 
 </body>
+
 </html>

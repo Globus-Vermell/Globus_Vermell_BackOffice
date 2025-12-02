@@ -15,7 +15,7 @@ router.get("/architects", async (req, res) => {
     try {
         // Obtenemos todos los arquitectos
         const architects = await ArchitectModel.getAll();
-        res.json(architects || []);
+        res.json(architects.data || []);
     } catch (error) {
         return res.status(500).json([]);
     }

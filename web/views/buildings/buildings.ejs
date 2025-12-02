@@ -131,6 +131,34 @@
                             <p class="no-architects">No hi ha construccions disponibles.</p>
                             <% } %>
         </section>
+        <% if (pagination && pagination.totalPages> 1) { %>
+            <div class="pagination-container">
+
+                <% if (pagination.page> 1) { %>
+                    <a href="/buildings?page=<%= pagination.page - 1 %>" class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </a>
+                    <% } else { %>
+                        <span class="pagination-btn disabled">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </span>
+                        <% } %>
+
+                            <span class="pagination-info">
+                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
+                            </span>
+
+                            <% if (pagination.page < pagination.totalPages) { %>
+                                <a href="/buildings?page=<%= pagination.page + 1 %>" class="pagination-btn">
+                                    Següent <i class="fas fa-chevron-right"></i>
+                                </a>
+                                <% } else { %>
+                                    <span class="pagination-btn disabled">
+                                        Següent <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                    <% } %>
+            </div>
+            <% } %>
     </main>
     <script src="/scripts/buildings/buildings.js"></script>
 </body>

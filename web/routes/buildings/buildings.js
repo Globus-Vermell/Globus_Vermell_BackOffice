@@ -8,18 +8,21 @@ const router = express.Router();
 // Ruta para obtener todas las construcciones
 router.get("/", async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 15;
+
         // Ejecutamos ambas peticiones a la vez 
-        const [buildings, publications] = await Promise.all([
-            BuildingModel.getAll(),
+        const [buildingsResult, publicationsResult] = await Promise.all([
+            BuildingModel.getAll(page, limit),
             PublicationModel.getAll()
         ]);
 
-        // Renderizamos pasando AMBAS listas a la vista
+        // Renderizamos pasando ambas listas a la vista
         res.render("buildings/buildings", {
-            buildings,
-            publications
+            buildings: buildingsResult.data,
+            pagination: buildingsResult,
+            publications: publicationsResult.data
         });
-
     } catch (err) {
         console.error("Error inesperado:", err);
         res.status(500).send("Error del servidor");

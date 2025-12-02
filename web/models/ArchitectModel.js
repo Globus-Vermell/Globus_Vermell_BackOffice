@@ -2,15 +2,32 @@ import supabase from "../config.js";
 
 // Modelo de arquitectos
 export class ArchitectModel {
+
     // Método para obtener todos los arquitectos
-    static async getAll() {
-        const { data, error } = await supabase
+    static async getAll(page = null, limit = null) {
+        //tenemos paginación como opción
+        let query = supabase
             .from("architects")
-            .select("*")
+            .select("*", { count: 'exact' })
             .order("name");
 
+        if (page && limit) {
+            const from = (page - 1) * limit;
+            const to = from + limit - 1;
+            query = query.range(from, to);
+        }
+
+        const { data, count, error } = await query;
+
         if (error) throw error;
-        return data;
+
+        return {
+            data,
+            count,
+            page: page || 1,
+            limit: limit || count, // Si no hay límite, el límite es el total
+            totalPages: limit ? Math.ceil(count / limit) : 1
+        };
     }
 
     // Método para obtener un arquitecto por ID

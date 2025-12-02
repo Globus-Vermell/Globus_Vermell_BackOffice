@@ -8,8 +8,11 @@ const router = express.Router();
 router.get("/", async (req, res) => {
 	try {
 		// Obtenemos todas las reformas
-		const reformas = await ReformModel.getAll();
-		res.render("reform/reform", { reformas });
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 15;
+		const result = await ReformModel.getAll(page, limit);
+		const reformas = result.data;
+		res.render("reform/reform", { reformas, pagination: result.pagination });
 	} catch (error) {
 		console.error("Error al obtener reformas:", error);
 		res.status(500).send("Error al obtener reformas");

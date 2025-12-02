@@ -7,9 +7,14 @@ const router = express.Router();
 // Ruta para obtener todos los arquitectos
 router.get("/", async (req, res) => {
     try {
-        // Obtenemos todos los arquitectos
-        const architects = await ArchitectModel.getAll();
-        res.render("architects/architects", { architects });
+        // Obtenemos todos los arquitectos por paginas
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 15;
+        const architects = await ArchitectModel.getAll(page, limit);
+        res.render("architects/architects", {
+            architects: architects.data,
+            pagination: architects
+        });
     } catch (error) {
         res.status(500).send("Error al obtenir arquitectes");
     }
