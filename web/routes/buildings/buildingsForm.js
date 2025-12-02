@@ -3,9 +3,9 @@ import supabase from "../../config.js";
 import multer from "multer";
 
 // Configuración de multer para manejar la subida de archivos
-const upload = multer({ dest: 'public/images/buildings' });
+const upload = multer({ storage: multer.memoryStorage() });
 
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 
@@ -80,13 +80,49 @@ router.get("/typologies/filter", async (req, res) => {
 });
 
 // Ruta para manejar la subida de imágenes
-router.post("/upload", upload.array('pictures', 10), (req, res) => {
+router.post("/upload", upload.array('pictures', 10), async (req, res) => {
+    // Si no hay archivos, devolvemos un error
     if (!req.files || req.files.length === 0) {
         return res.status(400).json({ success: false, message: "No s'ha pujat cap fitxer." });
     }
-    // Devolvemos un array de rutas
-    const filePaths = req.files.map(f => `/images/buildings/${f.filename}`);
-    res.json({ success: true, filePaths });
+
+    try {
+        // Array para almacenar las URLs públicas
+        const filePaths = [];
+
+        // Procesamos todos los archivos en paralelo
+        await Promise.all(req.files.map(async (file) => {
+            // Limpiamos el nombre quitando espacios y caracteres raros
+            const cleanName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
+
+            // Creamos nombre único con fecha 
+            const fileName = `${Date.now()}_${cleanName}`;
+
+            // Subimos a Supabase Storage
+            const { data, error } = await supabase.storage
+                .from('images')
+                .upload(`buildings/${fileName}`, file.buffer, {
+                    contentType: file.mimetype
+                });
+
+            if (error) throw error;
+
+            //Obtenemos la URL pública
+            const { data: publicUrlData } = supabase.storage
+                .from('images')
+                .getPublicUrl(`buildings/${fileName}`);
+
+            //Añadimos la URL pública al array
+            filePaths.push(publicUrlData.publicUrl);
+        }));
+
+        //Devolvemos el array de URLs públicas
+        res.json({ success: true, filePaths });
+
+    } catch (err) {
+        console.error("Error subiendo a Supabase:", err);
+        res.status(500).json({ success: false, message: "Error al pujar fitxers al núvol." });
+    }
 });
 
 // Ruta para manejar el envío del formulario de nueva construcción
@@ -165,9 +201,7 @@ router.post("/", async (req, res) => {
                 id_building: buildingId,
                 image_url: url
             }));
-
-            const { error: imgErr } = await supabase.from("building_images").insert(allImages);
-            if (imgErr) throw imgErr;
+            await supabase.from("building_images").insert(allImages);
         }
 
         //Devolvemos un mensaje de éxito
