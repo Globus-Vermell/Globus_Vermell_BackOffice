@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Enviamos los datos al servidor
-            const res = await fetch("/architects/form", {
+            const res = await fetch("/architects/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
