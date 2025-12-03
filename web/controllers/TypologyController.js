@@ -4,8 +4,10 @@ import supabase from "../config.js";
 export class TypologyController {
     static async index(req, res) {
         try {
-            const typologies = await TypologyModel.getAll();
-            res.render("typology/typology", { typologies });
+            const filters = { search: req.query.search || '' };
+            const typologies = await TypologyModel.getAll(filters);
+            // Pasamos currentFilters a la vista
+            res.render("typology/typology", { typologies, currentFilters: filters });
         } catch (error) {
             res.status(500).send("Error al obtenir tipologies");
         }
