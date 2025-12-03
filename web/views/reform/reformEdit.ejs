@@ -17,7 +17,7 @@
 
     <!-- Encabezado del formulario -->
     <header class="form-header">
-        <a href="/reform" class="back-link">
+        <a href="/reforms" class="back-link">
             <i class="fas fa-arrow-left"></i>
         </a>
         <h1 class="page-title">Editar Reforma</h1>
@@ -40,11 +40,12 @@
                     <label for="id_architect">Arquitecto: <span class="required">*</span></label>
                     <select id="id_architect" name="id_architect" required>
                         <option value="">-- Selecciona un arquitecto --</option>
-                        <% architects.forEach(arq => { %>
-                            <option value="<%= arq.id_architect %>" <%= arq.id_architect === reform.id_architect ? 'selected' : '' %>>
+                        <% architects.forEach(arq=> { %>
+                            <option value="<%= arq.id_architect %>" <%=arq.id_architect===reform.id_architect
+                                ? 'selected' : '' %>>
                                 <%= arq.name %>
                             </option>
-                        <% }) %>
+                            <% }) %>
                     </select>
                 </div>
 

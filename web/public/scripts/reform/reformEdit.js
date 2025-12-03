@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Enviamos los datos al servidor
-            const res = await fetch(`/reform/edit/${reform.id_reform}`, {
+            const res = await fetch(`/reforms/edit/${reform.id_reform}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Obtenemos la respuesta del servidor
             const result = await res.json();
             alert(result.message);
-            if (result.success) window.location.href = '/reform';
+            if (result.success) window.location.href = '/reforms';
         } catch (err) {
             console.error(err);
             alert('Error al actualizar la reforma');

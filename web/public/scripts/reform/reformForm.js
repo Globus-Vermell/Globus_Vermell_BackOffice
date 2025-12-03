@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectArchitects = document.getElementById("id_architect");
 
     // Obtenemos los arquitectos
-    const resArq = await fetch("/reform/form/architects");
+    const resArq = await fetch("/reforms/create/architects");
     const architects = await resArq.json();
     architects.forEach(a => {
         const opt = document.createElement("option");
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         try {
             // Enviamos los datos al servidor
-            const res = await fetch("/reform/form", {
+            const res = await fetch("/reforms/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)

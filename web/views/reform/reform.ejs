@@ -24,7 +24,7 @@
 
         <!-- Botón para añadir nueva reforma -->
         <div class="header-right">
-            <a href="/reform/form" class="add-button">
+            <a href="/reforms/create" class="add-button">
                 <i class="fas fa-plus"></i> Nova reforma
             </a>
         </div>
@@ -84,7 +84,7 @@
                         <div class="card-actions">
 
                             <!-- Editar reforma -->
-                            <a href="/reform/edit/<%= r.id_reform %>" class="edit-button">
+                            <a href="/reforms/edit/<%= r.id_reform %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
                             </a>
 
@@ -110,7 +110,7 @@
             <div class="pagination-container">
 
                 <% if (pagination.page> 1) { %>
-                    <a href="/reform?page=<%= pagination.page - 1 %>" class="pagination-btn">
+                    <a href="/reforms?page=<%= pagination.page - 1 %>" class="pagination-btn">
                         <i class="fas fa-chevron-left"></i> Anterior
                     </a>
                     <% } else { %>
@@ -124,7 +124,7 @@
                             </span>
 
                             <% if (pagination.page < pagination.totalPages) { %>
-                                <a href="/reform?page=<%= pagination.page + 1 %>" class="pagination-btn">
+                                <a href="/reforms?page=<%= pagination.page + 1 %>" class="pagination-btn">
                                     Següent <i class="fas fa-chevron-right"></i>
                                 </a>
                                 <% } else { %>

@@ -1,24 +1,22 @@
 import express from 'express';
 import session from "express-session";
 import publicacionesRouter from './routes/publications/publications.js';
-import reformasRouter from "./routes/reform/reform.js";
 import prizesRouter from "./routes/prizes.js";
 import tipologiaRouter from "./routes/typology/typology.js";
 import construccionesRouter from "./routes/buildings/buildings.js";
 import loginRouter from "./routes/login.js";
 import FormularioEdificacionRouter from "./routes/buildings/buildingsForm.js";
-import reformasFormRouter from "./routes/reform/reformForm.js";
 import tipologiaFormRouter from "./routes/typology/typologyForm.js";
 import publicacionesFormRouter from "./routes/publications/publicationsForm.js";
 import buildingsEditRouter from "./routes/buildings/buildingsEdit.js";
 import publicationsEditRouter from "./routes/publications/publicationsEdit.js";
-import reformEditRouter from "./routes/reform/reformEdit.js";
 import typologyEditRouter from "./routes/typology/typologyEdit.js";
 import usersRouter from "./routes/users/users.js";
 import usersFormRouter from "./routes/users/usersForm.js";
 import usersEditRouter from "./routes/users/usersEdit.js";
 import architectsRouter from "./routes/architects.js";
 import protectionsRouter from "./routes/protections.js";
+import reformsRouter from "./routes/reforms.js";
 
 // Constante y configuración del srvidor Express
 const PORT = process.env.PORT || 3000;
@@ -60,9 +58,7 @@ app.use("/protection", protectionsRouter);
 app.use('/publications', publicacionesRouter);
 app.use("/publications/form", publicacionesFormRouter);
 app.use("/publications/edit", publicationsEditRouter);
-app.use("/reform", reformasRouter);
-app.use("/reform/form", reformasFormRouter);
-app.use("/reform/edit", reformEditRouter);
+app.use("/reforms", reformsRouter);
 app.use("/typology", tipologiaRouter);
 app.use("/typology/form", tipologiaFormRouter);
 app.use("/typology/edit", typologyEditRouter);

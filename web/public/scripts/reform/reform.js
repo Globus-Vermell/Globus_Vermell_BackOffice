@@ -5,7 +5,7 @@ async function deleteReform(id) {
 
     try {
         // Realizar la solicitud DELETE al servidor
-        const res = await fetch(`/reform/delete/${id}`, { method: "DELETE" });
+        const res = await fetch(`/reforms/delete/${id}`, { method: "DELETE" });
         // Procesar la respuesta del servidor
         const data = await res.json();
         alert(data.message);
@@ -20,7 +20,7 @@ async function deleteReform(id) {
 function filterReforms() {
     // 1. Buscamos el input por su ID
     const input = document.getElementById('searchInput');
-    
+
     // 2. Obtenemos el valor y lo pasamos a minúsculas (con seguridad)
     // Si el input no existe o está vacío, usamos una cadena vacía ''
     const searchTerm = input ? input.value.toLowerCase() : '';
@@ -32,7 +32,7 @@ function filterReforms() {
         // Usamos dataset.name o un string vacío por seguridad
         const name = (card.dataset.name || '').toLowerCase();
         const desc = (card.dataset.description || '').toLowerCase();
-        
+
         // Si coincide, mostramos (flex), si no, ocultamos (none)
         card.style.display = (name.includes(searchTerm) || desc.includes(searchTerm)) ? 'flex' : 'none';
     });
