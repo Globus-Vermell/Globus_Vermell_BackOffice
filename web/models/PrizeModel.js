@@ -3,12 +3,18 @@ import supabase from "../config.js";
 //Modelo de premios
 export class PrizeModel {
     //Metodo para obtener todos los premios
-    static async getAll() {
-        const { data, error } = await supabase
+    static async getAll(filters = {}) {
+        let query = supabase
             .from("prizes")
             .select("*")
             .order("name");
 
+        // Búsqueda por nombre, tipo o descripción
+        if (filters.search) {
+            query = query.or(`name.ilike.%${filters.search}%,tipe.ilike.%${filters.search}%`);
+        }
+
+        const { data, error } = await query;
         if (error) throw error;
         return data;
     }

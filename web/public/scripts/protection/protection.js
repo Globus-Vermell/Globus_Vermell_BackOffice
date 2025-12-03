@@ -18,16 +18,10 @@ async function deleteProtection(id) {
 
 // Función para filtrar protecciones
 function filterProtections() {
-    // Obtenemos todas las partes relevantes directamente desde el ejs 
-    const input = document.getElementById('searchInput');
-    const searchTerm = input ? input.value.toLowerCase() : '';
-
-    const cards = document.querySelectorAll('.card');
-    //Filtramos las cards por nivel o descripción para ver si coinciden con el término de búsqueda
-    cards.forEach(card => {
-        const level = (card.dataset.level || '').toLowerCase();
-        const desc = (card.dataset.description || '').toLowerCase();
-
-        card.style.display = (level.includes(searchTerm) || desc.includes(searchTerm)) ? 'flex' : 'none';
-    });
+    const inputVal = document.getElementById('searchInput').value;
+    const params = new URLSearchParams();
+    
+    if (inputVal) params.set('search', inputVal);
+    
+    window.location.href = `/protection?${params.toString()}`;
 }

@@ -38,7 +38,7 @@
         <div class="search-container-modern">
 
             <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
-            <form class="form" onsubmit="event.preventDefault()">
+            <form class="form" onsubmit="event.preventDefault(); filterProtections();">
                 <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
                 <button type="button">
                     <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
@@ -48,8 +48,9 @@
                         </path>
                     </svg>
                 </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required=""
-                    type="text" onkeyup="filterProtections()">
+                <input id="searchInput" class="input" placeholder="Buscar per nivell..."
+                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
+                    onkeydown="if(event.key === 'Enter') filterProtections()">
             </form>
         </div>
 

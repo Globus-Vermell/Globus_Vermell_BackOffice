@@ -3,8 +3,9 @@ import { PrizeModel } from "../models/PrizeModel.js";
 export class PrizeController {
     static async index(req, res) {
         try {
-            const prizes = await PrizeModel.getAll();
-            res.render("prizes/prizes", { prizes });
+            const filters = { search: req.query.search || '' };
+            const prizes = await PrizeModel.getAll(filters);
+            res.render("prizes/prizes", { prizes, currentFilters: filters });
         } catch (error) {
             res.status(500).send("Error al obtenir premis");
         }

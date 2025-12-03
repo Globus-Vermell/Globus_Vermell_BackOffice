@@ -5,13 +5,18 @@ export class ReformController {
     static async index(req, res) {
         try {
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 15;
-            const result = await ReformModel.getAll(page, limit);
-            const reformas = result.data;
-            res.render("reform/reform", { reformas, pagination: result.pagination });
+            const limit = 15;
+            const filters = { search: req.query.search || '' };
+            const result = await ReformModel.getAll(page, limit, filters);
+            
+            res.render("reform/reform", { 
+                reformas: result.data, 
+                pagination: result, 
+                currentFilters: filters 
+            });
         } catch (error) {
-            console.error("Error al obtener reformas:", error);
-            res.status(500).send("Error al obtener reformas");
+            console.error("Error:", error);
+            res.status(500).send("Error al obtenir les reformes");
         }
     }
 
@@ -96,4 +101,4 @@ export class ReformController {
             return res.status(500).json({ success: false, message: "Error al borrar." });
         }
     }
-}
+}   

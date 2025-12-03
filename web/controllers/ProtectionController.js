@@ -3,8 +3,9 @@ import { ProtectionModel } from "../models/ProtectionModel.js";
 export class ProtectionController {
     static async index(req, res) {
         try {
-            const protections = await ProtectionModel.getAll();
-            res.render("protection/protection", { protections });
+            const filters = { search: req.query.search || '' };
+            const protections = await ProtectionModel.getAll(filters);
+            res.render("protection/protection", { protections, currentFilters: filters });
         } catch (error) {
             res.status(500).send("Error al obtenir proteccions");
         }

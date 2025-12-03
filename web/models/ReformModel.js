@@ -3,24 +3,37 @@ import supabase from "../config.js";
 // Modelo de reformas
 export class ReformModel {
     // Método para obtener todas las reformas
-    static async getAll(page = null, limit = null) {
-        let query = supabase
-            .from("reform")
-            .select("*, architects(name)")
-            .order("year", { ascending: false });
+    static async getAll(page = 1, limit = 15, filters = {}) {
+        let query;
+
+        if (filters.search) {
+            query = supabase
+                .from("reform")
+                .select("*, architects!inner(name)", { count: 'exact' }) 
+                .order("year", { ascending: false })
+                .ilike('architects.name', `%${filters.search}%`);
+        } else {
+            query = supabase
+                .from("reform")
+                .select("*, architects(name)", { count: 'exact' }) 
+                .order("year", { ascending: false });
+        }
+
         if (page && limit) {
             const from = (page - 1) * limit;
             const to = from + limit - 1;
             query = query.range(from, to);
         }
+        
         const { data, count, error } = await query;
 
         if (error) throw error;
-        return {
-            data,
-            count,
-            page: page || 1,
-            limit: limit || count,
+
+        return { 
+            data, 
+            count, 
+            page, 
+            limit, 
             totalPages: limit ? Math.ceil(count / limit) : 1
         };
     }
