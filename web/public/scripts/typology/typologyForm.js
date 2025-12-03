@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Subimos la imagen
-                const uploadRes = await fetch("/typology/form/upload", {
+                const uploadRes = await fetch("/typologies/create/upload", {
                     method: "POST",
                     body: uploadData
                 });
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Enviamos los datos al servidor
-            const res = await fetch("/typology/form", {
+            const res = await fetch("/typologies/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)

@@ -17,7 +17,7 @@ form.addEventListener('submit', async (e) => {
 
         // Subimos la imagen
         try {
-            const uploadRes = await fetch("/typology/edit/upload", {
+            const uploadRes = await fetch("/typologies/edit/upload", {
                 method: "POST",
                 body: uploadData
             });
@@ -40,7 +40,7 @@ form.addEventListener('submit', async (e) => {
 
     // Actualizamos la tipología
     try {
-        const res = await fetch(`/typology/edit/${typology.id_typology}`, {
+        const res = await fetch(`/typologies/edit/${typology.id_typology}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
