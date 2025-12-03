@@ -6,12 +6,19 @@ export class ArchitectController {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 15;
+            
+            // Recogemos el texto de búsqueda de la URL
+            const filters = {
+                search: req.query.search || ''
+            };
 
-            const result = await ArchitectModel.getAll(page, limit);
+            // Se lo pasamos al modelo
+            const result = await ArchitectModel.getAll(page, limit, filters);
 
             res.render("architects/architects", {
                 architects: result.data,
-                pagination: result
+                pagination: result,
+                currentFilters: filters
             });
         } catch (error) {
             console.error("Error al obtener arquitectos:", error);

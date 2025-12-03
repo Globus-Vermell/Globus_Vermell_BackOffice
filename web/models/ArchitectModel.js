@@ -3,13 +3,18 @@ import supabase from "../config.js";
 // Modelo de arquitectos
 export class ArchitectModel {
 
-    // Método para obtener todos los arquitectos
-    static async getAll(page = null, limit = null) {
-        //tenemos paginación como opción
+    // Método para obtener todos los arquitectos 
+    static async getAll(page = 1, limit = 15, filters = {}) {
         let query = supabase
             .from("architects")
             .select("*", { count: 'exact' })
             .order("name");
+
+        // Filtro de Búsqueda
+        if (filters.search) {
+            // Buscamos en nombre (sin importar mayúsculas/minúsculas)
+            query = query.or(`name.ilike.%${filters.search}%`);
+        }
 
         if (page && limit) {
             const from = (page - 1) * limit;
@@ -25,7 +30,7 @@ export class ArchitectModel {
             data,
             count,
             page: page || 1,
-            limit: limit || count, // Si no hay límite, el límite es el total
+            limit: limit || count,
             totalPages: limit ? Math.ceil(count / limit) : 1
         };
     }
