@@ -27,8 +27,7 @@
 
         <!-- Contenedor del formulario -->
         <section class="form-container">
-            <form action="/typologies/edit/<%= typology.id_typology %>" method="POST" enctype="multipart/form-data"
-                class="edit-form-layout">
+            <form id="form-typology-edit">
 
                 <div class="top-section">
 
@@ -45,9 +44,8 @@
                         <div class="form-group">
                             <label>Imatge actual:</label>
                             <div class="image-container-typology">
-                                <% if (typology.image_typology) { %>
-                                    <img src="/images/typologies/<%= typology.image_typology %>" alt="Imatge tipologia"
-                                        class="typology-image">
+                                <% if (typology.image) { %>
+                                    <img src="<%=typology.image %>" alt="Imatge tipologia" class="typology-image">
                                     <% } else { %>
                                         <div class="no-image-placeholder-typologies">
                                             <i class="fas fa-image"></i>

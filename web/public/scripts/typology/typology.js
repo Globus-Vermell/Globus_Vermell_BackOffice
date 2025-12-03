@@ -5,7 +5,7 @@ async function deleteTypology(id) {
 
     try {
         // Realizar la solicitud DELETE al servidor
-        const res = await fetch(`/typology/delete/${id}`, {
+        const res = await fetch(`/typologies/delete/${id}`, {
             method: "DELETE"
         });
 

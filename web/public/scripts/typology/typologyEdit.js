@@ -49,7 +49,7 @@ form.addEventListener('submit', async (e) => {
         // Obtenemos el resultado de la actualización
         const result = await res.json();
         alert(result.message);
-        if (result.success) window.location.href = '/typology';
+        if (result.success) window.location.href = '/typologies';
     } catch (err) {
         console.error(err);
         alert('Error al actualizar la tipologia');
