@@ -31,7 +31,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'secretosecreto',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: { secure: true }
 }));
 
 // Middleware para pasar el usuario a las vistas
