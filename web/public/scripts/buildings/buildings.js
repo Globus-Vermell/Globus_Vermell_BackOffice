@@ -20,20 +20,18 @@ async function deleteBuilding(id) {
 }
 
 function filterBuildings() {
-    // 1. Obtenemos valores
     const inputVal = document.getElementById('searchInput').value;
     const valSelect = document.getElementById('filterValidation').value;
+    const imgSelect = document.getElementById('filterImage').value; // <--- Esto recogerá "true", "false" o "all"
     const pubSelect = document.getElementById('filterPublication').value;
 
-    // 2. Construimos URL
     const params = new URLSearchParams();
     if (inputVal) params.set('search', inputVal);
     if (valSelect !== 'all') params.set('validated', valSelect);
+    if (imgSelect !== 'all') params.set('image', imgSelect); // <--- Se envía al servidor
     if (pubSelect !== 'all') params.set('publication', pubSelect);
     
-    params.set('page', 1); // Siempre a página 1 al filtrar
-
-    // 3. Recargamos
+    params.set('page', 1);
     window.location.href = `/buildings?${params.toString()}`;
 }
 

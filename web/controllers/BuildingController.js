@@ -10,22 +10,25 @@ export class BuildingController {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = 15;
+            
+            // Recogemos TODOS los filtros
             const filters = {
                 search: req.query.search || '',
                 validated: req.query.validated || 'all',
-                publication: req.query.publication || 'all'
+                publication: req.query.publication || 'all',
+                image: req.query.image || 'all'
             };
 
             const [buildingsResult, publicationsResult] = await Promise.all([
                 BuildingModel.getAll(page, limit, filters),
-                PublicationModel.getAll(null, null)
+                PublicationModel.getAll(null, null) // Para el desplegable
             ]);
 
             res.render("buildings/buildings", {
                 buildings: buildingsResult.data,
                 pagination: buildingsResult,
                 publications: publicationsResult.data,
-                currentFilters: filters
+                currentFilters: filters // Pasamos los filtros a la vista
             });
         } catch (err) {
             res.status(500).send("Error del servidor");

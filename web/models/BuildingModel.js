@@ -5,17 +5,43 @@ export class BuildingModel {
 
     // Método para obtener todas las construcciones
     static async getAll(page = 1, limit = 15, filters = {}) {
+        // Base de la consulta
+        let selectQuery = "*, building_images(image_url)";
+        
+        if (filters.image === 'true') {
+            selectQuery = "*, building_images!inner(image_url)";
+        }
+
+        // Si filtramos por publicación, necesitamos hacer join con la tabla intermedia
+        if (filters.publication && filters.publication !== 'all') {
+            selectQuery += `, building_publications!inner(id_publication)`;
+        }
+
         let query = supabase
             .from("buildings")
-            .select("*, building_images(image_url)", { count: 'exact' })
+            .select(selectQuery, { count: 'exact' })
             .order("name");
 
-        // Filtros 
+        // Filtros
+        
+        // 1. Search
         if (filters.search) {
-            // Busca en nombre o ubicación
             query = query.or(`name.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
         }
 
+        // 2. Validación
+        if (filters.validated && filters.validated !== 'all') {
+            const isValid = filters.validated === 'true';
+            query = query.eq('validated', isValid);
+        }
+
+        // 3. Publicación
+        if (filters.publication && filters.publication !== 'all') {
+            // Filtramos sobre la tabla unida
+            query = query.eq('building_publications.id_publication', parseInt(filters.publication));
+        }
+
+        // Paginación
         if (page && limit) {
             const from = (page - 1) * limit;
             const to = from + limit - 1;

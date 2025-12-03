@@ -22,7 +22,7 @@ export class PublicationController {
             });
         } catch (error) {
             console.error("Error:", error);
-            res.status(500).send("Error al obtenir publicacions");
+            res.status(500).send("Error a l'obtenir publicacions");
         }
     }
 

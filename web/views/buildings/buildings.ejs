@@ -17,31 +17,39 @@
             <h1 class="page-title">Construccions</h1>
         </div>
 
-        <div class="header-filters">
+        <select id="filterValidation" class="header-select" onchange="filterBuildings()">
+            <option value="all">Estat: Tots</option>
+            <option value="true" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='true' )
+                ? 'selected' : '' %>>Validats</option>
+            <option value="false" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
+                ? 'selected' : '' %>>Pendents</option>
+        </select>
 
-            <select id="filterValidation" class="header-select" onchange="filterBuildings()">
-                <option value="all">Estat: Tots</option>
-                <option value="true">Validats</option>
-                <option value="false">Pendents</option>
-            </select>
+        <select id="filterImage" class="header-select" onchange="filterBuildings()">
+            <option value="all">Imatge: Totes</option>
 
-            <select id="filterImage" class="header-select" onchange="filterBuildings()">
-                <option value="all">Imatge: Totes</option>
-                <option value="true">Amb imatge</option>
-                <option value="false">Sense imatge</option>
-            </select>
+            <option value="true" <%=(typeof currentFilters !=='undefined' && currentFilters.image==='true' )
+                ? 'selected' : '' %>>
+                Amb imatge
+            </option>
 
-            <select id="filterPublication" class="header-select" onchange="filterBuildings()">
-                <option value="all">Publicació: Totes</option>
-                <% if (publications && publications.length> 0) { %>
-                    <% publications.forEach(pub=> { %>
-                        <option value="<%= pub.id_publication %>">
-                            <%= pub.title %>
-                        </option>
-                        <% }) %>
-                            <% } %>
-            </select>
-        </div>
+            <option value="false" <%=(typeof currentFilters !=='undefined' && currentFilters.image==='false' )
+                ? 'selected' : '' %>>
+                Sense imatge
+            </option>
+        </select>
+
+        <select id="filterPublication" class="header-select" onchange="filterBuildings()">
+            <option value="all">Publicació: Totes</option>
+            <% if (publications && publications.length> 0) { %>
+                <% publications.forEach(pub=> { %>
+                    <option value="<%= pub.id_publication %>" <%=(typeof currentFilters !=='undefined' &&
+                        currentFilters.publication==pub.id_publication) ? 'selected' : '' %>>
+                        <%= pub.title %>
+                    </option>
+                    <% }) %>
+                        <% } %>
+        </select>
 
         <div class="header-right">
             <a href="/buildings/create" class="add-button">
