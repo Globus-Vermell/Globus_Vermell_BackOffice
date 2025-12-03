@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Enviamos los datos
         try {
-            const res = await fetch("/publications/form", {
+            const res = await fetch("/publications/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)

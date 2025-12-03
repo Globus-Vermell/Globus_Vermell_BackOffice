@@ -1,18 +1,16 @@
 import express from 'express';
 import session from "express-session";
-import publicacionesRouter from './routes/publications/publications.js';
 import prizesRouter from "./routes/prizes.js";
 import construccionesRouter from "./routes/buildings/buildings.js";
 import loginRouter from "./routes/login.js";
 import FormularioEdificacionRouter from "./routes/buildings/buildingsForm.js";
-import publicacionesFormRouter from "./routes/publications/publicationsForm.js";
 import buildingsEditRouter from "./routes/buildings/buildingsEdit.js";
-import publicationsEditRouter from "./routes/publications/publicationsEdit.js";
 import usersRouter from "./routes/users.js";
 import architectsRouter from "./routes/architects.js";
 import protectionsRouter from "./routes/protections.js";
 import reformsRouter from "./routes/reforms.js";
 import typologiesRouter from "./routes/typologies.js";
+import publicationsRouter from "./routes/publications.js";
 
 // Constante y configuración del srvidor Express
 const PORT = process.env.PORT || 3000;
@@ -51,9 +49,7 @@ app.use("/buildings/edit", buildingsEditRouter);
 app.use("/", loginRouter);
 app.use("/prizes", prizesRouter);
 app.use("/protection", protectionsRouter);
-app.use('/publications', publicacionesRouter);
-app.use("/publications/form", publicacionesFormRouter);
-app.use("/publications/edit", publicationsEditRouter);
+app.use('/publications', publicationsRouter);
 app.use("/reforms", reformsRouter);
 app.use("/typologies", typologiesRouter);
 app.use("/users", usersRouter);
