@@ -5,12 +5,15 @@ export class PublicationController {
     static async index(req, res) {
         try {
             const page = parseInt(req.query.page) || 1;
+            const limit = 15;
+            
+            // Recogemos filtros
             const filters = {
                 search: req.query.search || '',
                 validated: req.query.validated || 'all'
             };
 
-            const result = await PublicationModel.getAll(page, 15, filters);
+            const result = await PublicationModel.getAll(page, limit, filters);
 
             res.render("publications/publications", {
                 publications: result.data,
@@ -18,8 +21,8 @@ export class PublicationController {
                 currentFilters: filters
             });
         } catch (error) {
-            console.error("Error al obtener publicaciones:", error);
-            return res.status(500).send("Error al obtener publicaciones");
+            console.error("Error:", error);
+            res.status(500).send("Error al obtenir publicacions");
         }
     }
 

@@ -3,28 +3,33 @@ import supabase from "../config.js";
 // Modelo de publicaciones
 export class PublicationModel {
 
-    // Método para obtener todas las publicaciones
+    // Método para obtener todas las publicaciones y filtros 
     static async getAll(page = 1, limit = 15, filters = {}) {
-        let query = supabase.from("publications").select("*").order("title");
+        let query = supabase
+            .from("publications")
+            .select("*", { count: 'exact' })
+            .order("title");
 
+        // Búsqueda Texto
         if (filters.search) {
             query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%`);
         }
+
+        // Filtro Validación
+        if (filters.validated && filters.validated !== 'all') {
+            query = query.eq('validated', filters.validated === 'true');
+        }
+
         if (page && limit) {
             const from = (page - 1) * limit;
             const to = from + limit - 1;
             query = query.range(from, to);
         }
-        const { data, count, error } = await query;
 
+        const { data, count, error } = await query;
         if (error) throw error;
-        return {
-            data,
-            count,
-            page: page || 1,
-            limit: limit || count,
-            totalPages: limit ? Math.ceil(count / limit) : 1
-        };
+
+        return { data, count, page, limit, totalPages: Math.ceil(count / limit) };
     }
 
     // Método para obtener una publicación por ID

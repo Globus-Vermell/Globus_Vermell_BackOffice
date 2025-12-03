@@ -36,8 +36,8 @@ async function validatePublication(id) {
 // Función de filtrado
 function filterPublications() {
     const inputVal = document.getElementById('searchInput').value;
-    const valSelect = document.getElementById('filterValidation').value; // Si usas el select de validación
-    
+    const valSelect = document.getElementById('filterValidation').value;
+
     const params = new URLSearchParams();
     if (inputVal) params.set('search', inputVal);
     if (valSelect !== 'all') params.set('validated', valSelect);

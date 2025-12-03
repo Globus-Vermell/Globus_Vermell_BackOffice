@@ -27,8 +27,10 @@
         <div class="header-filters">
             <select id="filterValidation" class="header-select" onchange="filterPublications()">
                 <option value="all">Estat: Tots</option>
-                <option value="true">Validats</option>
-                <option value="false">Pendents</option>
+                <option value="true" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='true' )
+                    ? 'selected' : '' %>>Validats</option>
+                <option value="false" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
+                    ? 'selected' : '' %>>Pendents</option>
             </select>
         </div>
 
