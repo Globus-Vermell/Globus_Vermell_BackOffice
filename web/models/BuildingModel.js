@@ -4,11 +4,18 @@ import supabase from "../config.js";
 export class BuildingModel {
 
     // Método para obtener todas las construcciones
-    static async getAll(page = null, limit = null) {
+    static async getAll(page = 1, limit = 15, filters = {}) {
         let query = supabase
             .from("buildings")
             .select("*, building_images(image_url)", { count: 'exact' })
             .order("name");
+
+        // Filtros 
+        if (filters.search) {
+            // Busca en nombre o ubicación
+            query = query.or(`name.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
+        }
+
         if (page && limit) {
             const from = (page - 1) * limit;
             const to = from + limit - 1;

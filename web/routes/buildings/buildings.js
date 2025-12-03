@@ -10,18 +10,24 @@ router.get("/", async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = 15;
+        
+        // Recogemos todos los posibles filtros
+         const filters = {
+            search: req.query.search || '',
+            validated: req.query.validated || 'all',
+            publication: req.query.publication || 'all'
+        }; 
 
-        // Ejecutamos ambas peticiones a la vez 
         const [buildingsResult, publicationsResult] = await Promise.all([
-            BuildingModel.getAll(page, limit),
+            BuildingModel.getAll(page, limit, filters),
             PublicationModel.getAll()
         ]);
 
-        // Renderizamos pasando ambas listas a la vista
         res.render("buildings/buildings", {
             buildings: buildingsResult.data,
             pagination: buildingsResult,
-            publications: publicationsResult.data
+            publications: publicationsResult.data,
+            currentFilters: filters // ¡Pasamos los filtros a la vista!
         });
     } catch (err) {
         console.error("Error inesperado:", err);
