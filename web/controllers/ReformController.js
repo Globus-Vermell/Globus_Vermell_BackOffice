@@ -8,11 +8,11 @@ export class ReformController {
             const limit = 15;
             const filters = { search: req.query.search || '' };
             const result = await ReformModel.getAll(page, limit, filters);
-            
-            res.render("reform/reform", { 
-                reformas: result.data, 
-                pagination: result, 
-                currentFilters: filters 
+
+            res.render("reform/reform", {
+                reformas: result.data,
+                pagination: result,
+                currentFilters: filters
             });
         } catch (error) {
             console.error("Error:", error);
@@ -21,15 +21,11 @@ export class ReformController {
     }
 
     static async formCreate(req, res) {
-        res.render("reform/reformForm");
-    }
-
-    static async getArchitects(req, res) {
         try {
-            const architects = await ArchitectModel.getAll();
-            res.json(architects.data || []);
+            const architects = await ArchitectModel.getAll(null, null);
+            res.render("reform/reformForm", { architects: architects.data || [] });
         } catch (error) {
-            res.status(500).json([]);
+            res.status(500).send("Error al cargar el formulari");
         }
     }
 

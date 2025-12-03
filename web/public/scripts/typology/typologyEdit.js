@@ -17,7 +17,7 @@ form.addEventListener('submit', async (e) => {
 
         // Subimos la imagen
         try {
-            const uploadRes = await fetch("/typologies/edit/upload", {
+            const uploadRes = await fetch("/typologies/upload", {
                 method: "POST",
                 body: uploadData
             });

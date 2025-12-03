@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Subimos la imagen
-                const uploadRes = await fetch("/typologies/create/upload", {
+                const uploadRes = await fetch("/typologies/upload", {
                     method: "POST",
                     body: uploadData
                 });

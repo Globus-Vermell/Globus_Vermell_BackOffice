@@ -50,12 +50,30 @@
                     <div class="col-center">
                         <div class="form-group">
                             <label for="publications">Publicació: <span class="required">*</span></label>
-                            <select id="publications" name="publications" required multiple></select>
+                            <select id="publications" name="publications" required multiple>
+                                <% if (publications && publications.length> 0) { %>
+                                    <% publications.forEach(pub=> { %>
+                                        <% const isSelected=currentPublications.includes(pub.id_publication)
+                                            ? 'selected' : '' %>
+                                            <option value="<%= pub.id_publication %>" <%=isSelected %>><%= pub.title %>
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
+                            </select>
                         </div>
 
                         <div class="form-group">
                             <label for="architects">Arquitectes:</label>
-                            <select id="architects" name="architects" multiple></select>
+                            <select id="architects" name="architects" multiple>
+                                <% if (architects && architects.length> 0) { %>
+                                    <% architects.forEach(arq=> { %>
+                                        <% const isSelected=currentArchitects.includes(arq.id_architect) ? 'selected'
+                                            : '' %>
+                                            <option value="<%= arq.id_architect %>" <%=isSelected %>><%= arq.name %>
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
+                            </select>
                         </div>
 
                         <div class="split-row form-group">
@@ -63,13 +81,23 @@
                                 <label for="protection">Protecció:</label>
                                 <select id="protection" name="protection">
                                     <option value="">-- Cap --</option>
+                                    <% if (protections && protections.length> 0) { %>
+                                        <% protections.forEach(p=> { %>
+                                            <option value="<%= p.id_protection %>"
+                                                <%=building.id_protection===p.id_protection ? 'selected' : '' %>>
+                                                <%= p.level %>
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
                                 </select>
                             </div>
+
                             <div class="form-group" id="typologies-container">
                                 <label for="typologies">Tipologia:</label>
                                 <select id="typologies" name="typologies"></select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="picture">Canviar Imatge:</label>
                             <input type="file" id="picture" name="picture" multiple accept="image/*" />

@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/", ReformController.index);
 router.get("/create", ReformController.formCreate);
-router.get("/create/architects", ReformController.getArchitects);
 router.post("/create", ReformController.create);
 router.get("/edit/:id", ReformController.formEdit);
 router.put("/edit/:id", ReformController.update);

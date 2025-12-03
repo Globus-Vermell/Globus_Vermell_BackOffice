@@ -53,12 +53,28 @@
                     <div class="fields-column">
                         <div class="form-group">
                             <label for="publications">Publicació: <span class="required">*</span></label>
-                            <select id="publications" name="publications" multiple></select>
+                            <select id="publications" name="publications" multiple>
+                                <% if (publications && publications.length> 0) { %>
+                                    <% publications.forEach(pub=> { %>
+                                        <option value="<%= pub.id_publication %>">
+                                            <%= pub.title %>
+                                        </option>
+                                        <% }) %>
+                                            <% } %>
+                            </select>
                         </div>
 
                         <div class="form-group">
                             <label for="architects">Arquitectes:</label>
-                            <select id="architects" name="architects" multiple></select>
+                            <select id="architects" name="architects" multiple>
+                                <% if (architects && architects.length> 0) { %>
+                                    <% architects.forEach(arq=> { %>
+                                        <option value="<%= arq.id_architect %>">
+                                            <%= arq.name %>
+                                        </option>
+                                        <% }) %>
+                                            <% } %>
+                            </select>
                         </div>
 
                         <div class="form-row">
@@ -66,14 +82,24 @@
                                 <label for="protection">Protecció:</label>
                                 <select id="protection" name="protection">
                                     <option value="">-- Cap --</option>
+                                    <% if (protections && protections.length> 0) { %>
+                                        <% protections.forEach(p=> { %>
+                                            <option value="<%= p.id_protection %>">
+                                                <%= p.level %>
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
                                 </select>
                             </div>
 
-                            <div class="form-group" id="typologies-container">
+                            <div class="form-group" id="typologies-container" style="display:none;">
                                 <label for="typologies">Tipologia:</label>
-                                <select id="typologies" name="typologies"></select>
+                                <select id="typologies" name="typologies">
+                                    <option value="">-- Selecciona una tipologia --</option>
+                                </select>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

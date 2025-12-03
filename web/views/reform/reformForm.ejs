@@ -35,6 +35,13 @@
                     <label for="id_architect">Arquitecte responsable <span class="required">*</span></label>
                     <select id="id_architect" name="id_architect" required>
                         <option value="">-- Selecciona un arquitecte --</option>
+                        <% if (architects && architects.length> 0) { %>
+                            <% architects.forEach(arq=> { %>
+                                <option value="<%= arq.id_architect %>">
+                                    <%= arq.name %>
+                                </option>
+                                <% }) %>
+                                    <% } %>
                     </select>
                 </div>
 
