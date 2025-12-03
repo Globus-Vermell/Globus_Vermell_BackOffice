@@ -1,5 +1,5 @@
 // Formulario de edición de usuario
-document.getElementById("form-edit-user").addEventListener("submit", async e => {
+document.getElementById("form-user-edit").addEventListener("submit", async e => {
     e.preventDefault();
     // Obtenemos los datos del formulario
     const data = Object.fromEntries(new FormData(e.target).entries());

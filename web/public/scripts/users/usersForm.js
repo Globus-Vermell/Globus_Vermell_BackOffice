@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Enviamos los datos al servidor
-        const res = await fetch("/users/form", {
+        const res = await fetch("/users/create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)

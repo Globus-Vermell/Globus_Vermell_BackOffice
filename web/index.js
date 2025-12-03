@@ -8,9 +8,7 @@ import FormularioEdificacionRouter from "./routes/buildings/buildingsForm.js";
 import publicacionesFormRouter from "./routes/publications/publicationsForm.js";
 import buildingsEditRouter from "./routes/buildings/buildingsEdit.js";
 import publicationsEditRouter from "./routes/publications/publicationsEdit.js";
-import usersRouter from "./routes/users/users.js";
-import usersFormRouter from "./routes/users/usersForm.js";
-import usersEditRouter from "./routes/users/usersEdit.js";
+import usersRouter from "./routes/users.js";
 import architectsRouter from "./routes/architects.js";
 import protectionsRouter from "./routes/protections.js";
 import reformsRouter from "./routes/reforms.js";
@@ -59,8 +57,7 @@ app.use("/publications/edit", publicationsEditRouter);
 app.use("/reforms", reformsRouter);
 app.use("/typologies", typologiesRouter);
 app.use("/users", usersRouter);
-app.use("/users/edit", usersEditRouter);
-app.use("/users/form", usersFormRouter);
+
 
 
 // Start
