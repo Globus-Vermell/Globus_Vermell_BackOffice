@@ -3,15 +3,20 @@ import supabase from "../config.js";
 // Modelo de tipología
 export class TypologyModel {
     // Método para obtener todas las tipologías
-    static async getAll() {
-        const { data, error } = await supabase
-            .from("typology")
-            .select("*")
-            .order("name");
+    static async getAll(filters = {}) { 
+    let query = supabase
+        .from("typology")
+        .select("*")
+        .order("name");
 
-        if (error) throw error;
-        return data;
+    if (filters.search) {
+        query = query.ilike('name', `%${filters.search}%`);
     }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data;
+}
 
     // Método para obtener una tipología por ID
     static async getById(id) {
