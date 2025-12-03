@@ -28,10 +28,10 @@ app.set('view engine', 'ejs');
 
 // Configuración de la sesión 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'secretosecreto',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }));
 
 // Middleware para pasar el usuario a las vistas
