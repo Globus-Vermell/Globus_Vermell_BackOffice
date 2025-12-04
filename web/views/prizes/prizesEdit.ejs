@@ -2,25 +2,13 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Editar Premio</title>
-
-    <!-- Estilos del formulario -->
-    <link rel="stylesheet" href="/css/form.css">
-
-    <!-- Iconos Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Editar Premi', cssType: 'form' }) %>
 </head>
 
 <body>
 
     <!-- Encabezado de la página -->
-    <header class="form-header">
-        <a href="/prizes" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1 class="page-title">Editar Premio</h1>
-    </header>
+    <%- include('../partials/headerForm', { backUrl: '/prizes', title: 'Editar Premi' }) %>
 
     <main class="flex-container">
         <!-- Formulario de edición del premio -->

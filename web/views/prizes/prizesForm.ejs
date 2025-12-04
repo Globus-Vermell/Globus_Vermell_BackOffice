@@ -2,23 +2,12 @@
 <html lang="ca">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Nou Premi</title>
-    <!-- Estilos para el formulario de creación -->
-    <link rel="stylesheet" href="/css/form.css">
-    <!-- Font Awesome para los iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Nou Premi', cssType: 'form' }) %>
 </head>
 
 <body>
     <!-- Encabezado del formulario -->
-    <header class="form-header">
-        <!-- Enlace para volver a la lista de premios -->
-        <a href="/prizes" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1 class="page-title">Afegir un nou premi</h1>
-    </header>
+    <%- include('../partials/headerForm', { backUrl: '/prizes', title: 'Nou Premi' }) %>
 
     <!-- Contenedor principal del formulario -->
     <main class="flex-container">

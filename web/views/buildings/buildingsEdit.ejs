@@ -2,18 +2,12 @@
 <html lang="ca">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Editar edificació</title>
-    <link rel="stylesheet" href="/css/form.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/css/MultiSelect.css">
+    <%- include('../partials/head', { title: 'Editar construcció', cssType: 'form' }) %>
 </head>
 
 <body>
-    <header class="form-header">
-        <a href="/buildings" class="back-link"><i class="fas fa-arrow-left"></i></a>
-        <h1 class="page-title">Editar edificació</h1>
-    </header>
+    <!-- Header de la página -->
+    <%- include('../partials/headerForm', { backUrl: '/buildings', title: 'Editar construcció' }) %>
 
     <main class="flex-container">
         <section class="form-container">

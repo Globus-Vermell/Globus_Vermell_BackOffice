@@ -2,26 +2,13 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Tipología</title>
-
-    <!-- Estilos del formulario -->
-    <link rel="stylesheet" href="/css/form.css">
-
-    <!-- Font Awesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Editar Tipologia', cssType: 'form' }) %>
 </head>
 
 <body>
 
     <!-- Header del formulario -->
-    <header class="form-header">
-        <a href="/typologies" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1 class="page-title">Editar Tipología</h1>
-    </header>
+    <%- include('../partials/headerForm', { backUrl: '/typology', title: 'Editar Tipologia' }) %>
 
     <main class="flex-container">
 

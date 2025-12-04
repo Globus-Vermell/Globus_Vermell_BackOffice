@@ -2,23 +2,13 @@
 <html lang="ca">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Arquitecte</title>
-    <!-- Estilos del formulario de edición -->
-    <link rel="stylesheet" href="/css/form.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Editar Arquitecte', cssType: 'form' }) %> 
 </head>
 
 <body>
 
     <!-- Header de la página -->
-    <header class="form-header">
-        <a href="/architects" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1 class="page-title">Editar Arquitecte</h1>
-    </header>
+    <%- include('../partials/headerForm', { backUrl: '/architects', title: 'Editar Arquitecte' }) %>
 
     <main class="flex-container">
         <!-- Formulario de edición del arquitecto -->
