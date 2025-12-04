@@ -80,7 +80,7 @@ export class BuildingController {
                 : (extra_descriptions ? [extra_descriptions] : []);
 
             const relations = {
-                architects: Array.isArray(architects) ? architects : [architects],
+                architects: Array.isArray(architects) ? architects : [],
                 publications: Array.isArray(publications) ? publications : [publications],
                 pictureUrls: pictureUrls || []
             };
