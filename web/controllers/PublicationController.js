@@ -5,7 +5,7 @@ export class PublicationController {
     static async index(req, res, next) {
         try {
             const data = await PublicationService.getAllPublications(req.query);
-            res.render("publications/publications", data);
+            res.render("publications/index", data);
         } catch (error) {
             next(error);
         }
@@ -14,7 +14,7 @@ export class PublicationController {
     static async formCreate(req, res, next) {
         try {
             const typologies = await PublicationService.getAllTypologies();
-            res.render('publications/publicationsForm', {
+            res.render('publications/create', {
                 typologies: typologies || []
             });
         } catch (err) {
@@ -39,7 +39,7 @@ export class PublicationController {
                 PublicationService.getAllTypologies()
             ]);
 
-            res.render('publications/publicationsEdit', {
+            res.render('publications/edit', {
                 publication: data.publication,
                 currentTypologies: data.currentTypologies,
                 typologies: typologies || []

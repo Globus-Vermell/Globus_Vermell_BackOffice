@@ -9,7 +9,7 @@ export class BuildingController {
     static async index(req, res, next) {
         try {
             const data = await BuildingService.getAllBuildings(req.query);
-            res.render("buildings/buildings", data);
+            res.render("buildings/index", data);
         } catch (err) {
             next(err);
         }
@@ -24,7 +24,7 @@ export class BuildingController {
                 ProtectionModel.getAll()
             ]);
 
-            res.render("buildings/buildingsForm", {
+            res.render("buildings/create", {
                 publications: publications.data || [],
                 architects: architects.data || [],
                 typologies: typologies || [],
@@ -56,7 +56,7 @@ export class BuildingController {
                 ProtectionModel.getAll()
             ]);
 
-            res.render("buildings/buildingsEdit", {
+            res.render("buildings/edit", {
                 building,
                 currentPublications: related.publications,
                 currentArchitects: related.architects,

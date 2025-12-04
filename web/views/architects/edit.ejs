@@ -2,55 +2,64 @@
 <html lang="ca">
 
 <head>
-    <%- include('../partials/head', { title: 'Nou Arquitecte', cssType: 'form' }) %>
+    <%- include('../partials/head', { title: 'Editar Arquitecte', cssType: 'form' }) %> 
 </head>
 
 <body>
-    <!-- Encabezado del formulario -->
-    <%- include('../partials/headerForm', { backUrl: '/architects', title: 'Nou Arquitecte' }) %>
 
-    <!-- Contenedor principal del formulario -->
+    <!-- Header de la página -->
+    <%- include('../partials/headerForm', { backUrl: '/architects', title: 'Editar Arquitecte' }) %>
+
     <main class="flex-container">
+        <!-- Formulario de edición del arquitecto -->
         <section class="form-container">
-            <!-- Formulario para añadir un nuevo arquitecte -->
-            <form id="form-arquitecte">
+            <form id="form-edit-architect">
+
                 <!-- Campos del formulario -->
                 <div class="form-group">
                     <label for="name">Nom <span class="required">*</span></label>
-                    <input type="text" id="name" name="name" required />
+                    <input type="text" id="name" name="name" value="<%= architect.name %>" required />
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="birth_year">Any de naixement</label>
-                        <input type="number" id="birth_year" name="birth_year" />
+                        <input type="number" id="birth_year" name="birth_year" value="<%= architect.birth_year %>" />
                     </div>
+
                     <div class="form-group">
                         <label for="death_year">Any de defunció</label>
-                        <input type="number" id="death_year" name="death_year" />
+                        <input type="number" id="death_year" name="death_year" value="<%= architect.death_year %>" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="nationality">Nacionalitat</label>
-                    <input type="text" id="nationality" name="nationality" />
+                    <input type="text" id="nationality" name="nationality" value="<%= architect.nationality %>" />
                 </div>
 
                 <div class="form-group">
                     <label for="description">Biografia</label>
-                    <textarea id="description" name="description"></textarea>
+                    <textarea id="description" name="description"><%= architect.description %></textarea>
                 </div>
 
-                <!-- Botón de envío -->
+                <!-- Botón de enviado -->
                 <button type="submit" class="submit-button">
                     <i class="fas fa-save"></i> Guardar
                 </button>
+
             </form>
         </section>
     </main>
 
+    <!-- Script con la info del arquitecto para edición -->
+    <script>
+        const architect = JSON.parse('<%- JSON.stringify(architect) %>');
+    </script>
+
     <!-- Script con la lógica del formulario -->
-    <script src="/scripts/architects/architectsForm.js"></script>
+    <script src="/scripts/architects/edit.js"></script>
+
 </body>
 
 </html>

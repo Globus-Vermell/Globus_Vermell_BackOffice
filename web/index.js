@@ -3,7 +3,7 @@ import session from "express-session";
 import dotenv from 'dotenv';
 import { errorHandler } from './middlewares/error.js';
 
-import loginRouter from "./routes/login.js";
+import loginRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
 import architectsRouter from "./routes/architects.js";
 import buildingsRouter from "./routes/buildings.js";
@@ -50,7 +50,7 @@ app.use("/users", usersRouter);
 app.use("/architects", architectsRouter);
 app.use("/buildings", buildingsRouter);
 app.use("/prizes", prizesRouter);
-app.use("/protection", protectionsRouter);
+app.use("/protections", protectionsRouter);
 app.use('/publications', publicationsRouter);
 app.use("/reforms", reformsRouter);
 app.use("/typologies", typologiesRouter);

@@ -7,7 +7,7 @@
 
     <%- include('../partials/headerList', { 
         title: 'Proteccions', 
-        createUrl: '/protection/create', 
+        createUrl: '/protections/create', 
         createLabel: 'Nova protecció' 
     }) %>
 
@@ -16,7 +16,7 @@
         <%- include('../partials/search', { 
             searchFunction: 'filterProtections', 
             placeholder: 'Buscar per nivell...',
-            resetUrl: '/protection',
+            resetUrl: '/protections',
             currentFilters: currentFilters 
         }) %>
 
@@ -29,7 +29,7 @@
                             <p class="card-description"><%= p.description || "Sense descripció." %></p>
                         </div>
                         <div class="card-actions">
-                            <a href="/protection/edit/<%= p.id_protection %>" class="edit-button">
+                            <a href="/protections/edit/<%= p.id_protection %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar">Editar
                             </a>
                             <button type="button" class="delete-button" onclick="deleteProtection('<%= p.id_protection %>')">
@@ -46,6 +46,6 @@
         <%- include('../partials/pagination', { route: '/protection' }) %>
 
     </main>
-    <script src="/scripts/protection/protection.js"></script>
+    <script src="/scripts/protections/index.js"></script>
 </body>
 </html>
