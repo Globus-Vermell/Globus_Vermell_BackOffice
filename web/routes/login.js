@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
     try {
         // Buscamos el usuario por su nombre y contraseña
-        const user = await UserModel.getByCredentials(username, password);
+        const user = await UserModel.login(username, password);
 
         // Si el usuario no existe, mostramos el formulario de login con un mensaje de error
         if (!user) {

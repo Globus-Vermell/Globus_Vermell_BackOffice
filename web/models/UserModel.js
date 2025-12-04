@@ -1,4 +1,5 @@
 import supabase from "../config.js";
+import bcrypt from "bcrypt";
 
 // Modelo de usuario
 export class UserModel {
@@ -38,27 +39,30 @@ export class UserModel {
         return data;
     }
 
-    // Metodo para obtener un usuario por su nombre y contraseña
-    static async getByCredentials(username, password) {
-        const { data, error } = await supabase
+    // Metodo para crear un usuario
+    static async create(data) {
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        data.password = hashedPassword;
+
+        const { error } = await supabase.from("users").insert([data]);
+        if (error) throw error;
+        return true;
+    }
+
+    // Metodo para iniciar sesion
+    static async login(username, plainPassword) {
+        const { data: user, error } = await supabase
             .from("users")
             .select("*")
             .eq("name", username)
-            .eq("password", password)
-            .maybeSingle();
+            .single();
 
-        if (error) throw error;
-        return data;
-    }
+        if (!user || error) return null;
 
-    // Metodo para crear un usuario
-    static async create(data) {
-        const { error } = await supabase
-            .from("users")
-            .insert([data]);
+        const match = await bcrypt.compare(plainPassword, user.password);
 
-        if (error) throw error;
-        return true;
+        if (match) return user;
+        return null;
     }
 
     // Metodo para actualizar un usuario
