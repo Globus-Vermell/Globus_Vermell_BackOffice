@@ -4,6 +4,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectArquitectes = document.getElementById("architects");
     const selectTipologia = document.getElementById("typologies");
     const containerTipologia = document.getElementById("typologies-container");
+    const descriptionsContainer = document.getElementById('descriptions-container');
+    const btnAddDescription = document.getElementById('button-add-description');
+
+    function addDescriptionField(value = '') {
+        const div = document.createElement('div');
+        div.classList.add('description-row');
+
+        const textarea = document.createElement('textarea');
+        textarea.name = "extra_descriptions[]";
+        textarea.value = value;
+        textarea.rows = 3;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = "button";
+        deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteButton.classList.add('delete-description-button');
+
+        deleteButton.onclick = function () {
+            div.remove();
+        };
+
+        div.appendChild(textarea);
+        div.appendChild(deleteButton);
+        descriptionsContainer.appendChild(div);
+    }
+
+    if (btnAddDescription) {
+        btnAddDescription.addEventListener('click', () => addDescriptionField());
+    }
+
+    // Cargar descripciones existentes si las hay
+    if (building.buildings_descriptions && Array.isArray(building.buildings_descriptions)) {
+        // Ordenamos por display_order para asegurar la coherencia
+        building.buildings_descriptions.sort((a, b) => a.display_order - b.display_order);
+
+        building.buildings_descriptions.forEach(desc => {
+            addDescriptionField(desc.content);
+        });
+    }
 
     new MultiSelect(selectArquitectes, {
         placeholder: 'Selecciona arquitectes...',
@@ -77,6 +116,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (data.publications && !Array.isArray(data.publications)) data.publications = [data.publications];
         if (data.architects && !Array.isArray(data.architects)) data.architects = [data.architects];
+
+        if (data.extra_descriptions && !Array.isArray(data.extra_descriptions)) {
+            data.extra_descriptions = [data.extra_descriptions];
+        }
 
         let pictureUrls = [];
         const pictureInput = document.getElementById("picture");

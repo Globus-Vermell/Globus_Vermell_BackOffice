@@ -105,7 +105,8 @@
                     </div>
 
                     <div class="col-right">
-                        <div class="image-container-building" style="margin-top: 0; width: 100%;">
+                        <div class="image-container-building" style="margin-top: 0;
+ width: 100%;">
                             <% if (imagenes && imagenes.length> 0) { %>
                                 <img src="<%= imagenes[0] %>" alt="Imatge de l'edificació" class="building-image">
                                 <% } else { %>
@@ -125,9 +126,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="extra_description">Descripció Extra:</label>
-                    <textarea id="extra_description"
-                        name="extra_description"><%= building.extra_description %></textarea>
+                    <label>Descripcions Extra:</label>
+                    <div id="descriptions-container"></div>
+                    <button type="button" id="button-add-description" class="add-description-button">
+                        <i class="fas fa-plus"></i> Afegir descripció
+                    </button>
                 </div>
 
                 <button type="submit" class="submit-button">

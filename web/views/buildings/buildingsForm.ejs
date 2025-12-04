@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Nova edificació</title>
+    <!-- Estilos para el formulario de creación -->
     <link rel="stylesheet" href="/css/form.css">
-    <!-- Font Awesome para los iconos -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Libreria MultiSelect -->
+    <!-- MultiSelect -->
     <link rel="stylesheet" href="/css/MultiSelect.css">
 </head>
 
@@ -25,7 +26,6 @@
         <section class="form-container">
             <!-- Formulario para añadir una nueva edificació -->
             <form id="form-edificacio" enctype="multipart/form-data">
-                <!-- Campos del formulario -->
                 <div class="top-section">
 
                     <div class="fields-column">
@@ -119,11 +119,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="extra_description">Descripció Extra:</label>
-                    <textarea id="extra_description" name="extra_description"></textarea>
+                    <label>Descripcions Extra:</label>
+                    <div id="descriptions-container"></div>
+                    <button type="button" id="button-add-description" class="add-description-button">
+                        <i class="fas fa-plus"></i> Afegir descripció
+                    </button>
                 </div>
 
-                <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
                     <i class="fas fa-save"></i> Desar
                 </button>

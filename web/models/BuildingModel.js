@@ -5,9 +5,8 @@ export class BuildingModel {
 
     // Método para obtener todas las construcciones
     static async getAll(page = 1, limit = 15, filters = {}) {
-        // Base de la consulta
         let selectQuery = "*, building_images(image_url)";
-        
+
         if (filters.image === 'true') {
             selectQuery = "*, building_images!inner(image_url)";
         }
@@ -23,21 +22,16 @@ export class BuildingModel {
             .order("name");
 
         // Filtros
-        
-        // 1. Search
         if (filters.search) {
             query = query.or(`name.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
         }
 
-        // 2. Validación
         if (filters.validated && filters.validated !== 'all') {
             const isValid = filters.validated === 'true';
             query = query.eq('validated', isValid);
         }
 
-        // 3. Publicación
         if (filters.publication && filters.publication !== 'all') {
-            // Filtramos sobre la tabla unida
             query = query.eq('building_publications.id_publication', parseInt(filters.publication));
         }
 
@@ -73,23 +67,26 @@ export class BuildingModel {
         return data;
     }
 
-    // Método para obtener datos relacionados (imágenes, arquitectos, publicaciones)
+    // Método para obtener datos relacionados (imágenes, arquitectos, publicaciones, descripciones extra)
     static async getRelatedData(id) {
         // Ejecutamos las consultas en paralelo
-        const [pubRes, arqRes, imgRes] = await Promise.all([
+        const [pubRes, arqRes, imgRes, descRes] = await Promise.all([
             supabase.from("building_publications").select("id_publication").eq("id_building", id),
             supabase.from("building_architects").select("id_architect").eq("id_building", id),
-            supabase.from("building_images").select("image_url").eq("id_building", id)
+            supabase.from("building_images").select("image_url").eq("id_building", id),
+            supabase.from("buildings_descriptions").select("*").eq("id_building", id).order('display_order', { ascending: true })
         ]);
 
         if (pubRes.error) throw pubRes.error;
         if (arqRes.error) throw arqRes.error;
         if (imgRes.error) throw imgRes.error;
+        if (descRes.error) throw descRes.error;
 
         return {
             publications: pubRes.data.map(r => r.id_publication),
             architects: arqRes.data.map(r => r.id_architect),
-            images: imgRes.data.map(r => r.image_url)
+            images: imgRes.data.map(r => r.image_url),
+            descriptions: descRes.data // Array de objetos {id_description, content, display_order...}
         };
     }
 
@@ -105,7 +102,6 @@ export class BuildingModel {
 
         if (error) throw error;
 
-        // Limpiamos la respuesta y eliminamos duplicados
         const formattedData = data.map(item => item.typology);
         const uniqueTypologies = Array.from(new Map(formattedData.map(item => [item.id_typology, item])).values());
 
@@ -117,11 +113,9 @@ export class BuildingModel {
         const filePaths = [];
 
         await Promise.all(files.map(async (file) => {
-            // Limpiamos el nombre quitando espacios y caracteres raros
             const cleanName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
             const fileName = `${Date.now()}_${cleanName}`;
 
-            // Subimos a Supabase Storage
             const { error } = await supabase.storage
                 .from('images')
                 .upload(`buildings/${fileName}`, file.buffer, {
@@ -130,7 +124,6 @@ export class BuildingModel {
 
             if (error) throw error;
 
-            // Obtenemos la URL pública
             const { data } = supabase.storage
                 .from('images')
                 .getPublicUrl(`buildings/${fileName}`);
@@ -142,7 +135,7 @@ export class BuildingModel {
     }
 
     // Método para crear una construcción completa
-    static async create(buildingData, relations) {
+    static async create(buildingData, relations, descriptionsArray) {
         // 1. Insertamos el edificio
         const { data: newBuilding, error } = await supabase
             .from("buildings")
@@ -184,11 +177,21 @@ export class BuildingModel {
             if (err) throw err;
         }
 
+        if (descriptionsArray && descriptionsArray.length > 0) {
+            const descriptionInserts = descriptionsArray.map((text, index) => ({
+                id_building: buildingId,
+                content: text,
+                display_order: index
+            }));
+            const { error: err } = await supabase.from("buildings_descriptions").insert(descriptionInserts);
+            if (err) throw err;
+        }
+
         return true;
     }
 
     // Método para actualizar una construcción completa
-    static async update(id, buildingData, relations) {
+    static async update(id, buildingData, relations, descriptionsArray) {
         // 1. Actualizamos datos básicos
         const { error } = await supabase
             .from("buildings")
@@ -223,13 +226,31 @@ export class BuildingModel {
             }
         }
 
-        // 4. Añadimos nuevas imágenes (No borramos las viejas aquí, solo añadimos)
+        // 4. Añadimos nuevas imágenes
         if (relations.pictureUrls && relations.pictureUrls.length > 0) {
             const inserts = relations.pictureUrls.map(url => ({
                 id_building: id,
                 image_url: url
             }));
             const { error: err } = await supabase.from("building_images").insert(inserts);
+            if (err) throw err;
+        }
+
+
+        const { error: deleteDescError } = await supabase
+            .from("buildings_descriptions")
+            .delete()
+            .eq("id_building", id);
+
+        if (deleteDescError) throw deleteDescError;
+
+        if (descriptionsArray && descriptionsArray.length > 0) {
+            const descriptionInserts = descriptionsArray.map((text, index) => ({
+                id_building: id,
+                content: text,
+                display_order: index
+            }));
+            const { error: err } = await supabase.from("buildings_descriptions").insert(descriptionInserts);
             if (err) throw err;
         }
 

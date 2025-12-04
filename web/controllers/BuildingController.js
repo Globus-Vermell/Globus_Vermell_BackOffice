@@ -60,7 +60,7 @@ export class BuildingController {
         const {
             name, address, construction_year, description, surface_area,
             publications, architects, tipologies, protection,
-            coordinates, pictureUrls
+            coordinates, pictureUrls, extra_descriptions
         } = req.body;
 
         try {
@@ -75,13 +75,17 @@ export class BuildingController {
                 id_protection: protection ? parseInt(protection) : null,
             };
 
+            const descriptionsArray = Array.isArray(extra_descriptions)
+                ? extra_descriptions
+                : (extra_descriptions ? [extra_descriptions] : []);
+
             const relations = {
                 architects: Array.isArray(architects) ? architects : [architects],
                 publications: Array.isArray(publications) ? publications : [publications],
                 pictureUrls: pictureUrls || []
             };
 
-            await BuildingModel.create(buildingData, relations);
+            await BuildingModel.create(buildingData, relations, descriptionsArray);
 
             res.json({ success: true, message: "Edificació guardada correctament!" });
 
@@ -100,6 +104,8 @@ export class BuildingController {
             }
 
             const related = await BuildingModel.getRelatedData(id);
+
+            building.buildings_descriptions = related.descriptions;
 
             const [publications, architects, typologies, protections] = await Promise.all([
                 PublicationModel.getAll(null, null),
@@ -129,7 +135,7 @@ export class BuildingController {
         const {
             name, address, coordinates, construction_year, description,
             surface_area, tipologia, id_protection,
-            architects, publications, pictureUrls
+            architects, publications, pictureUrls, extra_descriptions
         } = req.body;
 
         try {
@@ -144,13 +150,19 @@ export class BuildingController {
                 id_protection: parseInt(id_protection)
             };
 
+            // Normalizamos las descripciones extra
+            const descriptionsArray = Array.isArray(extra_descriptions)
+                ? extra_descriptions
+                : (extra_descriptions ? [extra_descriptions] : []);
+
             const relations = {
                 architects: architects ? (Array.isArray(architects) ? architects : [architects]) : [],
                 publications: publications ? (Array.isArray(publications) ? publications : [publications]) : [],
                 pictureUrls: pictureUrls || []
             };
 
-            await BuildingModel.update(id, buildingData, relations);
+            // Pasamos descriptionsArray al modelo
+            await BuildingModel.update(id, buildingData, relations, descriptionsArray);
 
             res.json({ success: true, message: "Edificació actualitzada correctament!" });
 
