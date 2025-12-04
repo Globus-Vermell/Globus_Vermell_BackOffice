@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const deleteButton = document.createElement('button');
         deleteButton.type = "button";
-        deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteButton.innerHTML = '<img src="/images/icons/trash-2-64.png" alt="Borrar">';
         deleteButton.classList.add('delete-description-button');
 
         deleteButton.onclick = function () {
