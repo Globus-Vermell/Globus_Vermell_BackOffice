@@ -12,3 +12,16 @@ export function isAdmin(req, res, next) {
 
     next();
 }
+
+export function isEditor(req, res, next) {
+    if (!req.session?.user) {
+        return res.redirect("/");
+    }
+
+    const validRoles = ["Admin", "Editor"];
+    if (validRoles.includes(req.session.user.level)) {
+        next();
+    } else {
+        return res.status(403).json({ success: false, message: "No tens permisos d'edició." });
+    }
+}
