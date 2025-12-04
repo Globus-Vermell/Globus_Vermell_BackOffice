@@ -1,8 +1,27 @@
+<% 
+    // 1. Lógica para recordar filtros 
+    let queryParams = '';
+    // Si nos pasan filtros, los convertimos a formato URL
+    if (typeof filters !== 'undefined' && filters) {
+        const params = [];
+        for (const key in filters) {
+            // Solo añadimos el filtro si tiene valor y no es el por defecto ('all')
+            if (filters[key] && filters[key] !== 'all' && filters[key] !== '') {
+                params.push(key + '=' + encodeURIComponent(filters[key]));
+            }
+        }
+        // Si hay parámetros, les ponemos el '&' delante
+        if (params.length > 0) {
+            queryParams = '&' + params.join('&');
+        }
+    }
+%>
+
 <% if (typeof pagination !== 'undefined' && pagination && pagination.totalPages > 1) { %>
     <div class="pagination-container">
         
         <% if (pagination.page > 1) { %>
-            <a href="<%= route %>?page=<%= pagination.page - 1 %>" class="pagination-btn">
+            <a href="<%= route %>?page=<%= pagination.page - 1 %><%= queryParams %>" class="pagination-btn">
                 <i class="fas fa-chevron-left"></i> Anterior
             </a>
         <% } else { %>
@@ -16,7 +35,7 @@
         </span>
 
         <% if (pagination.page < pagination.totalPages) { %>
-            <a href="<%= route %>?page=<%= pagination.page + 1 %>" class="pagination-btn">
+            <a href="<%= route %>?page=<%= pagination.page + 1 %><%= queryParams %>" class="pagination-btn">
                 Següent <i class="fas fa-chevron-right"></i>
             </a>
         <% } else { %>

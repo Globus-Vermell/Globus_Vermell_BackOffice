@@ -1,71 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Publicacions' }) %>
 </head>
+
 <body>
 
-    <% var filtrosPub = `
-        <select id="filterValidation" class="header-select" onchange="filterPublications()">
-            <option value="all">Estat: Tots</option>
-            <option value="true" ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'selected' : ''}>Validats</option>
-            <option value="false" ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'selected' : ''}>Pendents</option>
+    <% var filtrosPub=` <select id="filterValidation" class="header-select" onchange="filterPublications()">
+        <option value="all">Estat: Tots</option>
+        <option value="true" ${(typeof currentFilters !=='undefined' && currentFilters.validated==='true' ) ? 'selected'
+            : '' }>Validats</option>
+        <option value="false" ${(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
+            ? 'selected' : '' }>Pendents</option>
         </select>
-    `; %>
+        `; %>
 
-    <%- include('../partials/headerList', { 
-        title: 'Publicacions', 
-        createUrl: '/publications/create', 
-        createLabel: 'Afegir nova publicació',
-        extraFilters: filtrosPub
-    }) %>
+        <%- include('../partials/headerList', { title: 'Publicacions' , createUrl: '/publications/create' ,
+            createLabel: 'Afegir nova publicació' , extraFilters: filtrosPub }) %>
 
-    <main class="main-content">
+            <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterPublications', 
-            placeholder: 'Buscar per nom, descripció...',
-            resetUrl: '/publications',
-            currentFilters: currentFilters 
-        }) %>
+                <%- include('../partials/search', { searchFunction: 'filterPublications' ,
+                    placeholder: 'Buscar per nom, descripció...' , resetUrl: '/publications' , currentFilters:
+                    currentFilters }) %>
 
-        <input type="hidden" id="filterValidation" value="all">
+                    <input type="hidden" id="filterValidation" value="all">
 
-        <section class="list">
-            <% if (publications && publications.length > 0) { %>
-                <% publications.forEach(publication => { %>
-                    <article class="card">
-                        <div class="card-info">
-                            <h3 class="card-title"><%= publication.title %></h3>
-                            <p class="card-description"><%= publication.description %></p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/publications/edit/<%= publication.id_publication %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar">Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deletePublication('<%= publication.id_publication %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
-                            </button>
-                            <% if (publication.validated) { %>
-                                <button class="validated-button" disabled>
-                                    <img src="/images/icons/check-icon.png" alt="Validat">Validat
-                                </button>
-                            <% } else { %>
-                                <button class="validation-button" onclick="validatePublication('<%= publication.id_publication %>')">
-                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                                </button>
-                            <% } %>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha publicacions disponibles.</p>
-            <% } %>
-        </section>
+                    <section class="list">
+                        <% if (publications && publications.length> 0) { %>
+                            <% publications.forEach(publication=> { %>
+                                <article class="card">
+                                    <div class="card-info">
+                                        <h3 class="card-title">
+                                            <%= publication.title %>
+                                        </h3>
+                                        <p class="card-description">
+                                            <%= publication.description %>
+                                        </p>
+                                    </div>
+                                    <div class="card-actions">
+                                        <a href="/publications/edit/<%= publication.id_publication %>"
+                                            class="edit-button">
+                                            <img src="/images/icons/edit_icon.png" alt="Editar">Editar
+                                        </a>
+                                        <button type="button" class="delete-button"
+                                            onclick="deletePublication('<%= publication.id_publication %>')">
+                                            <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
+                                        </button>
+                                        <% if (publication.validated) { %>
+                                            <button class="validated-button" disabled>
+                                                <img src="/images/icons/check-icon.png" alt="Validat">Validat
+                                            </button>
+                                            <% } else { %>
+                                                <button class="validation-button"
+                                                    onclick="validatePublication('<%= publication.id_publication %>')">
+                                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                                </button>
+                                                <% } %>
+                                    </div>
+                                </article>
+                                <% }) %>
+                                    <% } else { %>
+                                        <p class="no-architects">No hi ha publicacions disponibles.</p>
+                                        <% } %>
+                    </section>
 
-        <%- include('../partials/pagination', { route: '/publications', pagination: pagination }) %>
+                    <%- include('../partials/pagination', { route: '/publications' , pagination: pagination, filters:
+                        currentFilters }) %>
 
-    </main>
-    <script src="/scripts/publications/index.js"></script>
+            </main>
+            <script src="/scripts/publications/index.js"></script>
 </body>
+
 </html>
