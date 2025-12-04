@@ -1,0 +1,18 @@
+<header class="page-header">
+    <div class="header-left">
+        <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title"><%= title %></h1>
+    </div>
+
+    <% if (typeof extraFilters !== 'undefined') { %>
+        <div class="header-filters">
+            <%- extraFilters %>
+        </div>
+    <% } %>
+
+    <div class="header-right">
+        <a href="<%= createUrl %>" class="add-button">
+            <i class="fas fa-plus"></i> <%= createLabel %>
+        </a>
+    </div>
+</header>

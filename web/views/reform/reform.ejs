@@ -1,139 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reformes</title>
-
-    <!-- Css principal y estilo de Emojis y simbolos usandos en la pagina -->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Reformes' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
+    <%- include('../partials/headerList', { 
+        title: 'Reformes', 
+        createUrl: '/reforms/create', 
+        createLabel: 'Nova reforma' 
+    }) %>
 
-        <!-- Botón para volver atrás -->
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Reformes</h1>
-        </div>
-
-        <!-- Botón para añadir nueva reforma -->
-        <div class="header-right">
-            <a href="/reforms/create" class="add-button">
-                <i class="fas fa-plus"></i> Nova reforma
-            </a>
-        </div>
-
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Barra de búsqueda -->
-        <div class="search-container-modern">
-            <!-- Agrupa la barra de búsqueda -->
-            <form class="form" onsubmit="event.preventDefault(); filterReforms();">
-                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
-                <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-                <input id="searchInput" class="input" placeholder="Buscar per arquitecte..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterReforms()">
-            </form>
-        </div>
+        <%- include('../partials/search', { 
+            searchFunction: 'filterReforms', 
+            placeholder: 'Buscar per arquitecte...',
+            resetUrl: '/reforms',
+            currentFilters: currentFilters 
+        }) %>
 
-        <!-- Lista de reformas -->
         <section class="list">
-
-            <!-- Bucle lógico que recorre todas las reformas -->
-            <% if (reformas && reformas.length> 0) { %>
-                <% reformas.forEach(r=> { %>
-
-                    <!-- Card de cada reforma, se guardan data para usar en filtros -->
-                    <article class="card" data-year="<%= r.year %>" data-architect="<%= (r.architects?.name || '') %>">
-
-                        <!-- Información principal de la reforma -->
+            <% if (reformas && reformas.length > 0) { %>
+                <% reformas.forEach(r => { %>
+                    <article class="card">
                         <div class="card-info">
-
-                            <h3 class="card-title">Reforma del año <%= r.year %>
-                            </h3>
-
-                            <p class="card-architect">Arquitecto: <%= r.architects?.name || 'Desconocido' %>
-                            </p>
-
+                            <h3 class="card-title">Reforma del año <%= r.year %></h3>
+                            <p class="card-architect">Arquitecto: <%= r.architects?.name || 'Desconocido' %></p>
                         </div>
-
-                        <!-- Botones para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Editar reforma -->
                             <a href="/reforms/edit/<%= r.id_reform %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
                             </a>
-
-                            <!-- Borrar reforma -->
                             <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
                             </button>
                         </div>
-
                     </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay reformas registradas -->
-                            <p class="no-architects">No hi ha reformes registrades.</p>
-
-                            <% } %>
-
-        </section>
-        <% if (pagination && pagination.totalPages> 1) { %>
-            <div class="pagination-container">
-
-                <% if (pagination.page> 1) { %>
-                    <a href="/reforms?page=<%= pagination.page - 1 %>" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i> Anterior
-                    </a>
-                    <% } else { %>
-                        <span class="pagination-btn disabled">
-                            <i class="fas fa-chevron-left"></i> Anterior
-                        </span>
-                        <% } %>
-
-                            <span class="pagination-info">
-                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
-                            </span>
-
-                            <% if (pagination.page < pagination.totalPages) { %>
-                                <a href="/reforms?page=<%= pagination.page + 1 %>" class="pagination-btn">
-                                    Següent <i class="fas fa-chevron-right"></i>
-                                </a>
-                                <% } else { %>
-                                    <span class="pagination-btn disabled">
-                                        Següent <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                    <% } %>
-            </div>
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha reformes registrades.</p>
             <% } %>
+        </section>
+
+        <%- include('../partials/pagination', { route: '/reforms', pagination: pagination }) %>
 
     </main>
-
-    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/reform/reform.js"></script>
-
 </body>
-
 </html>

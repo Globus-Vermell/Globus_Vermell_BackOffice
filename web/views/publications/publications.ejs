@@ -1,175 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicacions</title>
-
-    <!-- Css principal y estilo de Emojis y simbolos usandos en la pagina-->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Publicacions' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
-        <div class="header-left">
-            <!-- Botón para volver para atrás -->
-            <a href="/" class="back-link" aria-label="Tornar al menú principal">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-            <h1 class="page-title">Publicacions</h1>
-        </div>
+    <% var filtrosPub = `
+        <select id="filterValidation" class="header-select" onchange="filterPublications()">
+            <option value="all">Estat: Tots</option>
+            <option value="true" ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'selected' : ''}>Validats</option>
+            <option value="false" ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'selected' : ''}>Pendents</option>
+        </select>
+    `; %>
 
-        <!-- Filtrado de las publicaciones  -->
-        <div class="header-filters">
-            <select id="filterValidation" class="header-select" onchange="filterPublications()">
-                <option value="all">Estat: Tots</option>
-                <option value="true" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='true' )
-                    ? 'selected' : '' %>>Validats</option>
-                <option value="false" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
-                    ? 'selected' : '' %>>Pendents</option>
-            </select>
-        </div>
+    <%- include('../partials/headerList', { 
+        title: 'Publicacions', 
+        createUrl: '/publications/create', 
+        createLabel: 'Afegir nova publicació',
+        extraFilters: filtrosPub
+    }) %>
 
-        <div class="header-right">
-            <a href="/publications/create" class="add-button">
-                <i class="fas fa-plus"></i> Afegir nova publicació
-            </a>
-        </div>
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
-        <!-- Barra de búsqueda para filtrar construcciones -->
-        <div class="search-container-modern">
-            <form class="form" onsubmit="event.preventDefault(); filterPublications();">
-                <button type="button" onclick="filterPublications()">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
 
-                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required=""
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterPublications()">
+        <%- include('../partials/search', { 
+            searchFunction: 'filterPublications', 
+            placeholder: 'Buscar per nom, descripció...',
+            resetUrl: '/publications',
+            currentFilters: currentFilters 
+        }) %>
 
-                <button class="reset" type="reset" onclick="window.location.href='/publications'">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
-
-        <!-- Estos inputs no se ven en la pantalla, pero guardan la selección actual de los filtros en el código JavaScript pueda leerlos -->
         <input type="hidden" id="filterValidation" value="all">
 
-        <!-- Lista de publicaciones -->
         <section class="list">
-
-            <!-- Bucle lógico que recorre todas las publicaciones -->
-            <% if (publications && publications.length> 0) { %>
-                <% publications.forEach(publication=> { %>
-
-                    <!-- Card de cada publicación, se guardan data para usar en filtros -->
-                    <article class="card" data-title="<%= publication.title %>"
-                        data-description="<%= (publication.description || '') %>" ,
-                        data-validated="<%= publication.validated %>">
-
-                        <!-- Información principal de la publicación -->
+            <% if (publications && publications.length > 0) { %>
+                <% publications.forEach(publication => { %>
+                    <article class="card">
                         <div class="card-info">
-
-                            <h3 class="card-title">
-                                <%= publication.title %>
-                            </h3>
-
-                            <!-- Descripción de la publicación -->
-                            <p class="card-description">
-                                <%= publication.description %>
-                            </p>
-
+                            <h3 class="card-title"><%= publication.title %></h3>
+                            <p class="card-description"><%= publication.description %></p>
                         </div>
-
-                        <!-- Botones para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Editar publicación -->
                             <a href="/publications/edit/<%= publication.id_publication %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar">Editar
                             </a>
-
-                            <!-- Borrar publicación -->
-                            <button type="button" class="delete-button"
-                                onclick="deletePublication('<%= publication.id_publication %>')">
+                            <button type="button" class="delete-button" onclick="deletePublication('<%= publication.id_publication %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
                             </button>
-
-                            <!-- Validar publicación -->
                             <% if (publication.validated) { %>
                                 <button class="validated-button" disabled>
                                     <img src="/images/icons/check-icon.png" alt="Validat">Validat
                                 </button>
-                                <% } else { %>
-                                    <button class="validation-button"
-                                        onclick="validatePublication('<%= publication.id_publication %>')">
-                                        <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                                    </button>
-                                    <% } %>
-                        </div>
-
-                    </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay publicaciones registradas -->
-                            <p class="no-architects">No hi ha publicacions disponibles.</p>
-
+                            <% } else { %>
+                                <button class="validation-button" onclick="validatePublication('<%= publication.id_publication %>')">
+                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                </button>
                             <% } %>
-
-        </section>
-        <% if (pagination && pagination.totalPages> 1) { %>
-            <div class="pagination-container">
-
-                <% if (pagination.page> 1) { %>
-                    <a href="/publications?page=<%= pagination.page - 1 %>" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i> Anterior
-                    </a>
-                    <% } else { %>
-                        <span class="pagination-btn disabled">
-                            <i class="fas fa-chevron-left"></i> Anterior
-                        </span>
-                        <% } %>
-
-                            <span class="pagination-info">
-                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
-                            </span>
-
-                            <% if (pagination.page < pagination.totalPages) { %>
-                                <a href="/publications?page=<%= pagination.page + 1 %>" class="pagination-btn">
-                                    Següent <i class="fas fa-chevron-right"></i>
-                                </a>
-                                <% } else { %>
-                                    <span class="pagination-btn disabled">
-                                        Següent <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                    <% } %>
-            </div>
+                        </div>
+                    </article>
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha publicacions disponibles.</p>
             <% } %>
+        </section>
+
+        <%- include('../partials/pagination', { route: '/publications', pagination: pagination }) %>
 
     </main>
-
-    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/publications/publications.js"></script>
-
 </body>
-
 </html>

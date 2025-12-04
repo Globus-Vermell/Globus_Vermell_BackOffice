@@ -1,148 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuaris</title>
-
-    <!-- Css principal de la página y estilo de Emojis y simbolos usandos en la pagina -->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Usuaris' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
+    <%- include('../partials/headerList', { 
+        title: 'Usuaris', 
+        createUrl: '/users/create', 
+        createLabel: 'Nou Usuari' 
+    }) %>
 
-        <!-- Botón para volver atrás -->
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Usuaris</h1>
-        </div>
-
-        <!-- Botón para añadir nuevo usuario -->
-        <div class="header-right">
-            <a href="/users/create" class="add-button">
-                <i class="fas fa-plus"></i> Nou Usuari
-            </a>
-        </div>
-
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Barra de búsqueda -->
-        <div class="search-container-modern">
-            <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
-            <form class="form" onsubmit="event.preventDefault()">
-                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
-                <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nom, email..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterUsers()">
-                <!-- 'type=reset' borra el texto automáticamente y 'onclick' refresca la lista vacía -->
-                <button class="reset" type="reset" onclick="filterUsers()">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
+        <%- include('../partials/search', { 
+            searchFunction: 'filterUsers', 
+            placeholder: 'Buscar per nom, email...',
+            resetUrl: '/users',
+            currentFilters: currentFilters 
+        }) %>
 
-        <!-- Lista de usuarios -->
         <section class="list">
-
-            <% if (users && users.length> 0) { %>
-                <% users.forEach(user=> { %>
-
-                    <!-- Card de cada usuario, se guardan data para usar en filtros -->
-                    <article class="card" data-name="<%= user.name %>" data-description="<%= user.email %>">
-
-                        <!-- Información principal del usuario -->
+            <% if (users && users.length > 0) { %>
+                <% users.forEach(user => { %>
+                    <article class="card">
                         <div class="card-info">
-
-                            <h3 class="card-title">
-                                <%= user.name %> — <%= user.level %>
-                            </h3>
-
-                            <p class="card-email">
-                                Email: <%= user.email %>
-                            </p>
-
+                            <h3 class="card-title"><%= user.name %> — <%= user.level %></h3>
+                            <p class="card-email">Email: <%= user.email %></p>
                         </div>
-
-                        <!-- Botones para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Editar usuario -->
                             <a href="/users/edit/<%= user.id_user %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
                             </a>
-
-                            <!-- Borrar usuario -->
                             <button type="button" class="delete-button" onclick="deleteUser('<%= user.id_user %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
                             </button>
-
                         </div>
-
                     </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay usuarios registrados -->
-                            <p class="no-architects">No hi ha usuaris registrats.</p>
-
-                            <% } %>
-
-        </section>
-        <% if (pagination && pagination.totalPages> 1) { %>
-            <div class="pagination-container">
-
-                <% if (pagination.page> 1) { %>
-                    <a href="/users?page=<%= pagination.page - 1 %>" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i> Anterior
-                    </a>
-                    <% } else { %>
-                        <span class="pagination-btn disabled">
-                            <i class="fas fa-chevron-left"></i> Anterior
-                        </span>
-                        <% } %>
-
-                            <span class="pagination-info">
-                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
-                            </span>
-
-                            <% if (pagination.page < pagination.totalPages) { %>
-                                <a href="/users?page=<%= pagination.page + 1 %>" class="pagination-btn">
-                                    Següent <i class="fas fa-chevron-right"></i>
-                                </a>
-                                <% } else { %>
-                                    <span class="pagination-btn disabled">
-                                        Següent <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                    <% } %>
-            </div>
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha usuaris registrats.</p>
             <% } %>
+        </section>
+
+        <%- include('../partials/pagination', { route: '/users', pagination: pagination }) %>
 
     </main>
-
-    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/users/users.js"></script>
-
 </body>
-
 </html>

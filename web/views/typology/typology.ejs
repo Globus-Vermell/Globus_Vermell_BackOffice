@@ -1,119 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tipologies</title>
-
-    <!-- Css principal de la página y estilo de Emojis y simbolos usandos en la pagina -->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Tipologies' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
+    <%- include('../partials/headerList', { 
+        title: 'Tipologies', 
+        createUrl: '/typologies/create', 
+        createLabel: 'Afegir nova tipologia' 
+    }) %>
 
-        <!-- Botón para volver atrás -->
-        <div class="header-left">
-            <a href="/" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-            <h1 class="page-title">Tipologies</h1>
-        </div>
-
-        <!-- Botón para añadir nueva tipología -->
-        <div class="header-right">
-            <a href="/typologies/create" class="add-button">
-                <i class="fas fa-plus"></i> Afegir nova tipologia
-            </a>
-        </div>
-
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Barra de búsqueda -->
-        <div class="search-container-modern">
-            <!-- Agrupa la barra de búsqueda -->
-            <form class="form" onsubmit="event.preventDefault(); filterTypologies();">
-                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
-                <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nom..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterTypologies()">
-            </form>
-        </div>
+        <%- include('../partials/search', { 
+            searchFunction: 'filterTypologies', 
+            placeholder: 'Buscar per nom...',
+            resetUrl: '/typologies',
+            currentFilters: currentFilters 
+        }) %>
 
-        <!-- Lista de tipologías -->
         <section class="list">
-
-            <% if (typologies && typologies.length> 0) { %>
-                <% typologies.forEach(t=> { %>
-
-                    <!-- Card de cada tipología, se guardan data para usar en filtros -->
-                    <article class="card" data-name="<%= t.name %>">
-
-                        <!-- Imagen de la tipología -->
+            <% if (typologies && typologies.length > 0) { %>
+                <% typologies.forEach(t => { %>
+                    <article class="card">
                         <figure class="card-image">
                             <% if (t.image) { %>
                                 <img src="<%= t.image %>" alt="<%= t.name %>" class="img_list">
-                                <% } else { %>
-                                    <img src="/images/buildings/provisional.png" alt="no image" class="img_list">
-                                    <% } %>
+                            <% } else { %>
+                                <img src="/images/buildings/provisional.png" alt="no image" class="img_list">
+                            <% } %>
                         </figure>
-
-                        <!-- Información principal de la tipología -->
                         <div class="card-info">
-                            <h3 class="card-title">
-                                <%= t.name %>
-                            </h3>
+                            <h3 class="card-title"><%= t.name %></h3>
                         </div>
-
-                        <!-- Botones para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Editar tipología -->
                             <a href="/typologies/edit/<%= t.id_typology %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
                             </a>
-
-                            <!-- Borrar tipología -->
-                            <button type="button" class="delete-button"
-                                onclick="deleteTypology('<%= t.id_typology %>')">
+                            <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
                             </button>
-
                         </div>
-
                     </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay tipologías registradas -->
-                            <p class="no-architects">No hi ha tipologies registrades.</p>
-
-                            <% } %>
-
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha tipologies registrades.</p>
+            <% } %>
         </section>
 
+        <%- include('../partials/pagination', { route: '/typologies' }) %>
+
     </main>
-
-    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/typology/typology.js"></script>
-
 </body>
-
 </html>

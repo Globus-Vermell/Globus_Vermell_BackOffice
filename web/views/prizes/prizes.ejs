@@ -1,121 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premis</title>
-
-    <!-- Css principal y estilo de Emojis y simbolos usandos en la pagina-->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Premis' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
+    <%- include('../partials/headerList', { 
+        title: 'Premis', 
+        createUrl: '/prizes/create', 
+        createLabel: 'Afegir nou premi' 
+    }) %>
 
-        <!-- Botón para volver atrás -->
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Premis</h1>
-        </div>
-
-        <!-- Botón para añadir nuevo premio -->
-        <div class="header-right">
-            <a href="/prizes/create" class="add-button">
-                <i class="fas fa-plus"></i> Afegir nou premi
-            </a>
-        </div>
-
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Barra de búsqueda -->
-        <div class="search-container-modern">
-            <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
-            <form class="form" onsubmit="event.preventDefault(); filterPrizes();">
-                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
-                <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nom..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterPrizes()">
-            </form>
-        </div>
+        <%- include('../partials/search', { 
+            searchFunction: 'filterPrizes', 
+            placeholder: 'Buscar per nom...',
+            resetUrl: '/prizes',
+            currentFilters: currentFilters 
+        }) %>
 
-        <!-- Lista de premios -->
         <section class="list">
-
-            <!-- Bucle lógico que recorre todos los premios -->
-            <% if (prizes && prizes.length> 0) { %>
-                <% prizes.forEach(prize=> { %>
-
-                    <!-- Card de cada premio, se guardan data para usar en filtros -->
-                    <article class="card" data-name="<%= prize.name %>" data-year="<%= prize.year %>"
-                        data-type="<%= prize.tipe %>"
-                        data-description="<%= prize.description ? prize.description : '' %>">
-
-                        <!-- Información principal del premio -->
+            <% if (prizes && prizes.length > 0) { %>
+                <% prizes.forEach(prize => { %>
+                    <article class="card">
                         <div class="card-info">
-
-                            <h3 class="card-title">
-                                <%= prize.name %>
-                            </h3>
-
-                            <p class="card-type">Tipus: <%= prize.tipe %>
-                            </p>
-                            <p class="card-year">Any: <%= prize.year %>
-                            </p>
-
-                            <!-- Descripción del premio -->
-                            <p class="card-description">
-                                <%= prize.description ? prize.description : "Sense descripció disponible." %>
-                            </p>
-
+                            <h3 class="card-title"><%= prize.name %></h3>
+                            <p class="card-type">Tipus: <%= prize.tipe %></p>
+                            <p class="card-year">Any: <%= prize.year %></p>
+                            <p class="card-description"><%= prize.description || "Sense descripció." %></p>
                         </div>
-
-                        <!-- Botones para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Editar premio -->
                             <a href="/prizes/edit/<%= prize.id_prize %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar">Editar
                             </a>
-
-                            <!-- Borrar premio -->
                             <button type="button" class="delete-button" onclick="deletePrize('<%= prize.id_prize %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
                             </button>
                         </div>
-
                     </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay premios registrados -->
-                            <p class="no-architects">No hi ha premis registrats.</p>
-
-                            <% } %>
-
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha premis registrats.</p>
+            <% } %>
         </section>
 
+        <%- include('../partials/pagination', { route: '/prizes' }) %>
+
     </main>
-
-    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/prizes/prizes.js"></script>
-
 </body>
-
 </html>

@@ -1,118 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Llistat de construccions</title>
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Llistat de construccions' }) %>
 </head>
-
 <body>
-    <header class="page-header">
 
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Construccions</h1>
-        </div>
+    <% var filtrosHtml = `
+        <select id="filterValidation" class="header-select" onchange="filterBuildings()">
+            <option value="all">Estat: Tots</option>
+            <option value="true" ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'selected' : ''}>Validats</option>
+            <option value="false" ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'selected' : ''}>Pendents</option>
+        </select>
 
-        <div class="header-filter">
-            <select id="filterValidation" class="header-select" onchange="filterBuildings()">
-                <option value="all">Estat: Tots</option>
-                <option value="true" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='true' )
-                    ? 'selected' : '' %>>Validats</option>
-                <option value="false" <%=(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
-                    ? 'selected' : '' %>>Pendents</option>
-            </select>
+        <select id="filterImage" class="header-select" onchange="filterBuildings()">
+            <option value="all">Imatge: Totes</option>
+            <option value="true" ${(typeof currentFilters !== 'undefined' && currentFilters.image === 'true') ? 'selected' : ''}>Amb imatge</option>
+            <option value="false" ${(typeof currentFilters !== 'undefined' && currentFilters.image === 'false') ? 'selected' : ''}>Sense imatge</option>
+        </select>
 
-            <select id="filterImage" class="header-select" onchange="filterBuildings()">
-                <option value="all">Imatge: Totes</option>
+        <select id="filterPublication" class="header-select" onchange="filterBuildings()">
+            <option value="all">Publicació: Totes</option>
+            ${(publications && publications.length > 0) ? publications.map(pub => 
+                `<option value="${pub.id_publication}" ${(typeof currentFilters !== 'undefined' && currentFilters.publication == pub.id_publication) ? 'selected' : ''}>${pub.title}</option>`
+            ).join('') : ''}
+        </select>
+    `; %>
 
-                <option value="true" <%=(typeof currentFilters !=='undefined' && currentFilters.image==='true' )
-                    ? 'selected' : '' %>>
-                    Amb imatge
-                </option>
-
-                <option value="false" <%=(typeof currentFilters !=='undefined' && currentFilters.image==='false' )
-                    ? 'selected' : '' %>>
-                    Sense imatge
-                </option>
-            </select>
-
-            <select id="filterPublication" class="header-select" onchange="filterBuildings()">
-                <option value="all">Publicació: Totes</option>
-                <% if (publications && publications.length> 0) { %>
-                    <% publications.forEach(pub=> { %>
-                        <option value="<%= pub.id_publication %>" <%=(typeof currentFilters !=='undefined' &&
-                            currentFilters.publication==pub.id_publication) ? 'selected' : '' %>>
-                            <%= pub.title %>
-                        </option>
-                        <% }) %>
-                            <% } %>
-            </select>
-        </div>
-
-        <div class="header-right">
-            <a href="/buildings/create" class="add-button">
-                <i class="fas fa-plus"></i> Afegir nou edifici
-            </a>
-        </div>
-    </header>
+    <%- include('../partials/headerList', { 
+        title: 'Construccions', 
+        createUrl: '/buildings/create', 
+        createLabel: 'Afegir nou edifici',
+        extraFilters: filtrosHtml 
+    }) %>
 
     <main class="main-content">
-        <div class="search-container-modern">
-            <form class="form" onsubmit="event.preventDefault(); filterBuildings();">
-                <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterBuildings()">
 
-                <button class="reset" type="reset" onclick="resetFilters()">
-                </button>
-            </form>
-        </div>
+        <%- include('../partials/search', { 
+            searchFunction: 'filterBuildings', 
+            placeholder: 'Buscar per nom, descripció...',
+            resetUrl: '/buildings',
+            currentFilters: currentFilters 
+        }) %>
 
+        <input type="hidden" id="filterValidation" value="all">
+        
         <section class="list">
-            <% if (buildings && buildings.length> 0) { %>
-                <% buildings.forEach(building=> { %>
-                    <article class="card" data-name="<%= building.name %>"
-                        data-description="<%= building.description %>" data-validated="<%= building.validated %>"
-                        data-publication="<%= building.id_publication %>">
-
+            <% if (buildings && buildings.length > 0) { %>
+                <% buildings.forEach(building => { %>
+                    <article class="card" data-name="<%= building.name %>" data-description="<%= building.description %>">
                         <figure class="card-image">
-                            <% if (building.building_images && building.building_images.length> 0) { %>
-                                <img src="<%= building.building_images[0].image_url %>" alt="<%= building.name %>"
-                                    class="img_list">
-                                <% } else { %>
-                                    <img src="/images/buildings/provisional.png" alt="Imatge provisional"
-                                        class="img_list">
-                                    <% } %>
+                            <% if (building.building_images && building.building_images.length > 0) { %>
+                                <img src="<%= building.building_images[0].image_url %>" alt="<%= building.name %>" class="img_list">
+                            <% } else { %>
+                                <img src="/images/buildings/provisional.png" alt="Imatge provisional" class="img_list">
+                            <% } %>
                         </figure>
 
                         <div class="card-info">
-                            <h3 class="card-title">
-                                <%= building.name %>
-                            </h3>
-                            <p class="card-coords">
-                                <%= building.location %>
-                            </p>
-                            <p class="card-date"><i class="fas fa-calendar-alt"></i>
-                                <%= building.construction_year %>
-                            </p>
-                            <p class="card-architect">
-                                <%= building.architect %>
-                            </p>
-                            <p class="card-description">
-                                <%= building.description %>
-                            </p>
+                            <h3 class="card-title"><%= building.name %></h3>
+                            <p class="card-coords"><%= building.location %></p>
+                            <p class="card-date"><i class="fas fa-calendar-alt"></i> <%= building.construction_year %></p>
+                            <p class="card-description"><%= building.description %></p>
                         </div>
 
                         <div class="card-actions">
@@ -126,49 +74,22 @@
                                 <button class="validated-button" disabled>
                                     <img src="/images/icons/check-icon.png" alt="Validat">Validat
                                 </button>
-                                <% } else { %>
-                                    <button class="validation-button"
-                                        onclick="validateBuilding('<%= building.id_building %>')">
-                                        <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                                    </button>
-                                    <% } %>
+                            <% } else { %>
+                                <button class="validation-button" onclick="validateBuilding('<%= building.id_building %>')">
+                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                </button>
+                            <% } %>
                         </div>
                     </article>
-                    <% }) %>
-                        <% } else { %>
-                            <p class="no-architects">No hi ha construccions disponibles.</p>
-                            <% } %>
-        </section>
-        <% if (pagination && pagination.totalPages> 1) { %>
-            <div class="pagination-container">
-
-                <% if (pagination.page> 1) { %>
-                    <a href="/buildings?page=<%= pagination.page - 1 %>" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i> Anterior
-                    </a>
-                    <% } else { %>
-                        <span class="pagination-btn disabled">
-                            <i class="fas fa-chevron-left"></i> Anterior
-                        </span>
-                        <% } %>
-
-                            <span class="pagination-info">
-                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
-                            </span>
-
-                            <% if (pagination.page < pagination.totalPages) { %>
-                                <a href="/buildings?page=<%= pagination.page + 1 %>" class="pagination-btn">
-                                    Següent <i class="fas fa-chevron-right"></i>
-                                </a>
-                                <% } else { %>
-                                    <span class="pagination-btn disabled">
-                                        Següent <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                    <% } %>
-            </div>
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha construccions disponibles.</p>
             <% } %>
+        </section>
+
+        <%- include('../partials/pagination', { route: '/buildings', pagination: pagination }) %>
+
     </main>
     <script src="/scripts/buildings/buildings.js"></script>
 </body>
-
 </html>

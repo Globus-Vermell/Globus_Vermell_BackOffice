@@ -1,161 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arquitectes</title>
-
-    <!-- Css principal de la página y estilo de Emojis y simbolos usandos en la pagina-->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Arquitectes' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
+    <%- include('../partials/headerList', { 
+        title: 'Arquitectes', 
+        createUrl: '/architects/create', 
+        createLabel: 'Nou arquitecte' 
+    }) %>
 
-        <!-- Botón para volver atrás -->
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Arquitectes</h1>
-        </div>
-
-        <!-- Botón para añadir nuevo arquitecte -->
-        <div class="header-right">
-            <a href="/architects/create" class="add-button">
-                <i class="fas fa-plus"></i> Nou arquitecte
-            </a>
-        </div>
-
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Barra de búsqueda -->
-        <div class="search-container-modern">
-            <form class="form" onsubmit="event.preventDefault(); filterArchitects();">
+        <%- include('../partials/search', { 
+            searchFunction: 'filterArchitects', 
+            placeholder: 'Buscar per nom...',
+            resetUrl: '/architects',
+            currentFilters: currentFilters
+        }) %>
 
-                <button type="button" onclick="filterArchitects()"> <svg width="17" height="16" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-
-                <input id="searchInput" class="input" placeholder="Buscar per nom..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterArchitects()">
-
-                <button class="reset" type="reset" onclick="resetFilters()">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
-
-        <!-- Lista de arquitectos -->
         <section class="list">
-            <!-- Bucle lógico que recorre todos los arquitectos -->
-            <% if (architects && architects.length> 0) { %>
-                <% architects.forEach(architect=> { %>
-                    <!-- Card de cada arquitecte, se guardan data en el article para usarlo en el filtro -->
-                    <article class="card" data-name="<%= architect.name %>"
-                        data-description="<%= architect.description %>">
-
-                        <!-- Información principal del arquitecte -->
+            <% if (architects && architects.length > 0) { %>
+                <% architects.forEach(architect => { %>
+                    <article class="card" data-name="<%= architect.name %>" data-description="<%= architect.description %>">
                         <div class="card-info">
-
-                            <h3 class="card-title">
-                                <%= architect.name %>
-                            </h3>
-
-
+                            <h3 class="card-title"><%= architect.name %></h3>
                             <p class="card-years">
-                                <i class="fas fa-calendar-alt"></i>
-                                <%= architect.birth_year %> - <%= architect.death_year %>
+                                <i class="fas fa-calendar-alt"></i> 
+                                <%= architect.birth_year ? architect.birth_year : '?' %> - 
+                                <%= architect.death_year ? architect.death_year : '?' %>
                             </p>
-
                             <p class="card-nation">
-                                <i class="fas fa-flag"></i>
-                                <%= architect.nationality %>
+                                <i class="fas fa-flag"></i> <%= architect.nationality ? architect.nationality : 'Desconeguda' %>
                             </p>
-
                         </div>
-
-                        <!-- Descripción del arquitecte -->
                         <div class="card-description">
-                            <p>
-                                <%= architect.description %>
-                            </p>
+                            <p><%= architect.description %></p>
                         </div>
-
-                        <!-- Botones clicables para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Botón para editar -->
                             <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar">Editar
                             </a>
-
-                            <!-- Botón para eliminar arquitecte -->
-                            <button type="button" class="delete-button"
-                                onclick="deleteArchitect('<%= architect.id_architect %>')">
+                            <button type="button" class="delete-button" onclick="deleteArchitect('<%= architect.id_architect %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
                             </button>
                         </div>
-
                     </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay arquitectes registrados se muestra un mensaje -->
-                            <p class="no-architects">No hi ha arquitectes registrats.</p>
-
-                            <% } %>
-
-        </section>
-        <% if (pagination && pagination.totalPages> 1) { %>
-            <div class="pagination-container">
-
-                <% if (pagination.page> 1) { %>
-                    <a href="/architects?page=<%= pagination.page - 1 %>" class="pagination-btn">
-                        <i class="fas fa-chevron-left"></i> Anterior
-                    </a>
-                    <% } else { %>
-                        <span class="pagination-btn disabled">
-                            <i class="fas fa-chevron-left"></i> Anterior
-                        </span>
-                        <% } %>
-
-                            <span class="pagination-info">
-                                Pàgina <%= pagination.page %> de <%= pagination.totalPages %>
-                            </span>
-
-                            <% if (pagination.page < pagination.totalPages) { %>
-                                <a href="/architects?page=<%= pagination.page + 1 %>" class="pagination-btn">
-                                    Següent <i class="fas fa-chevron-right"></i>
-                                </a>
-                                <% } else { %>
-                                    <span class="pagination-btn disabled">
-                                        Següent <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                    <% } %>
-            </div>
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha arquitectes registrats.</p>
             <% } %>
+        </section>
+
+        <%- include('../partials/pagination', { 
+            route: '/architects',
+            pagination: pagination 
+        }) %>
 
     </main>
 
-    <!-- Script para filtrado y eliminación de arquitectes -->
     <script src="/scripts/architects/architects.js"></script>
-
 </body>
-
 </html>

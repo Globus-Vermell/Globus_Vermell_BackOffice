@@ -1,115 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proteccions</title>
-
-    <!-- Css principal de la página y estilo de Emojis y simbolos usandos en la pagina -->
-    <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <%- include('../partials/head', { title: 'Proteccions' }) %>
 </head>
-
 <body>
 
-    <!-- Cabecera de la página -->
-    <header class="page-header">
+    <%- include('../partials/headerList', { 
+        title: 'Proteccions', 
+        createUrl: '/protection/create', 
+        createLabel: 'Nova protecció' 
+    }) %>
 
-        <!-- Botón para volver atrás -->
-        <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
-            <h1 class="page-title">Proteccions</h1>
-        </div>
-
-        <!-- Botón para añadir nueva protección -->
-        <div class="header-right">
-            <a href="/protection/create" class="add-button">
-                <i class="fas fa-plus"></i> Nova protecció
-            </a>
-        </div>
-
-    </header>
-
-    <!-- Contenido principal -->
     <main class="main-content">
 
-        <!-- Barra de búsqueda -->
-        <div class="search-container-modern">
+        <%- include('../partials/search', { 
+            searchFunction: 'filterProtections', 
+            placeholder: 'Buscar per nivell...',
+            resetUrl: '/protection',
+            currentFilters: currentFilters 
+        }) %>
 
-            <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
-            <form class="form" onsubmit="event.preventDefault(); filterProtections();">
-                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
-                <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
-                    </svg>
-                </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nivell..."
-                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
-                    onkeydown="if(event.key === 'Enter') filterProtections()">
-            </form>
-        </div>
-
-        <!-- Lista de protecciones -->
         <section class="list">
-
-            <!-- Bucle lógico que recorre todas las protecciones -->
-            <% if (protections && protections.length> 0) { %>
-                <% protections.forEach(p=> { %>
-
-                    <!-- Card de cada protección, se guardan data para usar en filtros -->
-                    <article class="card" data-level="<%= p.level %>" data-description="<%= (p.description || '') %>">
-
-                        <!-- Información principal de la protección -->
+            <% if (protections && protections.length > 0) { %>
+                <% protections.forEach(p => { %>
+                    <article class="card">
                         <div class="card-info">
-
-                            <h3 class="card-title">Nivell: <%= p.level %>
-                            </h3>
-
-                            <!-- Descripción de la protección -->
-                            <p class="card-description">
-                                <%= p.description ? p.description : "Sense descripció disponible." %>
-                            </p>
-
+                            <h3 class="card-title">Nivell: <%= p.level %></h3>
+                            <p class="card-description"><%= p.description || "Sense descripció." %></p>
                         </div>
-
-                        <!-- Botones para realizar acciones: Editar y Borrar -->
                         <div class="card-actions">
-
-                            <!-- Editar protección -->
                             <a href="/protection/edit/<%= p.id_protection %>" class="edit-button">
                                 <img src="/images/icons/edit_icon.png" alt="Editar">Editar
                             </a>
-
-                            <!-- Borrar protección -->
-                            <button type="button" class="delete-button"
-                                onclick="deleteProtection('<%= p.id_protection %>')">
+                            <button type="button" class="delete-button" onclick="deleteProtection('<%= p.id_protection %>')">
                                 <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
                             </button>
                         </div>
-
                     </article>
-
-                    <% }) %>
-
-                        <% } else { %>
-
-                            <!-- Si no hay protecciones registradas -->
-                            <p class="no-architects">No hi ha proteccions registrades.</p>
-
-                            <% } %>
-
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha proteccions registrades.</p>
+            <% } %>
         </section>
 
+        <%- include('../partials/pagination', { route: '/protection' }) %>
+
     </main>
-
-    <!-- Script para filtrado y eliminación -->
     <script src="/scripts/protection/protection.js"></script>
-
 </body>
-
 </html>
