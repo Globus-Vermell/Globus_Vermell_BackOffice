@@ -43,7 +43,7 @@ export class BuildingService {
     static async createBuilding(data) {
         const {
             name, address, construction_year, description, surface_area,
-            publications, architects, tipologies, protection,
+            publications, architects, typologies, protection,
             coordinates, pictureUrls, extra_descriptions
         } = data;
 
@@ -54,7 +54,7 @@ export class BuildingService {
             construction_year: parseInt(construction_year),
             description,
             surface_area: surface_area ? parseInt(surface_area) : null,
-            id_typology: parseInt(tipologies),
+            id_typology: parseInt(typologies),
             id_protection: protection ? parseInt(protection) : null,
         };
 
@@ -74,7 +74,7 @@ export class BuildingService {
     static async updateBuilding(id, data) {
         const {
             name, address, coordinates, construction_year, description,
-            surface_area, tipologia, id_protection,
+            surface_area, typologies, protection,
             architects, publications, pictureUrls, extra_descriptions
         } = data;
 
@@ -85,8 +85,8 @@ export class BuildingService {
             construction_year: parseInt(construction_year),
             description,
             surface_area: parseInt(surface_area),
-            id_typology: parseInt(tipologia),
-            id_protection: parseInt(id_protection)
+            id_typology: parseInt(typologies),
+            id_protection: parseInt(protection)
         };
 
         const descriptionsArray = Array.isArray(extra_descriptions)

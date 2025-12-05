@@ -177,6 +177,17 @@ export class BuildingModel {
             if (err) throw err;
         }
 
+        // 5. Insertamos relaciones (Tipologías)
+        if (relations.typologies && relations.typologies.length > 0) {
+            const inserts = relations.typologies.map(id => ({
+                id_building: buildingId,
+                id_typology: parseInt(id)
+            }));
+            const { error: err } = await supabase.from("building_typologies").insert(inserts);
+            if (err) throw err;
+        }
+
+        // 6. Insertamos relaciones (Descripciones)
         if (descriptionsArray && descriptionsArray.length > 0) {
             const descriptionInserts = descriptionsArray.map((text, index) => ({
                 id_building: buildingId,
