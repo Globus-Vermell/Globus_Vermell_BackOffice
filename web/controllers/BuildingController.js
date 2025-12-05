@@ -23,7 +23,7 @@ export class BuildingController {
                 ArchitectModel.getAll(null, null),
                 TypologyModel.getAll(),
                 ProtectionModel.getAll(),
-                ReformModel.getAll()
+                ReformModel.getAll(null, null)
             ]);
 
             res.render("buildings/create", {
@@ -57,7 +57,7 @@ export class BuildingController {
                 ArchitectModel.getAll(null, null),
                 TypologyModel.getAll(),
                 ProtectionModel.getAll(),
-                ReformModel.getAll()
+                ReformModel.getAll(null, null)
             ]);
 
             res.render("buildings/edit", {

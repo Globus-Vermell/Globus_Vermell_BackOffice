@@ -89,7 +89,7 @@ export class BuildingModel {
             architects: arqRes.data.map(r => r.id_architect),
             images: imgRes.data.map(r => r.image_url),
             descriptions: descRes.data, // Array de objetos {id_description, content, display_order...}
-            reforms: reformsRes.data
+            reforms: reformsRes.data.map(r => r.id_reform)
         };
     }
 
