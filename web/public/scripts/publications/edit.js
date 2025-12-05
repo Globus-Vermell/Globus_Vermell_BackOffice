@@ -58,10 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-
             const result = await res.json();
             alert(result.message);
-            if (result.success) window.location.href = '/publications';
+
+            if (result.success) {
+                // Recuperamos los filtros de la mochilita
+                const savedFilters = sessionStorage.getItem('publications_filters') || '';
+
+                // Redirigimos concatenando los filtros antiguos 
+                window.location.href = "/publications" + savedFilters;
+            }
         } catch (err) {
             console.error(err);
             alert('Error al actualizar la publicació');
