@@ -12,7 +12,9 @@ export function isAdmin(req, res, next) {
 
     next();
 }
-
+/*
+* Middleware para verificar si el usuario es Admin o Editor
+*/
 export function isEditor(req, res, next) {
     if (!req.session?.user) {
         return res.redirect("/");

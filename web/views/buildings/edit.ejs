@@ -2,144 +2,146 @@
 <html lang="ca">
 
 <head>
-    <%- include('../partials/head', { title: 'Editar construcció', cssType: 'form' }) %>
+    <%- include('../partials/head', { title: 'Editar construcció' , cssType: 'form' }) %>
 </head>
 
 <body>
     <!-- Header de la página -->
-    <%- include('../partials/headerForm', { backUrl: '/buildings', title: 'Editar construcció' }) %>
+    <%- include('../partials/headerForm', { backUrl: '/buildings' , title: 'Editar construcció' }) %>
 
-    <main class="flex-container">
-        <section class="form-container">
-            <form id="form-edificacio">
+        <main class="flex-container">
+            <section class="form-container">
+                <form id="form-edificacio">
 
-                <div class="top-section">
+                    <div class="top-section">
 
-                    <div class="col-left">
-                        <div class="form-group">
-                            <label for="name">Nom: <span class="required">*</span></label>
-                            <input type="text" id="name" name="name" value="<%= building.name %>" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Adreça: <span class="required">*</span></label>
-                            <input type="text" id="address" name="address" value="<%= building.location %>" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="coordinates">Coordenades: <span class="required">*</span></label>
-                            <input type="text" id="coordinates" name="coordinates" value="<%= building.coordinates %>"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="construction_year">Any construcció: <span class="required">*</span></label>
-                            <input type="number" id="construction_year" name="construction_year"
-                                value="<%= building.construction_year %>" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="surface_area">Superfície (m²):</label>
-                            <input type="number" id="surface_area" name="surface_area"
-                                value="<%= building.surface_area %>" />
-                        </div>
-                    </div>
-
-                    <div class="col-center">
-                        <div class="form-group">
-                            <label for="publications">Publicació: <span class="required">*</span></label>
-                            <select id="publications" name="publications" required multiple>
-                                <% if (publications && publications.length> 0) { %>
-                                    <% publications.forEach(pub=> { %>
-                                        <% const isSelected=currentPublications.includes(pub.id_publication)
-                                            ? 'selected' : '' %>
-                                            <option value="<%= pub.id_publication %>" <%=isSelected %>><%= pub.title %>
-                                            </option>
-                                            <% }) %>
-                                                <% } %>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="architects">Arquitectes:</label>
-                            <select id="architects" name="architects" multiple>
-                                <% if (architects && architects.length> 0) { %>
-                                    <% architects.forEach(arq=> { %>
-                                        <% const isSelected=currentArchitects.includes(arq.id_architect) ? 'selected'
-                                            : '' %>
-                                            <option value="<%= arq.id_architect %>" <%=isSelected %>><%= arq.name %>
-                                            </option>
-                                            <% }) %>
-                                                <% } %>
-                            </select>
-                        </div>
-
-                        <div class="split-row form-group">
+                        <div class="col-left">
                             <div class="form-group">
-                                <label for="protection">Protecció:</label>
-                                <select id="protection" name="protection">
-                                    <option value="">-- Cap --</option>
-                                    <% if (protections && protections.length> 0) { %>
-                                        <% protections.forEach(p=> { %>
-                                            <option value="<%= p.id_protection %>"
-                                                <%=building.id_protection===p.id_protection ? 'selected' : '' %>>
-                                                <%= p.level %>
-                                            </option>
-                                            <% }) %>
-                                                <% } %>
+                                <label for="name">Nom: <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" value="<%= building.name %>" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Adreça: <span class="required">*</span></label>
+                                <input type="text" id="address" name="address" value="<%= building.location %>"
+                                    required />
+                            </div>
+                            <div class="form-group">
+                                <label for="coordinates">Coordenades: <span class="required">*</span></label>
+                                <input type="text" id="coordinates" name="coordinates"
+                                    value="<%= building.coordinates %>" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="construction_year">Any construcció: <span class="required">*</span></label>
+                                <input type="number" id="construction_year" name="construction_year"
+                                    value="<%= building.construction_year %>" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="surface_area">Superfície (m²):</label>
+                                <input type="number" id="surface_area" name="surface_area"
+                                    value="<%= building.surface_area %>" />
+                            </div>
+                        </div>
+
+                        <div class="col-center">
+                            <div class="form-group">
+                                <label for="publications">Publicació: <span class="required">*</span></label>
+                                <select id="publications" name="publications" required multiple>
+                                    <% if (publications && publications.length> 0) { %>
+                                        <% publications.forEach(pub=> { %>
+                                            <% const isSelected=currentPublications.includes(pub.id_publication)
+                                                ? 'selected' : '' %>
+                                                <option value="<%= pub.id_publication %>" <%=isSelected %>><%= pub.title
+                                                        %>
+                                                </option>
+                                                <% }) %>
+                                                    <% } %>
                                 </select>
                             </div>
 
-                            <div class="form-group" id="typologies-container">
-                                <label for="typologies">Tipologia:</label>
-                                <select id="typologies" name="typologies"></select>
+                            <div class="form-group">
+                                <label for="architects">Arquitectes:</label>
+                                <select id="architects" name="architects" multiple>
+                                    <% if (architects && architects.length> 0) { %>
+                                        <% architects.forEach(arq=> { %>
+                                            <% const isSelected=currentArchitects.includes(arq.id_architect)
+                                                ? 'selected' : '' %>
+                                                <option value="<%= arq.id_architect %>" <%=isSelected %>><%= arq.name %>
+                                                </option>
+                                                <% }) %>
+                                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="split-row form-group">
+                                <div class="form-group">
+                                    <label for="protection">Protecció:</label>
+                                    <select id="protection" name="protection">
+                                        <option value="">-- Cap --</option>
+                                        <% if (protections && protections.length> 0) { %>
+                                            <% protections.forEach(p=> { %>
+                                                <option value="<%= p.id_protection %>"
+                                                    <%=building.id_protection===p.id_protection ? 'selected' : '' %>>
+                                                    <%= p.level %>
+                                                </option>
+                                                <% }) %>
+                                                    <% } %>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" id="typologies-container">
+                                    <label for="typologies">Tipologia:</label>
+                                    <select id="typologies" name="typologies"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="picture">Canviar Imatge:</label>
+                                <input type="file" id="picture" name="picture" multiple accept="image/*" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="picture">Canviar Imatge:</label>
-                            <input type="file" id="picture" name="picture" multiple accept="image/*" />
-                        </div>
-                    </div>
-
-                    <div class="col-right">
-                        <div class="image-container-building" style="margin-top: 0;
+                        <div class="col-right">
+                            <div class="image-container-building" style="margin-top: 0;
  width: 100%;">
-                            <% if (imagenes && imagenes.length> 0) { %>
-                                <img src="<%= imagenes[0] %>" alt="Imatge de l'edificació" class="building-image">
-                                <% } else { %>
-                                    <div class="no-image-placeholder">
-                                        <i class="fas fa-building"></i>
-                                        <p>Sense imatge</p>
-                                    </div>
-                                    <% } %>
+                                <% if (imagenes && imagenes.length> 0) { %>
+                                    <img src="<%= imagenes[0] %>" alt="Imatge de l'edificació" class="building-image">
+                                    <% } else { %>
+                                        <div class="no-image-placeholder">
+                                            <i class="fas fa-building"></i>
+                                            <p>Sense imatge</p>
+                                        </div>
+                                        <% } %>
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
+                    <div class="form-group">
+                        <label for="description">Descripció:</label>
+                        <textarea id="description" name="description"><%= building.description %></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="description">Descripció:</label>
-                    <textarea id="description" name="description"><%= building.description %></textarea>
-                </div>
+                    <div class="form-group">
+                        <label>Descripcions Extra:</label>
+                        <div id="descriptions-container"></div>
+                        <button type="button" id="button-add-description" class="add-description-button">
+                            <i class="fas fa-plus"></i> Afegir descripció
+                        </button>
+                    </div>
 
-                <div class="form-group">
-                    <label>Descripcions Extra:</label>
-                    <div id="descriptions-container"></div>
-                    <button type="button" id="button-add-description" class="add-description-button">
-                        <i class="fas fa-plus"></i> Afegir descripció
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-save"></i> Desar
                     </button>
-                </div>
 
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Desar
-                </button>
+                </form>
+            </section>
+        </main>
 
-            </form>
-        </section>
-    </main>
-
-    <script>
-        const building = JSON.parse('<%- JSON.stringify(building) %>');
-    </script>
-    <script src="/scripts/MultiSelect.js"></script>
-    <script src="/scripts/buildings/edit.js"></script>
+        <script>
+            const building = JSON.parse('<%- JSON.stringify(building) %>');
+        </script>
+        <script src="/scripts/MultiSelect.js"></script>
+        <script src="/scripts/buildings/edit.js"></script>
 </body>
 
 </html>
