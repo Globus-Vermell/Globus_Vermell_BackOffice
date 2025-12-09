@@ -140,7 +140,8 @@
                             <% if (reforms && reforms.length> 0) { %>
                                 <% reforms.forEach(reform=> { %>
                                     <% const isSelected=currentReforms.includes(reform.id_reform) ? 'selected' : '' %>
-                                        <option value="<%= reform.id_reform %>" <%=isSelected %>><%= reform.name %>
+                                        <option value="<%= reform.id_reform %>" <%=isSelected %>><%=
+                                                reform.architects?.name %>
                                         </option>
                                         <% }) %>
                                             <% } %>

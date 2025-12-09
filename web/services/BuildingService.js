@@ -66,7 +66,7 @@ export class BuildingService {
             architects: Array.isArray(architects) ? architects : [],
             publications: Array.isArray(publications) ? publications : [publications],
             pictureUrls: pictureUrls || [],
-            reforms: Array.isArray(reforms) ? reforms : []
+            reforms: reforms ? (Array.isArray(reforms) ? reforms : [reforms]) : []
         };
 
         return await BuildingModel.create(buildingData, relations, descriptionsArray);

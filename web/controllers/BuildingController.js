@@ -31,7 +31,7 @@ export class BuildingController {
                 architects: architects.data || [],
                 typologies: typologies || [],
                 protections: protections || [],
-                reforms: reforms || []
+                reforms: reforms.data || []
             });
         } catch (error) {
             next(error);
@@ -64,12 +64,13 @@ export class BuildingController {
                 building,
                 currentPublications: related.publications,
                 currentArchitects: related.architects,
+                currentReforms: related.reforms,
                 imagenes: related.images,
                 publications: publications.data || [],
                 architects: architects.data || [],
                 typologies: typologies || [],
                 protections: protections || [],
-                reforms: reforms || []
+                reforms: reforms.data || []
             });
         } catch (err) {
             next(err);
