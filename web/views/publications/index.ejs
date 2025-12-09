@@ -7,14 +7,29 @@
 
 <body>
 
-    <% var filtrosPub=` <select id="filterValidation" class="header-select" onchange="filterPublications()">
-        <option value="all">Estat: Tots</option>
-        <option value="true" ${(typeof currentFilters !=='undefined' && currentFilters.validated==='true' ) ? 'selected'
-            : '' }>Validats</option>
-        <option value="false" ${(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
-            ? 'selected' : '' }>Pendents</option>
-        </select>
-        `; %>
+    <% var filtrosPub = `
+    <div class="radio-filters" style="display: flex; gap: 15px; align-items: center;">
+        <span style="font-weight: bold; color: #555;">Estat:</span>
+        
+        <label style="cursor: pointer;">
+            <input type="radio" name="filterValidation" value="all" onchange="filterPublications()" 
+            ${(typeof currentFilters === 'undefined' || !currentFilters.validated || currentFilters.validated === 'all') ? 'checked' : ''}> 
+            Tots
+        </label>
+
+        <label style="cursor: pointer;">
+            <input type="radio" name="filterValidation" value="true" onchange="filterPublications()" 
+            ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'checked' : ''}> 
+            Validats
+        </label>
+
+        <label style="cursor: pointer;">
+            <input type="radio" name="filterValidation" value="false" onchange="filterPublications()" 
+            ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'checked' : ''}> 
+            Pendents
+        </label>
+    </div>
+    `; %>
 
         <%- include('../partials/headerList', { title: 'Publicacions' , createUrl: '/publications/create' ,
             createLabel: 'Afegir nova publicació' , extraFilters: filtrosPub }) %>

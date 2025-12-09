@@ -7,35 +7,73 @@
 
 <body>
 
-    <% var filtrosHtml=` <select id="filterValidation" class="header-select" onchange="filterBuildings()">
-        <option value="all">Estat: Tots</option>
-        <option value="true" ${(typeof currentFilters !=='undefined' && currentFilters.validated==='true' ) ? 'selected'
-            : '' }>Validats</option>
-        <option value="false" ${(typeof currentFilters !=='undefined' && currentFilters.validated==='false' )
-            ? 'selected' : '' }>Pendents</option>
-        </select>
+    <% var filtrosHtml=`
+    <div class="filters-flex-container">
 
-        <select id="filterImage" class="header-select" onchange="filterBuildings()">
-            <option value="all">Imatge: Totes</option>
-            <option value="true" ${(typeof currentFilters !=='undefined' && currentFilters.image==='true' ) ? 'selected'
-                : '' }>Amb imatge</option>
-            <option value="false" ${(typeof currentFilters !=='undefined' && currentFilters.image==='false' )
-                ? 'selected' : '' }>Sense imatge</option>
-        </select>
+        <div class="filter-group">
+            <span class="filter-title">Estat:</span>
+            <div class="filter-options">
+                <label class="radio-label">
+                    <input type="radio" name="filterValidation" value="all" onchange="filterBuildings()" 
+                    ${(typeof currentFilters === 'undefined' || !currentFilters.validated || currentFilters.validated === 'all') ? 'checked' : ''}> 
+                    Tots
+                </label>
 
-        <select id="filterPublication" class="header-select" onchange="filterBuildings()">
-            <option value="all">Publicació: Totes</option>
-            ${(publications && publications.length > 0) ? publications.map(pub =>
-            `<option value="${pub.id_publication}" ${(typeof currentFilters !=='undefined' &&
-                currentFilters.publication==pub.id_publication) ? 'selected' : '' }>${pub.title}</option>`
-            ).join('') : ''}
-        </select>
-        `; %>
+                <label class="radio-label">
+                    <input type="radio" name="filterValidation" value="true" onchange="filterBuildings()" 
+                    ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'checked' : ''}> 
+                    Validats
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="filterValidation" value="false" onchange="filterBuildings()" 
+                    ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'checked' : ''}> 
+                    Pendents
+                </label>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Imatge:</span>
+            <div class="filter-options">
+                <label class="radio-label">
+                    <input type="radio" name="filterImage" value="all" onchange="filterBuildings()"
+                    ${(typeof currentFilters === 'undefined' || !currentFilters.image || currentFilters.image === 'all') ? 'checked' : ''}>
+                    Totes
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="filterImage" value="true" onchange="filterBuildings()"
+                    ${(typeof currentFilters !== 'undefined' && currentFilters.image === 'true') ? 'checked' : ''}>
+                    Amb
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="filterImage" value="false" onchange="filterBuildings()"
+                    ${(typeof currentFilters !== 'undefined' && currentFilters.image === 'false') ? 'checked' : ''}>
+                    Sense
+                </label>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Publicació:</span>
+            <select id="filterPublication" class="header-select filter-select-pub" onchange="filterBuildings()">
+                <option value="all">Totes les publicacions</option>
+                ${(publications && publications.length > 0) ? publications.map(pub =>
+                `<option value="${pub.id_publication}" ${(typeof currentFilters !=='undefined' &&
+                    currentFilters.publication==pub.id_publication) ? 'selected' : '' }>${pub.title}</option>`
+                ).join('') : ''}
+            </select>
+        </div>
+
+    </div>
+    `; %>
 
         <%- include('../partials/headerList', { title: 'Construccions' , createUrl: '/buildings/create' ,
             createLabel: 'Afegir nou edifici' , extraFilters: filtrosHtml }) %>
 
-            <main class="main-content">
+            <main class="main-content buildings-layout">
 
                 <%- include('../partials/search', { searchFunction: 'filterBuildings' ,
                     placeholder: 'Buscar per nom, descripció...' , resetUrl: '/buildings' , currentFilters:

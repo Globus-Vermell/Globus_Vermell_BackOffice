@@ -36,7 +36,10 @@ async function validatePublication(id) {
 // Función de filtrado
 function filterPublications() {
     const inputVal = document.getElementById('searchInput').value;
-    const valSelect = document.getElementById('filterValidation').value;
+    
+    // Buscamos el radio button que esté marcado 
+    const radioChecked = document.querySelector('input[name="filterValidation"]:checked');
+    const valSelect = radioChecked ? radioChecked.value : 'all';
 
     const params = new URLSearchParams();
     if (inputVal) params.set('search', inputVal);

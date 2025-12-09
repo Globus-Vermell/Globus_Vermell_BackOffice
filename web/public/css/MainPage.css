@@ -92,7 +92,12 @@ body {
 /* =========================================
    NUEVA BARRA DE BÚSQUEDA (Estilo Uiverse)
    ========================================= */
-.search-container-modern {
+.buildings-layout .search-container-modern {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+   .search-container-modern {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -483,38 +488,93 @@ input:not(:placeholder-shown) ~ .reset {
 }
 
 /* =========================================
-   ESTILOS PARA LOS FILTROS EN HEADER
+   ESTILOS PARA LOS FILTROS (RADIO & SELECT)
    ========================================= */
 
-.header-filters {
+/* 1. Contenedor Flexible Principal */
+.filters-flex-container {
     display: flex;
-    gap: 15px; /* Espacio entre los desplegables */
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-grow: 1; /* Ocupa el espacio central */
-    margin: 0 20px;
+    flex-wrap: wrap; /* Si no caben, bajan de línea */
+    gap: 30px;       /* Espacio entre los grupos de filtros */
+    align-items: center;
+    width: 100%;
 }
 
-.header-select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 20px; /* Bordes redonditos */
-    background-color: #f9f9f9;
+/* 2. Grupos de Filtros (Título + Opciones) */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espacio entre el título "Estat" y los botones */
+}
+
+.filter-title {
+    font-weight: bold;
     color: #555;
-    font-size: 0.9em;
+    font-size: 0.95em;
+}
+
+/* 3. Opciones de Radio Buttons (en fila) */
+.filter-options {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.radio-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap; /* Mantiene el texto pegadito al botón */
+    font-size: 0.95em;
+    color: #444;
+    transition: color 0.2s ease;
+}
+
+.radio-label:hover {
+    color: #cc0000; /* Color rojo al pasar el ratón */
+}
+
+/* 4. Estilo "Píldora" para el Select (Dropdown) */
+.header-select {
+    padding: 8px 15px;
+    padding-right: 30px; /* Espacio para la flechita */
+    min-height: 38px;
+    border-radius: 20px; /* Bordes redonditos */
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #555;
+    font-size: 0.95em;
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
-    min-width: 140px;
+
+    /* Quita la flecha fea por defecto del navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    /* Flechita personalizada (SVG) */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px;
 }
 
 .header-select:hover {
     border-color: #cc0000;
-    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .header-select:focus {
-    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.1);
+    border-color: #cc0000;
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
+}
+
+/* Ancho específico para el select de publicaciones */
+.filter-select-pub {
+    min-width: 250px;
+    max-width: 100%; /* Que no se salga si la pantalla es pequeña */
 }
 
 /* =========================================
