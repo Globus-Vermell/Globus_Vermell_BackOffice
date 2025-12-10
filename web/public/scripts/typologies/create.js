@@ -10,38 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
-        // Variable para guardar la ruta de la imagen
-        let imageUrl = "";
-        const imageFile = formData.get("image");
-
-        // Subimos la imagen si se ha seleccionado una
-        if (imageFile && imageFile.size > 0) {
-            const uploadData = new FormData();
-            uploadData.append("image", imageFile);
-
-            try {
-                // Subimos la imagen
-                const uploadRes = await fetch("/typologies/upload", {
-                    method: "POST",
-                    body: uploadData
-                });
-
-                // Obtenemos el resultado de la subida
-                const uploadResult = await uploadRes.json();
-                if (uploadResult.success) {
-                    imageUrl = uploadResult.filePath;
-                } else {
-                    alert("Error al pujar la imatge.");
-                    return;
-                }
-            } catch (err) {
-                console.error("Error upload:", err);
-                alert("Error de connexió al pujar imatge.");
-                return;
+        try {
+            const uploadResult = await AppUtils.uploadFiles("image", "/typologies/upload", "image");
+            if (uploadResult && uploadResult.filePaths) {
+                data.image = uploadResult.filePaths;
             }
+        } catch (err) {
+            return;
         }
-        // Asignamos la ruta de la imagen a los datos a enviar
-        data.image = imageUrl;
 
         try {
             // Enviamos los datos al servidor

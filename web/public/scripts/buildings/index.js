@@ -24,29 +24,5 @@ function filterBuildings() {
 }
 
 async function validateBuilding(id) {
-    if (!confirm("Segur que vols canviar l'estat de validació d'aquesta construcció?")) return;
-
-    try {
-        const res = await fetch(`/buildings/validation/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ validated: true })
-        });
-
-        const data = await res.json();
-
-        Swal.fire({
-            text: data.message,
-            icon: data.success ? 'success' : 'error'
-        });
-
-        if (data.success) location.reload();
-    } catch (err) {
-        console.error(err);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: "Error al validar la construcció"
-        });
-    }
+    await AppUtils.validateItem(`/buildings/validation/${id}`, "Segur que vols canviar l'estat de validació d'aquesta construcció?");
 }

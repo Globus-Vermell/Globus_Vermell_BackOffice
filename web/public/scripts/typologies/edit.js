@@ -6,37 +6,14 @@ form.addEventListener('submit', async (e) => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    // Determinamos la URL de la imagen
-    let imageUrl = typology.image;
-    const imageFile = formData.get("image");
-
-    // Si se ha seleccionado una imagen, la subimos
-    if (imageFile && imageFile.size > 0) {
-        const uploadData = new FormData();
-        uploadData.append("image", imageFile);
-
-        // Subimos la imagen
-        try {
-            const uploadRes = await fetch("/typologies/upload", {
-                method: "POST",
-                body: uploadData
-            });
-            // Obtenemos el resultado de la subida
-            const uploadResult = await uploadRes.json();
-            if (uploadResult.success) {
-                imageUrl = uploadResult.filePath;
-            } else {
-                alert("Error al pujar la imatge.");
-                return;
-            }
-        } catch (err) {
-            console.error("Error connexió imatge:", err);
-            alert("Error de connexió al pujar la imatge.");
-            return;
+    try {
+        const uploadResult = await AppUtils.uploadFiles("image", "/typologies/upload", "image");
+        if (uploadResult && uploadResult.filePaths) {
+            data.image = uploadResult.filePaths;
         }
+    } catch (err) {
+        return;
     }
-    // Actualizamos la imagen
-    data.image = imageUrl;
 
     // Actualizamos la tipología
     try {

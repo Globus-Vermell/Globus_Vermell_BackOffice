@@ -6,32 +6,7 @@ async function deletePublication(id) {
 }
 
 async function validatePublication(id) {
-    if (!confirm("Segur que vols canviar l'estat de validació d'aquesta publicació?")) return;
-
-    try {
-        const res = await fetch(`/publications/validation/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ validated: true })
-        });
-
-        const data = await res.json();
-
-        Swal.fire({
-            text: data.message,
-            icon: data.success ? 'success' : 'error'
-        }).then(() => {
-            if (data.success) location.reload();
-        });
-
-    } catch (err) {
-        console.error(err);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: "Error al validar la publicació"
-        });
-    }
+    await AppUtils.validateItem(`/publications/validation/${id}`, "Segur que vols canviar l'estat de validació d'aquesta publicació?");
 }
 
 function filterPublications() {

@@ -81,22 +81,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        let pictureUrls = [];
-        const pictureInput = document.getElementById("picture");
-        if (pictureInput.files && pictureInput.files.length > 0) {
-            const uploadData = new FormData();
-            for (const file of pictureInput.files) uploadData.append("pictures", file);
+        try {
+            const uploadResult = await AppUtils.uploadFiles("picture", "/buildings/upload", "pictures");
 
-            try {
-                const uploadRes = await fetch("/buildings/upload", { method: "POST", body: uploadData });
-                const uploadResult = await uploadRes.json();
-                if (uploadResult.success) pictureUrls = uploadResult.filePaths;
-                else return Swal.fire({ icon: 'error', title: 'Error', text: uploadResult.message });
-            } catch (err) {
-                return Swal.fire({ icon: 'error', title: 'Error', text: "Error de connexió al pujar imatge." });
+            if (uploadResult && uploadResult.filePaths) {
+                data.pictureUrls = uploadResult.filePaths;
             }
+        } catch (err) {
+            return;
         }
-        data.pictureUrls = pictureUrls;
 
         try {
             const res = await fetch("/buildings/create", {
