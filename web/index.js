@@ -45,6 +45,7 @@ app.get("/home", (req, res) => {
     res.render("home", { user: req.session?.user });
 });
 
+// Rutas
 app.use("/", loginRouter);
 app.use("/users", usersRouter);
 app.use("/architects", architectsRouter);
