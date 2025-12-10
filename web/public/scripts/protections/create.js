@@ -1,37 +1,3 @@
-// Formulario de creación de protección
 document.addEventListener("DOMContentLoaded", () => {
-    // Obtenemos el formulario
-    const form = document.getElementById("form-protection");
-
-    // Agregamos el listener al formulario
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        // Obtenemos los datos del formulario
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        try {
-            // Enviamos los datos al servidor
-            const res = await fetch("/protections/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            // Obtenemos el resultado
-            const result = await res.json();
-            Swal.fire({
-                text: result.message
-            });
-            if (result.success) form.reset();
-        } catch (err) {
-            console.error("Error:", err);
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Error al enviar el formulari."
-            });
-        }
-    });
+    AppUtils.GeneralFormSubmit("form-protection", "/protections/create", "POST");
 });

@@ -1,20 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('form-publication-edit');
-
     AppUtils.initMultiSelect('typologies', 'Selecciona tipologies...');
     AppUtils.initMultiSelect('themes', 'Selecciona temàtiques...');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const data = AppUtils.serializeForm(form);
 
-        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) {
-            data.selectedTypologies = [data.selectedTypologies];
-        }
-        if (data.themes && !Array.isArray(data.themes)) {
-            data.themes = [data.themes];
-        }
+        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) data.selectedTypologies = [data.selectedTypologies];
+        if (data.themes && !Array.isArray(data.themes)) data.themes = [data.themes];
 
         try {
             const res = await fetch(`/publications/edit/${publication.id_publication}`, {
@@ -24,23 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const result = await res.json();
 
-            Swal.fire({
+            await Swal.fire({
                 text: result.message,
                 icon: result.success ? 'success' : 'error'
-            }).then(() => {
-                if (result.success) {
-                    const savedFilters = sessionStorage.getItem('publications_filters') || '';
-                    window.location.href = "/publications" + savedFilters;
-                }
             });
 
+            if (result.success) {
+                const savedFilters = sessionStorage.getItem('publications_filters') || '';
+                window.location.href = "/publications" + savedFilters;
+            }
         } catch (err) {
             console.error(err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error al actualizar la publicació'
-            });
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Error al actualitzar la publicació' });
         }
     });
 });

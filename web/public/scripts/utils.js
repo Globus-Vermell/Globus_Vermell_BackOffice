@@ -1,53 +1,9 @@
-
 const AppUtils = {
     /**
-     * Inicializa un MultiSelect con las opciones por defecto.
-     * @param {HTMLElement|string} element - El elemento select o su ID.
-     * @param {string} placeholder - Texto placeholder.
-     * @param {Object} extraOptions - Opciones adicionales (opcional).
-     * @returns {MultiSelect} Instancia del MultiSelect.
-     */
-    initMultiSelect: (element, placeholder = 'Selecciona alguna opció...', extraOptions = {}) => {
-        const selectElement = typeof element === 'string' ? document.getElementById(element) : element;
-        if (!selectElement) return null;
-
-        return new MultiSelect(selectElement, {
-            placeholder: placeholder,
-            search: true,
-            selectAll: true,
-            ...extraOptions
-        });
-    },
-
-    /**
-     * Convierte un formulario HTML en un objeto JSON, manejando
-     * automáticamente los campos array del MultiSelect (quitando los []).
-     * @param {HTMLFormElement} form - El formulario a procesar.
-     * @returns {Object} Objeto con los datos limpios.
-     */
-    serializeForm: (form) => {
-        const formData = new FormData(form);
-        const data = {};
-
-        for (const [key, value] of formData.entries()) {
-            const cleanKey = key.replace('[]', '');
-
-            if (data[cleanKey]) {
-                if (!Array.isArray(data[cleanKey])) {
-                    data[cleanKey] = [data[cleanKey]];
-                }
-                data[cleanKey].push(value);
-            } else {
-                data[cleanKey] = value;
-            }
-        }
-        return data;
-    },
-
-    /**
      * Función para eliminar elementos con confirmación.
-     * @param {string} url - Endpoint para eliminar (ej: '/buildings/delete/5').
+     * @param {string} url - Endpoint para eliminar.
      * @param {string} confirmMsg - Mensaje de confirmación.
+     * @param {string} successRedirect - URL de redirección en caso de éxito.
      */
     confirmAndDelete: async (url, confirmMsg = "Segur que vols eliminar aquest element?", successRedirect = null) => {
         if (!confirm(confirmMsg)) return;
@@ -80,7 +36,7 @@ const AppUtils = {
 
     /**
      * Función para validar elementos con confirmación.
-     * @param {string} url - Endpoint (ej: '/buildings/validation/5').
+     * @param {string} url - Endpoint para validar.
      * @param {string} confirmMsg - Mensaje de confirmación.
      */
     validateItem: async (url, confirmMsg = "Segur que vols validar aquest element?") => {
@@ -103,10 +59,53 @@ const AppUtils = {
     },
 
     /**
-     * Subir archivos a una URL específica.
+     * Función para manejar el envío de formularios vía AJAX
+     * @param {string} formId - ID del formulario
+     * @param {string} url - Endpoint de destino
+     * @param {string} method - POST o PUT
+     * @param {string} redirectUrl - URL para redirigir si hay éxito
+     */
+    GeneralFormSubmit: async (formId, url, method, redirectUrl = null) => {
+        const form = document.getElementById(formId);
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = AppUtils.serializeForm(form);
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+
+                await Swal.fire({
+                    text: result.message,
+                    icon: result.success ? 'success' : 'error'
+                });
+
+                if (result.success) {
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else if (method === 'POST') {
+                        form.reset();
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Error de conexión.' });
+            }
+        });
+    },
+
+    /**
+     * Función para subir archivos a una URL específica.
      * @param {string} inputId - ID del input type="file".
-     * @param {string} uploadUrl - Endpoint del servidor (ej: '/buildings/upload').
-     * @param {string} formDataKey - Nombre del campo que espera Multer (ej: 'pictures' o 'image').
+     * @param {string} uploadUrl - Endpoint del servidor.
+     * @param {string} formDataKey - Nombre del campo que espera Multer.
      * @returns {Promise<Object|null>} Retorna la respuesta del servidor o null si no se seleccionaron archivos.
      */
 
@@ -176,11 +175,55 @@ const AppUtils = {
     },
 
     /**
-     * Vincula un MultiSelect de publicaciones con un Select de tipologías.
+     * Función para inicializar un MultiSelect con las opciones por defecto.
+     * @param {HTMLElement|string} element - El elemento select o su ID.
+     * @param {string} placeholder - Texto placeholder.
+     * @param {Object} extraOptions - Opciones adicionales .
+     * @returns {MultiSelect} Instancia del MultiSelect.
+     */
+    initMultiSelect: (element, placeholder = 'Selecciona alguna opció...', extraOptions = {}) => {
+        const selectElement = typeof element === 'string' ? document.getElementById(element) : element;
+        if (!selectElement) return null;
+
+        return new MultiSelect(selectElement, {
+            placeholder: placeholder,
+            search: true,
+            selectAll: true,
+            ...extraOptions
+        });
+    },
+
+    /**
+     * Función para convertir un formulario HTML en un objeto JSON,
+     * quitando los campos array del MultiSelect.
+     * @param {HTMLFormElement} form - El formulario a procesar.
+     * @returns {Object} Objeto con los datos limpios.
+     */
+    serializeForm: (form) => {
+        const formData = new FormData(form);
+        const data = {};
+
+        for (const [key, value] of formData.entries()) {
+            const cleanKey = key.replace('[]', '');
+
+            if (data[cleanKey]) {
+                if (!Array.isArray(data[cleanKey])) {
+                    data[cleanKey] = [data[cleanKey]];
+                }
+                data[cleanKey].push(value);
+            } else {
+                data[cleanKey] = value;
+            }
+        }
+        return data;
+    },
+
+    /**
+     * Función para vincular un MultiSelect de publicaciones con un Select de tipologías.
      * @param {Object} publicationsMS - Instancia del MultiSelect de publicaciones.
-     * @param {string} targetSelectId - ID del select de tipologías (el destino).
+     * @param {string} targetSelectId - ID del select de tipologías.
      * @param {string} containerId - ID del contenedor que se oculta/muestra.
-     * @param {string|number} preSelectedId - (Opcional) ID de la tipología preseleccionada (para edit).
+     * @param {string|number} preSelectedId - ID de la tipología preseleccionada (para edit).
      */
     linkPublicationsToTypologies: async (publicationsMS, targetSelectId, containerId, preSelectedId = null) => {
         const selectTipologia = document.getElementById(targetSelectId);
@@ -191,7 +234,6 @@ const AppUtils = {
         const update = async () => {
             const selectedIds = publicationsMS.selectedValues;
 
-            // Resetear estado visual
             containerTipologia.style.display = 'none';
             selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
 
@@ -223,5 +265,4 @@ const AppUtils = {
         await update();
         return update;
     }
-
 };

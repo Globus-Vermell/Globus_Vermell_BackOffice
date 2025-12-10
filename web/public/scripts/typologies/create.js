@@ -1,41 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Obtenemos el formulario
     const form = document.getElementById("form-typology");
 
-    // Agregamos el listener al formulario
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
-        // Obtenemos los datos del formulario
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+        const data = AppUtils.serializeForm(form);
 
         try {
             const uploadResult = await AppUtils.uploadFiles("image", "/typologies/upload", "image");
-            if (uploadResult) {
-                if (uploadResult.filePath) {
-                    data.image = uploadResult.filePath;
-                }
+            if (uploadResult && uploadResult.filePath) {
+                data.image = uploadResult.filePath;
             }
-        } catch (err) {
-            return;
-        }
+        } catch (err) { return; }
 
         try {
-            // Enviamos los datos al servidor
             const res = await fetch("/typologies/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
-
             const result = await res.json();
-            alert(result.message);
+
+            await Swal.fire({
+                text: result.message,
+                icon: result.success ? 'success' : 'error'
+            });
 
             if (result.success) form.reset();
         } catch (err) {
             console.error("Error:", err);
-            alert("Error al enviar el formulari.");
+            Swal.fire({ icon: 'error', title: 'Error', text: "Error al enviar el formulari." });
         }
     });
 });

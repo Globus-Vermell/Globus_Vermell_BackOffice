@@ -1,30 +1,31 @@
-// Formulario de creación de usuario
 document.addEventListener("DOMContentLoaded", () => {
-    // Guardamos el formulario en una constante
     const form = document.getElementById("form-user");
-    // Añadimos un listener al formulario para el evento submit
+
     form.addEventListener("submit", async e => {
         e.preventDefault();
-        // Obtenemos los datos del formulario
-        const data = Object.fromEntries(new FormData(form).entries());
+        const data = AppUtils.serializeForm(form);
 
-        // Validamos que las contrasenyes coincidan
         if (data.password !== data.confirmPassword) {
-            alert("Les contrasenyes no coincideixen!");
-            return;
+            return Swal.fire({ icon: 'warning', title: 'Atenció', text: "Les contrasenyes no coincideixen!" });
         }
 
-        // Enviamos los datos al servidor
-        const res = await fetch("/users/create", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+        try {
+            const res = await fetch("/users/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
 
-        // Obtenemos la respuesta del servidor
-        const result = await res.json();
-        alert(result.message);
+            await Swal.fire({
+                text: result.message,
+                icon: result.success ? 'success' : 'error'
+            });
 
-        if (result.success) form.reset();
+            if (result.success) form.reset();
+        } catch (err) {
+            console.error(err);
+            Swal.fire({ icon: 'error', title: 'Error', text: "Error de connexió." });
+        }
     });
 });

@@ -1,20 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-publication");
-
     const typologiesMS = AppUtils.initMultiSelect('typologies', 'Selecciona tipologies...');
     const themesMS = AppUtils.initMultiSelect('themes', 'Selecciona temàtiques...');
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
         const data = AppUtils.serializeForm(form);
 
-        if (data.themes && !Array.isArray(data.themes)) {
-            data.themes = [data.themes];
-        }
-        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) {
-            data.selectedTypologies = [data.selectedTypologies];
-        }
+        if (data.themes && !Array.isArray(data.themes)) data.themes = [data.themes];
+        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) data.selectedTypologies = [data.selectedTypologies];
 
         try {
             const res = await fetch("/publications/create", {
@@ -22,10 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
-
             const result = await res.json();
 
-            Swal.fire({
+            await Swal.fire({
                 text: result.message,
                 icon: result.success ? 'success' : 'error'
             });
@@ -37,11 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error("Error:", err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Error al enviar el formulari."
-            });
+            Swal.fire({ icon: 'error', title: 'Error', text: "Error al enviar el formulari." });
         }
     });
 });
