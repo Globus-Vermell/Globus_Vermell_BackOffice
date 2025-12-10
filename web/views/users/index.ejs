@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Usuaris' }) %>
 </head>
+
 <body>
 
-    <%- include('../partials/headerList', { 
-        title: 'Usuaris', 
-        createUrl: '/users/create', 
-        createLabel: 'Nou Usuari' 
-    }) %>
+    <%- include('../partials/headerList', { title: 'Usuaris' , createUrl: '/users/create' , createLabel: 'Nou Usuari' })
+        %>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterUsers', 
-            placeholder: 'Buscar per nom, email...',
-            resetUrl: '/users',
-            currentFilters: currentFilters 
-        }) %>
+            <%- include('../partials/search', { searchFunction: 'filterUsers' , placeholder: 'Buscar per nom, email...'
+                , resetUrl: '/users' , currentFilters: currentFilters }) %>
 
-        <section class="list">
-            <% if (users && users.length > 0) { %>
-                <% users.forEach(user => { %>
-                    <article class="card">
-                        <div class="card-info">
-                            <h3 class="card-title"><%= user.name %> — <%= user.level %></h3>
-                            <p class="card-email">Email: <%= user.email %></p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/users/edit/<%= user.id_user %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deleteUser('<%= user.id_user %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
-                            </button>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha usuaris registrats.</p>
-            <% } %>
-        </section>
+                <section class="list">
+                    <% if (users && users.length> 0) { %>
+                        <% users.forEach(user=> { %>
+                            <article class="card">
+                                <div class="card-info">
+                                    <h3 class="card-title">
+                                        <%= user.name %> — <%= user.level %>
+                                    </h3>
+                                    <p class="card-email">Email: <%= user.email %>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/users/edit/<%= user.id_user %>" class="edit-button">
+                                        <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        data-url="/users/delete/<%= user.id_user %>"
+                                        data-confirm="Segur que vols eliminar l'usuari <%= user.name %>?">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha usuaris registrats.</p>
+                                    <% } %>
+                </section>
 
-        <%- include('../partials/pagination', { route: '/users', pagination: pagination }) %>
+                <%- include('../partials/pagination', { route: '/users' , pagination: pagination }) %>
 
-    </main>
-    <script src="/scripts/users/index.js"></script>
+        </main>
+        <script src="/scripts/users/index.js"></script>
 </body>
+
 </html>

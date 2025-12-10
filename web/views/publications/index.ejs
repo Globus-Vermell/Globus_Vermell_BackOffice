@@ -7,29 +7,29 @@
 
 <body>
 
-    <% var filtrosPub = `
-    <div class="radio-filters" style="display: flex; gap: 15px; align-items: center;">
+    <% var filtrosPub=` <div class="radio-filters" style="display: flex; gap: 15px; align-items: center;">
         <span style="font-weight: bold; color: #555;">Estat:</span>
-        
+
         <label style="cursor: pointer;">
-            <input type="radio" name="filterValidation" value="all" onchange="filterPublications()" 
-            ${(typeof currentFilters === 'undefined' || !currentFilters.validated || currentFilters.validated === 'all') ? 'checked' : ''}> 
+            <input type="radio" name="filterValidation" value="all" onchange="filterPublications()" ${(typeof
+                currentFilters==='undefined' || !currentFilters.validated || currentFilters.validated==='all' )
+                ? 'checked' : '' }>
             Tots
         </label>
 
         <label style="cursor: pointer;">
-            <input type="radio" name="filterValidation" value="true" onchange="filterPublications()" 
-            ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'checked' : ''}> 
+            <input type="radio" name="filterValidation" value="true" onchange="filterPublications()" ${(typeof
+                currentFilters !=='undefined' && currentFilters.validated==='true' ) ? 'checked' : '' }>
             Validats
         </label>
 
         <label style="cursor: pointer;">
-            <input type="radio" name="filterValidation" value="false" onchange="filterPublications()" 
-            ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'checked' : ''}> 
+            <input type="radio" name="filterValidation" value="false" onchange="filterPublications()" ${(typeof
+                currentFilters !=='undefined' && currentFilters.validated==='false' ) ? 'checked' : '' }>
             Pendents
         </label>
-    </div>
-    `; %>
+        </div>
+        `; %>
 
         <%- include('../partials/headerList', { title: 'Publicacions' , createUrl: '/publications/create' ,
             createLabel: 'Afegir nova publicació' , extraFilters: filtrosPub }) %>
@@ -60,8 +60,9 @@
                                             <img src="/images/icons/edit_icon.png" alt="Editar">Editar
                                         </a>
                                         <button type="button" class="delete-button"
-                                            onclick="deletePublication('<%= publication.id_publication %>')">
-                                            <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
+                                            data-url="/publications/delete/<%= publication.id_publication %>"
+                                            data-confirm="Segur que vols eliminar la publicació <%= publication.title %>?">
+                                            <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
                                         </button>
                                         <% if (publication.validated) { %>
                                             <button class="validated-button" disabled>
@@ -69,8 +70,8 @@
                                             </button>
                                             <% } else { %>
                                                 <button class="validation-button"
-                                                    onclick="validatePublication('<%= publication.id_publication %>')">
-                                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                                    data-url="/publications/validation/<%= publication.id_publication %>">
+                                                    <img src="/images/icons/check-icon.png" alt="Validar"> Validar
                                                 </button>
                                                 <% } %>
                                     </div>

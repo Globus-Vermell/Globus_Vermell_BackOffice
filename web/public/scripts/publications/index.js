@@ -1,14 +1,3 @@
-async function deletePublication(id) {
-    await AppUtils.confirmAndDelete(
-        `/publications/delete/${id}`,
-        "Segur que vols eliminar aquesta publicació?"
-    );
-}
-
-async function validatePublication(id) {
-    await AppUtils.validateItem(`/publications/validation/${id}`, "Segur que vols canviar l'estat de validació d'aquesta publicació?");
-}
-
 function filterPublications() {
     const inputVal = document.getElementById('searchInput').value;
 

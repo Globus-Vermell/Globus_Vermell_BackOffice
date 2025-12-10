@@ -1,8 +1,3 @@
-// Función para eliminar una reforma
-async function deleteReform(id) {
-    await AppUtils.confirmAndDelete(`/reforms/delete/${id}`, "Segur que vols eliminar aquesta reforma?");
-}
-
 // Función para filtrar reformas
 function filterReforms() {
     const inputVal = document.getElementById('searchInput').value;

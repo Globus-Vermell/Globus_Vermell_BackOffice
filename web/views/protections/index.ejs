@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Proteccions' }) %>
 </head>
+
 <body>
 
-    <%- include('../partials/headerList', { 
-        title: 'Proteccions', 
-        createUrl: '/protections/create', 
-        createLabel: 'Nova protecció' 
-    }) %>
+    <%- include('../partials/headerList', { title: 'Proteccions' , createUrl: '/protections/create' ,
+        createLabel: 'Nova protecció' }) %>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterProtections', 
-            placeholder: 'Buscar per nivell...',
-            resetUrl: '/protections',
-            currentFilters: currentFilters 
-        }) %>
+            <%- include('../partials/search', { searchFunction: 'filterProtections' ,
+                placeholder: 'Buscar per nivell...' , resetUrl: '/protections' , currentFilters: currentFilters }) %>
 
-        <section class="list">
-            <% if (protections && protections.length > 0) { %>
-                <% protections.forEach(p => { %>
-                    <article class="card">
-                        <div class="card-info">
-                            <h3 class="card-title">Nivell: <%= p.level %></h3>
-                            <p class="card-description"><%= p.description || "Sense descripció." %></p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/protections/edit/<%= p.id_protection %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar">Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deleteProtection('<%= p.id_protection %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
-                            </button>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha proteccions registrades.</p>
-            <% } %>
-        </section>
+                <section class="list">
+                    <% if (protections && protections.length> 0) { %>
+                        <% protections.forEach(p=> { %>
+                            <article class="card">
+                                <div class="card-info">
+                                    <h3 class="card-title">Nivell: <%= p.level %>
+                                    </h3>
+                                    <p class="card-description">
+                                        <%= p.description || "Sense descripció." %>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/protections/edit/<%= p.id_protection %>" class="edit-button">
+                                        <img src="/images/icons/edit_icon.png" alt="Editar">Editar
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        data-url="/protections/delete/<%= p.id_protection %>"
+                                        data-confirm="Segur que vols eliminar la protecció <%= p.level %>?">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha proteccions registrades.</p>
+                                    <% } %>
+                </section>
 
-        <%- include('../partials/pagination', { route: '/protection' }) %>
+                <%- include('../partials/pagination', { route: '/protection' }) %>
 
-    </main>
-    <script src="/scripts/protections/index.js"></script>
+        </main>
+        <script src="/scripts/protections/index.js"></script>
 </body>
+
 </html>

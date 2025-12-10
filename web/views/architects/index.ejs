@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Arquitectes' }) %>
 </head>
+
 <body>
 
-    <%- include('../partials/headerList', { 
-        title: 'Arquitectes', 
-        createUrl: '/architects/create', 
-        createLabel: 'Nou arquitecte' 
-    }) %>
+    <%- include('../partials/headerList', { title: 'Arquitectes' , createUrl: '/architects/create' ,
+        createLabel: 'Nou arquitecte' }) %>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterArchitects', 
-            placeholder: 'Buscar per nom...',
-            resetUrl: '/architects',
-            currentFilters: currentFilters
-        }) %>
+            <%- include('../partials/search', { searchFunction: 'filterArchitects' , placeholder: 'Buscar per nom...' ,
+                resetUrl: '/architects' , currentFilters: currentFilters }) %>
 
-        <section class="list">
-            <% if (architects && architects.length > 0) { %>
-                <% architects.forEach(architect => { %>
-                    <article class="card" data-name="<%= architect.name %>" data-description="<%= architect.description %>">
-                        <div class="card-info">
-                            <h3 class="card-title"><%= architect.name %></h3>
-                            <p class="card-years">
-                                <i class="fas fa-calendar-alt"></i> 
-                                <%= architect.birth_year ? architect.birth_year : '?' %> - 
-                                <%= architect.death_year ? architect.death_year : '?' %>
-                            </p>
-                            <p class="card-nation">
-                                <i class="fas fa-flag"></i> <%= architect.nationality ? architect.nationality : 'Desconeguda' %>
-                            </p>
-                        </div>
-                        <div class="card-description">
-                            <p><%= architect.description %></p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar">Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deleteArchitect('<%= architect.id_architect %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
-                            </button>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha arquitectes registrats.</p>
-            <% } %>
-        </section>
+                <section class="list">
+                    <% if (architects && architects.length> 0) { %>
+                        <% architects.forEach(architect=> { %>
+                            <article class="card" data-name="<%= architect.name %>"
+                                data-description="<%= architect.description %>">
+                                <div class="card-info">
+                                    <h3 class="card-title">
+                                        <%= architect.name %>
+                                    </h3>
+                                    <p class="card-years">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <%= architect.birth_year ? architect.birth_year : '?' %> -
+                                            <%= architect.death_year ? architect.death_year : '?' %>
+                                    </p>
+                                    <p class="card-nation">
+                                        <i class="fas fa-flag"></i>
+                                        <%= architect.nationality ? architect.nationality : 'Desconeguda' %>
+                                    </p>
+                                </div>
+                                <div class="card-description">
+                                    <p>
+                                        <%= architect.description %>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
+                                        <img src="/images/icons/edit_icon.png" alt="Editar">Editar
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        data-url="/architects/delete/<%= architect.id_architect %>"
+                                        data-confirm="Segur que vols eliminar l'arquitecte <%= architect.name %>?">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha arquitectes registrats.</p>
+                                    <% } %>
+                </section>
 
-        <%- include('../partials/pagination', { 
-            route: '/architects',
-            pagination: pagination 
-        }) %>
+                <%- include('../partials/pagination', { route: '/architects' , pagination: pagination }) %>
 
-    </main>
+        </main>
 
-    <script src="/scripts/architects/index.js"></script>
+        <script src="/scripts/architects/index.js"></script>
 </body>
+
 </html>

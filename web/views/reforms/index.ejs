@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Reformes' }) %>
 </head>
+
 <body>
 
-    <%- include('../partials/headerList', { 
-        title: 'Reformes', 
-        createUrl: '/reforms/create', 
-        createLabel: 'Nova reforma' 
-    }) %>
+    <%- include('../partials/headerList', { title: 'Reformes' , createUrl: '/reforms/create' ,
+        createLabel: 'Nova reforma' }) %>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterReforms', 
-            placeholder: 'Buscar per arquitecte...',
-            resetUrl: '/reforms',
-            currentFilters: currentFilters 
-        }) %>
+            <%- include('../partials/search', { searchFunction: 'filterReforms' ,
+                placeholder: 'Buscar per arquitecte...' , resetUrl: '/reforms' , currentFilters: currentFilters }) %>
 
-        <section class="list">
-            <% if (reformas && reformas.length > 0) { %>
-                <% reformas.forEach(r => { %>
-                    <article class="card">
-                        <div class="card-info">
-                            <h3 class="card-title">Reforma del año <%= r.year %></h3>
-                            <p class="card-architect">Arquitecto: <%= r.architects?.name || 'Desconocido' %></p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/reforms/edit/<%= r.id_reform %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
-                            </button>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha reformes registrades.</p>
-            <% } %>
-        </section>
+                <section class="list">
+                    <% if (reformas && reformas.length> 0) { %>
+                        <% reformas.forEach(r=> { %>
+                            <article class="card">
+                                <div class="card-info">
+                                    <h3 class="card-title">Reforma del año <%= r.year %>
+                                    </h3>
+                                    <p class="card-architect">Arquitecto: <%= r.architects?.name || 'Desconocido' %>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/reforms/edit/<%= r.id_reform %>" class="edit-button">
+                                        <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        data-url="/reforms/delete/<%= r.id_reform %>"
+                                        data-confirm="Segur que vols eliminar la reforma de l'any <%= r.year %>?">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha reformes registrades.</p>
+                                    <% } %>
+                </section>
 
-        <%- include('../partials/pagination', { route: '/reforms', pagination: pagination }) %>
+                <%- include('../partials/pagination', { route: '/reforms' , pagination: pagination }) %>
 
-    </main>
-    <script src="/scripts/reforms/index.js"></script>
+        </main>
+        <script src="/scripts/reforms/index.js"></script>
 </body>
+
 </html>

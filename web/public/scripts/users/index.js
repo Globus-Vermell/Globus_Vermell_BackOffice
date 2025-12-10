@@ -1,8 +1,3 @@
-// Función para eliminar un usuario
-async function deleteUser(id) {
-    await AppUtils.confirmAndDelete(`/users/delete/${id}`, "Segur que vols eliminar aquest usuari?");
-}
-
 // Función para filtrar usuarios
 function filterUsers() {
     const inputVal = document.getElementById('searchInput').value;

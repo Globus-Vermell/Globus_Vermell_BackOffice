@@ -1,7 +1,3 @@
-// Función para eliminar un premio
-async function deletePrize(id) {
-    await AppUtils.confirmAndDelete(`/prizes/delete/${id}`, "Segur que vols eliminar aquest premi?");
-}
 // Función para filtrar premios
 function filterPrizes() {
     const inputVal = document.getElementById('searchInput').value;

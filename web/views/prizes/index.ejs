@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Premis' }) %>
 </head>
+
 <body>
 
-    <%- include('../partials/headerList', { 
-        title: 'Premis', 
-        createUrl: '/prizes/create', 
-        createLabel: 'Afegir nou premi' 
-    }) %>
+    <%- include('../partials/headerList', { title: 'Premis' , createUrl: '/prizes/create' ,
+        createLabel: 'Afegir nou premi' }) %>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterPrizes', 
-            placeholder: 'Buscar per nom...',
-            resetUrl: '/prizes',
-            currentFilters: currentFilters 
-        }) %>
+            <%- include('../partials/search', { searchFunction: 'filterPrizes' , placeholder: 'Buscar per nom...' ,
+                resetUrl: '/prizes' , currentFilters: currentFilters }) %>
 
-        <section class="list">
-            <% if (prizes && prizes.length > 0) { %>
-                <% prizes.forEach(prize => { %>
-                    <article class="card">
-                        <div class="card-info">
-                            <h3 class="card-title"><%= prize.name %></h3>
-                            <p class="card-type">Tipus: <%= prize.tipe %></p>
-                            <p class="card-year">Any: <%= prize.year %></p>
-                            <p class="card-description"><%= prize.description || "Sense descripció." %></p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/prizes/edit/<%= prize.id_prize %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar">Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deletePrize('<%= prize.id_prize %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
-                            </button>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha premis registrats.</p>
-            <% } %>
-        </section>
+                <section class="list">
+                    <% if (prizes && prizes.length> 0) { %>
+                        <% prizes.forEach(prize=> { %>
+                            <article class="card">
+                                <div class="card-info">
+                                    <h3 class="card-title">
+                                        <%= prize.name %>
+                                    </h3>
+                                    <p class="card-type">Tipus: <%= prize.tipe %>
+                                    </p>
+                                    <p class="card-year">Any: <%= prize.year %>
+                                    </p>
+                                    <p class="card-description">
+                                        <%= prize.description || "Sense descripció." %>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/prizes/edit/<%= prize.id_prize %>" class="edit-button">
+                                        <img src="/images/icons/edit_icon.png" alt="Editar">Editar
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        data-url="/prizes/delete/<%= prize.id_prize %>"
+                                        data-confirm="Segur que vols eliminar el premi <%= prize.name %>?">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha premis registrats.</p>
+                                    <% } %>
+                </section>
 
-        <%- include('../partials/pagination', { route: '/prizes' }) %>
+                <%- include('../partials/pagination', { route: '/prizes' }) %>
 
-    </main>
-    <script src="/scripts/prizes/index.js"></script>
+        </main>
+        <script src="/scripts/prizes/index.js"></script>
 </body>
+
 </html>

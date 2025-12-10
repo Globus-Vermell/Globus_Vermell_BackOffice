@@ -1,7 +1,3 @@
-async function deleteBuilding(id) {
-    await AppUtils.confirmAndDelete(`/buildings/delete/${id}`, "Segur que vols eliminar aquest edifici?");
-}
-
 function filterBuildings() {
     const inputVal = document.getElementById('searchInput').value;
 
@@ -21,8 +17,4 @@ function filterBuildings() {
 
     params.set('page', 1);
     window.location.href = `/buildings?${params.toString()}`;
-}
-
-async function validateBuilding(id) {
-    await AppUtils.validateItem(`/buildings/validation/${id}`, "Segur que vols canviar l'estat de validació d'aquesta construcció?");
 }

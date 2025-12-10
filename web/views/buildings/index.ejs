@@ -7,27 +7,27 @@
 
 <body>
 
-    <% var filtrosHtml=`
-    <div class="filters-flex-container">
+    <% var filtrosHtml=` <div class="filters-flex-container">
 
         <div class="filter-group">
             <span class="filter-title">Estat:</span>
             <div class="filter-options">
                 <label class="radio-label">
-                    <input type="radio" name="filterValidation" value="all" onchange="filterBuildings()" 
-                    ${(typeof currentFilters === 'undefined' || !currentFilters.validated || currentFilters.validated === 'all') ? 'checked' : ''}> 
+                    <input type="radio" name="filterValidation" value="all" onchange="filterBuildings()" ${(typeof
+                        currentFilters==='undefined' || !currentFilters.validated || currentFilters.validated==='all' )
+                        ? 'checked' : '' }>
                     Tots
                 </label>
 
                 <label class="radio-label">
-                    <input type="radio" name="filterValidation" value="true" onchange="filterBuildings()" 
-                    ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'true') ? 'checked' : ''}> 
+                    <input type="radio" name="filterValidation" value="true" onchange="filterBuildings()" ${(typeof
+                        currentFilters !=='undefined' && currentFilters.validated==='true' ) ? 'checked' : '' }>
                     Validats
                 </label>
 
                 <label class="radio-label">
-                    <input type="radio" name="filterValidation" value="false" onchange="filterBuildings()" 
-                    ${(typeof currentFilters !== 'undefined' && currentFilters.validated === 'false') ? 'checked' : ''}> 
+                    <input type="radio" name="filterValidation" value="false" onchange="filterBuildings()" ${(typeof
+                        currentFilters !=='undefined' && currentFilters.validated==='false' ) ? 'checked' : '' }>
                     Pendents
                 </label>
             </div>
@@ -37,20 +37,21 @@
             <span class="filter-title">Imatge:</span>
             <div class="filter-options">
                 <label class="radio-label">
-                    <input type="radio" name="filterImage" value="all" onchange="filterBuildings()"
-                    ${(typeof currentFilters === 'undefined' || !currentFilters.image || currentFilters.image === 'all') ? 'checked' : ''}>
+                    <input type="radio" name="filterImage" value="all" onchange="filterBuildings()" ${(typeof
+                        currentFilters==='undefined' || !currentFilters.image || currentFilters.image==='all' )
+                        ? 'checked' : '' }>
                     Totes
                 </label>
 
                 <label class="radio-label">
-                    <input type="radio" name="filterImage" value="true" onchange="filterBuildings()"
-                    ${(typeof currentFilters !== 'undefined' && currentFilters.image === 'true') ? 'checked' : ''}>
+                    <input type="radio" name="filterImage" value="true" onchange="filterBuildings()" ${(typeof
+                        currentFilters !=='undefined' && currentFilters.image==='true' ) ? 'checked' : '' }>
                     Amb
                 </label>
 
                 <label class="radio-label">
-                    <input type="radio" name="filterImage" value="false" onchange="filterBuildings()"
-                    ${(typeof currentFilters !== 'undefined' && currentFilters.image === 'false') ? 'checked' : ''}>
+                    <input type="radio" name="filterImage" value="false" onchange="filterBuildings()" ${(typeof
+                        currentFilters !=='undefined' && currentFilters.image==='false' ) ? 'checked' : '' }>
                     Sense
                 </label>
             </div>
@@ -67,8 +68,8 @@
             </select>
         </div>
 
-    </div>
-    `; %>
+        </div>
+        `; %>
 
         <%- include('../partials/headerList', { title: 'Construccions' , createUrl: '/buildings/create' ,
             createLabel: 'Afegir nou edifici' , extraFilters: filtrosHtml }) %>
@@ -115,9 +116,10 @@
                                         <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
                                             <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
                                         </a>
-                                        <button class="delete-button"
-                                            onclick="deleteBuilding('<%= building.id_building %>')">
-                                            <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
+                                        <button type="button" class="delete-button"
+                                            data-url="/buildings/delete/<%= building.id_building %>"
+                                            data-confirm="Segur que vols eliminar l'edifici <%= building.name %>?">
+                                            <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
                                         </button>
                                         <% if (building.validated) { %>
                                             <button class="validated-button" disabled>
@@ -125,8 +127,8 @@
                                             </button>
                                             <% } else { %>
                                                 <button class="validation-button"
-                                                    onclick="validateBuilding('<%= building.id_building %>')">
-                                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                                    data-url="/buildings/validation/<%= building.id_building %>">
+                                                    <img src="/images/icons/check-icon.png" alt="Validar"> Validar
                                                 </button>
                                                 <% } %>
                                     </div>

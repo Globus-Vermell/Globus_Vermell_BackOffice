@@ -1,57 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <%- include('../partials/head', { title: 'Tipologies' }) %>
 </head>
+
 <body>
 
-    <%- include('../partials/headerList', { 
-        title: 'Tipologies', 
-        createUrl: '/typologies/create', 
-        createLabel: 'Afegir nova tipologia' 
-    }) %>
+    <%- include('../partials/headerList', { title: 'Tipologies' , createUrl: '/typologies/create' ,
+        createLabel: 'Afegir nova tipologia' }) %>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <%- include('../partials/search', { 
-            searchFunction: 'filterTypologies', 
-            placeholder: 'Buscar per nom...',
-            resetUrl: '/typologies',
-            currentFilters: currentFilters 
-        }) %>
+            <%- include('../partials/search', { searchFunction: 'filterTypologies' , placeholder: 'Buscar per nom...' ,
+                resetUrl: '/typologies' , currentFilters: currentFilters }) %>
 
-        <section class="list">
-            <% if (typologies && typologies.length > 0) { %>
-                <% typologies.forEach(t => { %>
-                    <article class="card">
-                        <figure class="card-image">
-                            <% if (t.image) { %>
-                                <img src="<%= t.image %>" alt="<%= t.name %>" class="img_list">
-                            <% } else { %>
-                                <img src="/images/buildings/provisional.png" alt="no image" class="img_list">
-                            <% } %>
-                        </figure>
-                        <div class="card-info">
-                            <h3 class="card-title"><%= t.name %></h3>
-                        </div>
-                        <div class="card-actions">
-                            <a href="/typologies/edit/<%= t.id_typology %>" class="edit-button">
-                                <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
-                            </a>
-                            <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
-                            </button>
-                        </div>
-                    </article>
-                <% }) %>
-            <% } else { %>
-                <p class="no-architects">No hi ha tipologies registrades.</p>
-            <% } %>
-        </section>
+                <section class="list">
+                    <% if (typologies && typologies.length> 0) { %>
+                        <% typologies.forEach(t=> { %>
+                            <article class="card">
+                                <figure class="card-image">
+                                    <% if (t.image) { %>
+                                        <img src="<%= t.image %>" alt="<%= t.name %>" class="img_list">
+                                        <% } else { %>
+                                            <img src="/images/buildings/provisional.png" alt="no image"
+                                                class="img_list">
+                                            <% } %>
+                                </figure>
+                                <div class="card-info">
+                                    <h3 class="card-title">
+                                        <%= t.name %>
+                                    </h3>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/typologies/edit/<%= t.id_typology %>" class="edit-button">
+                                        <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        data-url="/typologies/delete/<%= t.id_typology %>"
+                                        data-confirm="Segur que vols eliminar la tipologia <%= t.name %>?">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar"> Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha tipologies registrades.</p>
+                                    <% } %>
+                </section>
 
-        <%- include('../partials/pagination', { route: '/typologies' }) %>
+                <%- include('../partials/pagination', { route: '/typologies' }) %>
 
-    </main>
-    <script src="/scripts/typologies/index.js"></script>
+        </main>
+        <script src="/scripts/typologies/index.js"></script>
 </body>
+
 </html>
