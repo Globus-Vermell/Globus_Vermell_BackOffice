@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const containerTipologia = document.getElementById("typologies-container");
     const descriptionsContainer = document.getElementById('descriptions-container');
     const btnAddDescription = document.getElementById('button-add-description');
+    const selectPrizes = document.getElementById("prizes");
 
     function addDescriptionField(value = '') {
         const div = document.createElement('div');
@@ -61,6 +62,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     new MultiSelect(document.getElementById('reforms'), {
         placeholder: 'Selecciona reformes...',
+        search: true,
+        selectAll: true
+    });
+    new MultiSelect(selectPrizes, {
+        placeholder: 'Selecciona premis...',
         search: true,
         selectAll: true
     });
@@ -127,6 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (data.extra_descriptions && !Array.isArray(data.extra_descriptions)) {
             data.extra_descriptions = [data.extra_descriptions];
         }
+        if (data.prizes && !Array.isArray(data.prizes)) data.prizes = [data.prizes];
 
         let pictureUrls = [];
         const pictureInput = document.getElementById("picture");

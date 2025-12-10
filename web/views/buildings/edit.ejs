@@ -147,6 +147,20 @@
                                             <% } %>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="prizes">Premis:</label>
+                        <select id="prizes" name="prizes" multiple>
+                            <% if (prizes && prizes.length> 0) { %>
+                                <% prizes.forEach(prize=> { %>
+                                    <% const isSelected=currentPrizes && currentPrizes.includes(prize.id_prize)
+                                        ? 'selected' : '' %>
+                                        <option value="<%= prize.id_prize %>" <%=isSelected %>>
+                                            <%= prize.name %> (<%= prize.year %>)
+                                        </option>
+                                        <% }) %>
+                                            <% } %>
+                        </select>
+                    </div>
 
                     <div class="form-group">
                         <label>Descripcions Extra:</label>

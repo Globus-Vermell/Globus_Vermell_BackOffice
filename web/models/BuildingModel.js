@@ -70,12 +70,13 @@ export class BuildingModel {
     // Método para obtener datos relacionados (imágenes, arquitectos, publicaciones, descripciones extra)
     static async getRelatedData(id) {
         // Ejecutamos las consultas en paralelo
-        const [pubRes, arqRes, imgRes, descRes, reformsRes] = await Promise.all([
+        const [pubRes, arqRes, imgRes, descRes, reformsRes, prizesRes] = await Promise.all([
             supabase.from("building_publications").select("id_publication").eq("id_building", id),
             supabase.from("building_architects").select("id_architect").eq("id_building", id),
             supabase.from("building_images").select("image_url").eq("id_building", id),
             supabase.from("buildings_descriptions").select("*").eq("id_building", id).order('display_order', { ascending: true }),
-            supabase.from("building_reform").select("id_reform").eq("id_building", id)
+            supabase.from("building_reform").select("id_reform").eq("id_building", id),
+            supabase.from("building_prizes").select("id_prize").eq("id_building", id)
         ]);
 
         if (pubRes.error) throw pubRes.error;
@@ -83,13 +84,15 @@ export class BuildingModel {
         if (imgRes.error) throw imgRes.error;
         if (descRes.error) throw descRes.error;
         if (reformsRes.error) throw reformsRes.error;
+        if (prizesRes.error) throw prizesRes.error;
 
         return {
             publications: pubRes.data.map(r => r.id_publication),
             architects: arqRes.data.map(r => r.id_architect),
             images: imgRes.data.map(r => r.image_url),
             descriptions: descRes.data, // Array de objetos {id_description, content, display_order...}
-            reforms: reformsRes.data.map(r => r.id_reform)
+            reforms: reformsRes.data.map(r => r.id_reform),
+            prizes: prizesRes.data.map(r => r.id_prize)
         };
     }
 
@@ -201,6 +204,15 @@ export class BuildingModel {
             if (err) throw err;
         }
 
+        if (relations.prizes && relations.prizes.length > 0) {
+            const inserts = relations.prizes.map(id => ({
+                id_building: buildingId,
+                id_prize: parseInt(id)
+            }));
+            const { error: err } = await supabase.from("building_prizes").insert(inserts);
+            if (err) throw err;
+        }
+
         return true;
     }
 
@@ -258,6 +270,17 @@ export class BuildingModel {
                     id_reform: parseInt(rid)
                 }));
                 const { error: err } = await supabase.from("building_reform").insert(inserts);
+                if (err) throw err;
+            }
+        }
+        if (relations.prizes) {
+            await supabase.from("building_prizes").delete().eq("id_building", id);
+            if (relations.prizes.length > 0) {
+                const inserts = relations.prizes.map(pid => ({
+                    id_building: id,
+                    id_prize: parseInt(pid)
+                }));
+                const { error: err } = await supabase.from("building_prizes").insert(inserts);
                 if (err) throw err;
             }
         }

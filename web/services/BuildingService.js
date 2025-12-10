@@ -44,7 +44,7 @@ export class BuildingService {
         const {
             name, address, construction_year, description, surface_area,
             publications, architects, typologies, protection,
-            coordinates, pictureUrls, extra_descriptions, reforms
+            coordinates, pictureUrls, extra_descriptions, reforms, prizes
         } = data;
 
         const buildingData = {
@@ -66,7 +66,8 @@ export class BuildingService {
             architects: Array.isArray(architects) ? architects : [],
             publications: Array.isArray(publications) ? publications : [publications],
             pictureUrls: pictureUrls || [],
-            reforms: reforms ? (Array.isArray(reforms) ? reforms : [reforms]) : []
+            reforms: reforms ? (Array.isArray(reforms) ? reforms : [reforms]) : [],
+            prizes: Array.isArray(prizes) ? prizes : (prizes ? [prizes] : [])
         };
 
         return await BuildingModel.create(buildingData, relations, descriptionsArray);
@@ -76,7 +77,7 @@ export class BuildingService {
         const {
             name, address, coordinates, construction_year, description,
             surface_area, typologies, protection,
-            architects, publications, pictureUrls, extra_descriptions, reforms
+            architects, publications, pictureUrls, extra_descriptions, reforms, prizes
         } = data;
 
         const buildingData = {
@@ -98,7 +99,8 @@ export class BuildingService {
             architects: architects ? (Array.isArray(architects) ? architects : [architects]) : [],
             publications: publications ? (Array.isArray(publications) ? publications : [publications]) : [],
             pictureUrls: pictureUrls || [],
-            reforms: reforms ? (Array.isArray(reforms) ? reforms : [reforms]) : []
+            reforms: reforms ? (Array.isArray(reforms) ? reforms : [reforms]) : [],
+            prizes: prizes ? (Array.isArray(prizes) ? prizes : [prizes]) : []
         };
 
         return await BuildingModel.update(id, buildingData, relations, descriptionsArray);
