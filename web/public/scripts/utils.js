@@ -77,6 +77,31 @@ const AppUtils = {
             });
         }
     },
+
+    /**
+     * Función para validar elementos con confirmación.
+     * @param {string} url - Endpoint (ej: '/buildings/validation/5').
+     * @param {string} confirmMsg - Mensaje de confirmación.
+     */
+    validateItem: async (url, confirmMsg = "Segur que vols validar aquest element?") => {
+        if (!confirm(confirmMsg)) return;
+
+        try {
+            const res = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ validated: true })
+            });
+            const data = await res.json();
+
+            Swal.fire({ text: data.message, icon: data.success ? 'success' : 'error' })
+                .then(() => { if (data.success) location.reload(); });
+        } catch (err) {
+            console.error(err);
+            Swal.fire({ icon: 'error', title: 'Error', text: "Error al validar." });
+        }
+    },
+
     /**
      * Subir archivos a una URL específica.
      * @param {string} inputId - ID del input type="file".
@@ -109,28 +134,94 @@ const AppUtils = {
         }
     },
 
+
     /**
-     * Realiza una petición PUT para validar un elemento.
-     * @param {string} url - Endpoint (ej: '/buildings/validation/5').
-     * @param {string} confirmMsg - Mensaje de confirmación.
+     * Función para gestionar una lista dinámica de textareas.
+     * @param {string} containerId - ID del contenedor donde se añadirán los campos.
+     * @param {string} buttonId - ID del botón para añadir nuevos campos.
+     * @param {string} fieldName - Nombre del atributo name para el input.
+     * @param {Array} initialValues - Array de strings para precargar valores en edición.
      */
-    validateItem: async (url, confirmMsg = "Segur que vols validar aquest element?") => {
-        if (!confirm(confirmMsg)) return;
+    setupDynamicList: (containerId, buttonId, fieldName, initialValues = []) => {
+        const container = document.getElementById(containerId);
+        const btn = document.getElementById(buttonId);
 
-        try {
-            const res = await fetch(url, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ validated: true })
-            });
-            const data = await res.json();
+        if (!container || !btn) return;
 
-            Swal.fire({ text: data.message, icon: data.success ? 'success' : 'error' })
-                .then(() => { if (data.success) location.reload(); });
-        } catch (err) {
-            console.error(err);
-            Swal.fire({ icon: 'error', title: 'Error', text: "Error al validar." });
+        const addField = (value = '') => {
+            const div = document.createElement('div');
+            div.classList.add('description-row');
+
+            const textarea = document.createElement('textarea');
+            textarea.name = fieldName;
+            textarea.value = value;
+            textarea.rows = 3;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = "button";
+            deleteButton.innerHTML = '<img src="/images/icons/trash-2-64.png" alt="Borrar">';
+            deleteButton.classList.add('delete-description-button');
+            deleteButton.onclick = () => div.remove();
+
+            div.appendChild(textarea);
+            div.appendChild(deleteButton);
+            container.appendChild(div);
+        };
+
+        btn.addEventListener('click', () => addField());
+
+        if (initialValues && initialValues.length > 0) {
+            initialValues.forEach(val => addField(val.content || val));
         }
+    },
+
+    /**
+     * Vincula un MultiSelect de publicaciones con un Select de tipologías.
+     * @param {Object} publicationsMS - Instancia del MultiSelect de publicaciones.
+     * @param {string} targetSelectId - ID del select de tipologías (el destino).
+     * @param {string} containerId - ID del contenedor que se oculta/muestra.
+     * @param {string|number} preSelectedId - (Opcional) ID de la tipología preseleccionada (para edit).
+     */
+    linkPublicationsToTypologies: async (publicationsMS, targetSelectId, containerId, preSelectedId = null) => {
+        const selectTipologia = document.getElementById(targetSelectId);
+        const containerTipologia = document.getElementById(containerId);
+
+        if (!selectTipologia || !containerTipologia) return;
+
+        const update = async () => {
+            const selectedIds = publicationsMS.selectedValues;
+
+            // Resetear estado visual
+            containerTipologia.style.display = 'none';
+            selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
+
+            if (!selectedIds || selectedIds.length === 0) return;
+
+            try {
+                const idsString = selectedIds.join(',');
+                const res = await fetch(`/buildings/typologies/filter?ids=${idsString}`);
+                const typologies = await res.json();
+
+                if (typologies && typologies.length > 0) {
+                    containerTipologia.style.display = 'block';
+
+                    typologies.forEach(t => {
+                        const opt = document.createElement("option");
+                        opt.value = t.id_typology;
+                        opt.textContent = t.name;
+
+                        if (preSelectedId && t.id_typology == preSelectedId) {
+                            opt.selected = true;
+                        }
+                        selectTipologia.appendChild(opt);
+                    });
+                }
+            } catch (err) {
+                console.error("Error al cargar tipologías vinculadas:", err);
+            }
+        };
+        await update();
+        return update;
     }
 
 };

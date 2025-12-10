@@ -8,8 +8,8 @@ form.addEventListener('submit', async (e) => {
 
     try {
         const uploadResult = await AppUtils.uploadFiles("image", "/typologies/upload", "image");
-        if (uploadResult && uploadResult.filePaths) {
-            data.image = uploadResult.filePaths;
+        if (uploadResult && uploadResult.filePath) {
+            data.image = uploadResult.filePath;
         }
     } catch (err) {
         return;
