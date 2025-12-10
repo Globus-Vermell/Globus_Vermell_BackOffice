@@ -2,7 +2,7 @@
 <html lang="ca">
 
 <head>
-    <%- include('../partials/head', { title: 'Editar Usuaris', cssType: 'form' }) %>
+    <%- include('../partials/head', { title: 'Editar Usuaris' , cssType: 'form' }) %>
 </head>
 
 <body>
@@ -19,7 +19,8 @@
 
         <!-- Contenedor del formulario -->
         <section class="form-container">
-            <form id="form-user-edit">
+            <form id="form-user-edit" class="api-form" action="/users/edit/<%= user.id_user %>" method="PUT"
+                data-redirect="/users">
 
                 <!-- Nombre -->
                 <div class="form-group">
@@ -43,8 +44,8 @@
                 <div class="form-group">
                     <label for="level">Nivell <span class="required">*</span></label>
                     <select id="level" name="level" required>
-                        <option value="Admin" <%= user.level === "Admin" ? "selected" : "" %>>Admin</option>
-                        <option value="Editor" <%= user.level === "Editor" ? "selected" : "" %>>Editor</option>
+                        <option value="Admin" <%=user.level==="Admin" ? "selected" : "" %>>Admin</option>
+                        <option value="Editor" <%=user.level==="Editor" ? "selected" : "" %>>Editor</option>
                     </select>
                 </div>
 
@@ -57,14 +58,6 @@
         </section>
 
     </main>
-
-    <!-- Script que guarda la información del usuario para editarla -->
-    <script>
-        const user = JSON.parse('<%- JSON.stringify(user) %>');
-    </script>
-
-    <!-- Script que maneja la lógica del formulario de edición -->
-    <script src="/scripts/users/edit.js"></script>
 
 </body>
 

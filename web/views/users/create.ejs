@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="ca">
-<head>
-    <%- include('../partials/head', { title: 'Nou Usuari', cssType: 'form' }) %>
-</head>
-<body>
-    
-    <!-- Header de la página -->
-    <%- include('../partials/headerForm', { backUrl: '/users', title: 'Nou Usuari' }) %>
 
-    <main class="flex-container">
-        <section class="form-container">
-            <form id="form-user">
-                <div class="form-group">
-                    <label>Nom <span class="required">*</span></label>
-                    <input type="text" name="name" required />
-                </div>
-                <div class="form-group">
-                    <label>Email <span class="required">*</span></label>
-                    <input type="text" name="email" required />
-                </div>
-                <div class="form-group">
-                    <label>Contrasenya <span class="required">*</span></label>
-                    <input type="password" name="password" required />
-                </div>
-                <div class="form-group">
-                    <label>Confirmació de Contrasenya <span class="required">*</span></label>
-                    <input type="password" name="confirmPassword" required />
-                </div>
-                <div class="form-group">
-                    <label>Nivell <span class="required">*</span></label>
-                    <select name="level" required>
-                        <option value="Admin">Admin</option>
-                        <option value="Editor">Editor</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Crear Usuari
-                </button>
-            </form>
-        </section>
-    </main>
-    <script src="/scripts/users/create.js"></script>
+<head>
+    <%- include('../partials/head', { title: 'Nou Usuari' , cssType: 'form' }) %>
+</head>
+
+<body>
+
+    <!-- Header de la página -->
+    <%- include('../partials/headerForm', { backUrl: '/users' , title: 'Nou Usuari' }) %>
+
+        <main class="flex-container">
+            <section class="form-container">
+                <form id="form-user" class="api-form" action="/users/create" method="POST">
+                    <div class="form-group">
+                        <label>Nom <span class="required">*</span></label>
+                        <input type="text" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span class="required">*</span></label>
+                        <input type="text" name="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Contrasenya <span class="required">*</span></label>
+                        <input type="password" name="password" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmació de Contrasenya <span class="required">*</span></label>
+                        <input type="password" name="confirmPassword" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Nivell <span class="required">*</span></label>
+                        <select name="level" required>
+                            <option value="Admin">Admin</option>
+                            <option value="Editor">Editor</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-save"></i> Crear Usuari
+                    </button>
+                </form>
+            </section>
+        </main>
 </body>
+
 </html>
