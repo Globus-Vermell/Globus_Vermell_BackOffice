@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const uploadResult = await AppUtils.uploadFiles("image", "/typologies/upload", "image");
             if (uploadResult && uploadResult.filePath) {
                 data.image = uploadResult.filePath;
+            } else {
+                delete data.image;
             }
         } catch (err) { return; }
 
