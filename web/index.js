@@ -2,7 +2,6 @@ import express from 'express';
 import session from "express-session";
 import dotenv from 'dotenv';
 import { errorHandler } from './middlewares/error.js';
-
 import loginRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
 import architectsRouter from "./routes/architects.js";
@@ -14,11 +13,8 @@ import reformsRouter from "./routes/reforms.js";
 import typologiesRouter from "./routes/typologies.js";
 
 dotenv.config();
-
 const PORT = 3000;
 const app = express();
-
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
