@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("form-publication");
+    const form = document.getElementById("main-form");
     const typologiesMS = AppUtils.initMultiSelect('typologies', 'Selecciona tipologies...');
     const themesMS = AppUtils.initMultiSelect('themes', 'Selecciona temàtiques...');
 

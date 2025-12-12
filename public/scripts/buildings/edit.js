@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const form = document.getElementById("form-edificacio");
+    const form = document.getElementById("main-form");
 
     const initialDescriptions = (building && building.buildings_descriptions)
         ? building.buildings_descriptions.sort((a, b) => a.display_order - b.display_order).map(d => d.content) : [];

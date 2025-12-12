@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("form-typology");
+    const form = document.getElementById("main-form");
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();

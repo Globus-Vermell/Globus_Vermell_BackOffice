@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("form-edificacio");
+    const form = document.getElementById("main-form");
 
     AppUtils.setupDynamicList('descriptions-container', 'button-add-description', 'extra_descriptions[]');
 
