@@ -1,7 +1,8 @@
 import supabase from "../config.js";
+import BaseModel from "./BaseModel.js";
 
 // Modelo de arquitectos
-export class ArchitectModel {
+export class ArchitectModel extends BaseModel {
 
     // Método para obtener todos los arquitectos 
     static async getAll(page = 1, limit = 15, filters = {}) {
@@ -10,28 +11,15 @@ export class ArchitectModel {
             .select("*", { count: 'exact' })
             .order("name");
 
-        // Filtro de Búsqueda
         if (filters.search) {
-            // Buscamos en nombre (sin importar mayúsculas/minúsculas)
             query = query.or(`name.ilike.%${filters.search}%`);
         }
-
-        if (page && limit) {
-            const from = (page - 1) * limit;
-            const to = from + limit - 1;
-            query = query.range(from, to);
-        }
-
+        query = this.applyPagination(query, page, limit);
         const { data, count, error } = await query;
-
         if (error) throw error;
-
         return {
             data,
-            count,
-            page: page || 1,
-            limit: limit || count,
-            totalPages: limit ? Math.ceil(count / limit) : 1
+            ...this.getPaginationMetadata(count, page, limit)
         };
     }
 

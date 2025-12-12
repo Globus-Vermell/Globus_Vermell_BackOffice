@@ -1,29 +1,26 @@
 import supabase from "../config.js";
 import bcrypt from "bcrypt";
+import BaseModel from "./BaseModel.js";
 
 // Modelo de usuario
-export class UserModel {
+export class UserModel extends BaseModel {
     // Metodo para obtener todos los usuarios
     static async getAll(page = 1, limit = 15, filters = {}) {
-        let query = supabase.from("users").select("*").order("name");
+        let query = supabase.from("users").select("*", { count: 'exact' }).order("name");
 
         if (filters.search) {
             query = query.or(`name.ilike.%${filters.search}%,email.ilike.%${filters.search}%`);
         }
-        if (page && limit) {
-            const from = (page - 1) * limit;
-            const to = from + limit - 1;
-            query = query.range(from, to);
-        }
+
+        query = this.applyPagination(query, page, limit);
+
         const { data, count, error } = await query;
 
         if (error) throw error;
+
         return {
-            data,
-            count,
-            page: page || 1,
-            limit: limit || count,
-            totalPages: limit ? Math.ceil(count / limit) : 1
+            data: data || [],
+            ...this.getPaginationMetadata(count || 0, page, limit)
         };
     }
 

@@ -1,7 +1,8 @@
 import supabase from "../config.js";
+import BaseModel from "./BaseModel.js";
 
 // Modelo de edificaciones
-export class BuildingModel {
+export class BuildingModel extends BaseModel {
 
     // Método para obtener todas las construcciones
     static async getAll(page = 1, limit = 15, filters = {}) {
@@ -11,7 +12,6 @@ export class BuildingModel {
             selectQuery = "*, building_images!inner(image_url)";
         }
 
-        // Si filtramos por publicación, necesitamos hacer join con la tabla intermedia
         if (filters.publication && filters.publication !== 'all') {
             selectQuery += `, building_publications!inner(id_publication)`;
         }
@@ -21,37 +21,26 @@ export class BuildingModel {
             .select(selectQuery, { count: 'exact' })
             .order("name");
 
-        // Filtros
         if (filters.search) {
             query = query.or(`name.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
         }
 
         if (filters.validated && filters.validated !== 'all') {
-            const isValid = filters.validated === 'true';
-            query = query.eq('validated', isValid);
+            query = query.eq('validated', filters.validated === 'true');
         }
 
         if (filters.publication && filters.publication !== 'all') {
             query = query.eq('building_publications.id_publication', parseInt(filters.publication));
         }
 
-        // Paginación
-        if (page && limit) {
-            const from = (page - 1) * limit;
-            const to = from + limit - 1;
-            query = query.range(from, to);
-        }
+        query = this.applyPagination(query, page, limit);
 
         const { data, count, error } = await query;
-
         if (error) throw error;
 
         return {
-            data,
-            count,
-            page,
-            limit,
-            totalPages: Math.ceil(count / limit)
+            data: data || [],
+            ...this.getPaginationMetadata(count || 0, page, limit)
         };
     }
 

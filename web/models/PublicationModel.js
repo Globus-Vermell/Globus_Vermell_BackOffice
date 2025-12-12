@@ -1,7 +1,8 @@
 import supabase from "../config.js";
+import BaseModel from "./BaseModel.js";
 
 // Modelo de publicaciones
-export class PublicationModel {
+export class PublicationModel extends BaseModel {
 
     // Método para obtener todas las publicaciones y filtros 
     static async getAll(page = 1, limit = 15, filters = {}) {
@@ -10,26 +11,24 @@ export class PublicationModel {
             .select("*", { count: 'exact' })
             .order("title");
 
-        // Búsqueda Texto
         if (filters.search) {
             query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%`);
         }
 
-        // Filtro Validación
         if (filters.validated && filters.validated !== 'all') {
             query = query.eq('validated', filters.validated === 'true');
         }
 
-        if (page && limit) {
-            const from = (page - 1) * limit;
-            const to = from + limit - 1;
-            query = query.range(from, to);
-        }
+        query = this.applyPagination(query, page, limit);
 
         const { data, count, error } = await query;
+
         if (error) throw error;
 
-        return { data, count, page, limit, totalPages: Math.ceil(count / limit) };
+        return {
+            data: data || [],
+            ...this.getPaginationMetadata(count || 0, page, limit)
+        };
     }
 
     // Método para obtener una publicación por ID

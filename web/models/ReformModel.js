@@ -1,7 +1,8 @@
 import supabase from "../config.js";
+import BaseModel from "./BaseModel.js";
 
 // Modelo de reformas
-export class ReformModel {
+export class ReformModel extends BaseModel {
     // Método para obtener todas las reformas
     static async getAll(page = 1, limit = 15, filters = {}) {
         let query;
@@ -9,32 +10,25 @@ export class ReformModel {
         if (filters.search) {
             query = supabase
                 .from("reform")
-                .select("*, architects!inner(name)", { count: 'exact' }) 
+                .select("*, architects!inner(name)", { count: 'exact' })
                 .order("year", { ascending: false })
                 .ilike('architects.name', `%${filters.search}%`);
         } else {
             query = supabase
                 .from("reform")
-                .select("*, architects(name)", { count: 'exact' }) 
+                .select("*, architects(name)", { count: 'exact' })
                 .order("year", { ascending: false });
         }
 
-        if (page && limit) {
-            const from = (page - 1) * limit;
-            const to = from + limit - 1;
-            query = query.range(from, to);
-        }
-        
+        query = this.applyPagination(query, page, limit);
+
         const { data, count, error } = await query;
 
         if (error) throw error;
 
-        return { 
-            data, 
-            count, 
-            page, 
-            limit, 
-            totalPages: limit ? Math.ceil(count / limit) : 1
+        return {
+            data: data || [],
+            ...this.getPaginationMetadata(count || 0, page, limit)
         };
     }
 
