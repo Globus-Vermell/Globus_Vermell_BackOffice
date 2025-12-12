@@ -1,10 +1,4 @@
 import { BuildingService } from "../services/BuildingService.js";
-import { PublicationModel } from "../models/PublicationModel.js";
-import { ArchitectModel } from "../models/ArchitectModel.js";
-import { TypologyModel } from "../models/TypologyModel.js";
-import { ProtectionModel } from "../models/ProtectionModel.js";
-import { ReformModel } from "../models/ReformModel.js";
-import { PrizeModel } from "../models/PrizeModel.js";
 
 export class BuildingController {
 
@@ -19,23 +13,9 @@ export class BuildingController {
 
     static async formCreate(req, res, next) {
         try {
-            const [publications, architects, typologies, protections, reforms, prizes] = await Promise.all([
-                PublicationModel.getAll(null, null),
-                ArchitectModel.getAll(null, null),
-                TypologyModel.getAll(),
-                ProtectionModel.getAll(),
-                ReformModel.getAll(null, null),
-                PrizeModel.getAll()
-            ]);
+            const formOptions = await BuildingService.getBuildingFormOptions();
 
-            res.render("buildings/create", {
-                publications: publications.data || [],
-                architects: architects.data || [],
-                typologies: typologies || [],
-                protections: protections || [],
-                reforms: reforms.data || [],
-                prizes: prizes || []
-            });
+            res.render("buildings/create", formOptions);
         } catch (error) {
             next(error);
         }
@@ -53,31 +33,9 @@ export class BuildingController {
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
-            const { building, related } = await BuildingService.getBuildingById(id);
+            const viewData = await BuildingService.getDataForEdit(id);
 
-            const [publications, architects, typologies, protections, reforms, prizes] = await Promise.all([
-                PublicationModel.getAll(null, null),
-                ArchitectModel.getAll(null, null),
-                TypologyModel.getAll(),
-                ProtectionModel.getAll(),
-                ReformModel.getAll(null, null),
-                PrizeModel.getAll()
-            ]);
-
-            res.render("buildings/edit", {
-                building,
-                currentPublications: related.publications,
-                currentArchitects: related.architects,
-                currentReforms: related.reforms,
-                currentPrizes: related.prizes,
-                imagenes: related.images,
-                publications: publications.data || [],
-                architects: architects.data || [],
-                typologies: typologies || [],
-                protections: protections || [],
-                reforms: reforms.data || [],
-                prizes: prizes || []
-            });
+            res.render("buildings/edit", viewData);
         } catch (err) {
             next(err);
         }
