@@ -72,7 +72,7 @@ export class BuildingService {
         };
     }
 
-    static prepareData(data) {
+    static _prepareData(data) {
         const {
             name, address, construction_year, description, surface_area,
             publications, architects, typologies, protection,
@@ -117,13 +117,13 @@ export class BuildingService {
     }
 
     static async createBuilding(data) {
-        const { buildingData, relations, descriptionsArray } = this.prepareData(data);
+        const { buildingData, relations, descriptionsArray } = this._prepareData(data);
 
         return await BuildingModel.create(buildingData, relations, descriptionsArray);
     }
 
     static async updateBuilding(id, data) {
-        const { buildingData, relations, descriptionsArray } = this.prepareData(data);
+        const { buildingData, relations, descriptionsArray } = this._prepareData(data);
 
         return await BuildingModel.update(id, buildingData, relations, descriptionsArray);
     }
