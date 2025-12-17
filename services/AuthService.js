@@ -2,6 +2,7 @@ import { UserModel } from "../models/UserModel.js";
 
 export class AuthService {
     static async authenticate(username, password) {
+
         if (!username || !password) {
             throw new Error("Has d'introduir usuari i contrasenya.");
         }
