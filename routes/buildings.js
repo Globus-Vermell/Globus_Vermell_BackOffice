@@ -7,6 +7,9 @@ const router = express.Router();
 
 const upload = multer({ storage: multer.memoryStorage() });
 
+// Ruta EXCLUSIVA para la App (API JSON)
+router.get("/api/list", BuildingController.apiList);
+
 router.get("/", isEditor, BuildingController.index);
 router.get("/create", isEditor, BuildingController.formCreate);
 router.get("/edit/:id", isEditor, BuildingController.formEdit);
