@@ -35,12 +35,12 @@ export class BuildingController {
     }
 
     /**
-         * Método GetOne
-         * Obtiene un edificio por su ID.
-         * @param {Object} req Petición HTTP
-         * @param {Object} res Respuesta HTTP
-         * @param {Function} next Función Next
-         */
+     * Método GetOne
+     * Obtiene un edificio por su ID.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async getOne(req, res, next) {
         const id = Number(req.params.id);
         try {
