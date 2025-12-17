@@ -10,9 +10,8 @@ services:
 
     buildCommand: npm install
     startCommand: npm start
-
     autoDeploy: false
-    
+
     envVars:
       - key: NODE_ENV
         value: production
@@ -20,13 +19,8 @@ services:
       - key: PORT
         value: 3000
 
-      - key: DATABASE_URL
-        fromDatabase:
-          name: globus_vermell_db
-          property: connectionString
-
       - key: SUPABASE_URL
         value: https://gxsiokjeswgddumssjwj.supabase.co
 
       - key: SUPABASE_ANON_KEY
-        sync: false   # Se define en Render Dashboard
+        sync: false
