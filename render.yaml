@@ -22,5 +22,5 @@ services:
       - key: SUPABASE_URL
         value: https://gxsiokjeswgddumssjwj.supabase.co
 
-      - key: SUPABASE_ANON_KEY
+      - key: SUPABASE_KEY
         sync: false
