@@ -14,25 +14,28 @@ export class BuildingController {
      * @param {Function} next Función Next
      */
     static async index(req, res, next) {
-    try {
-        const data = await BuildingService.getAllBuildings(req.query);
-        res.render("buildings/index", data); 
-    } catch (err) {
-        next(err);
+        try {
+            const data = await BuildingService.getAllBuildings(req.query);
+            res.render("buildings/index", data);
+        } catch (err) {
+            next(err);
+        }
     }
-}
 
     /**
-     * Método EXCLUSIVO para la App (API JSON)
+     * Método ApiList
      * Este método no devuelve HTML, solo datos puros.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
      */
     static async apiList(req, res, next) {
         try {
             const data = await BuildingService.getAllBuildings(req.query);
-            
+
             res.json({
                 success: true,
-                buildings: data.buildings, 
+                buildings: data.buildings,
             });
         } catch (err) {
             res.status(500).json({ success: false, error: err.message });
