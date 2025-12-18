@@ -30,6 +30,18 @@
                                 <label for="construction_year">Any construcció: <span class="required">*</span></label>
                                 <input type="number" id="construction_year" name="construction_year" required />
                             </div>
+                            <div class="form-group">
+                                <label for="reforms">Reformes:</label>
+                                <select id="reforms" name="reforms" multiple>
+                                    <% if (reforms && reforms.length> 0) { %>
+                                        <% reforms.forEach(reform=> { %>
+                                            <option value="<%= reform.id_reform %>">
+                                                <%= reform.year %> - <%= reform.architects?.name %>
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="fields-column">
@@ -57,11 +69,23 @@
                                                 <% } %>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="prizes">Premis:</label>
+                                <select id="prizes" name="prizes" multiple>
+                                    <% if (prizes && prizes.length> 0) { %>
+                                        <% prizes.forEach(prize=> { %>
+                                            <option value="<%= prize.id_prize %>">
+                                                <%= prize.name %> (<%= prize.year %>)
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
+                                </select>
+                            </div>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="protection">Protecció:</label>
                                     <select id="protection" name="protection">
-                                        <option value="">-- Cap --</option>
+                                        <option value=""> Selecciona protecció </option>
                                         <% if (protections && protections.length> 0) { %>
                                             <% protections.forEach(p=> { %>
                                                 <option value="<%= p.id_protection %>">
@@ -74,33 +98,9 @@
                                 <div class="form-group" id="typologies-container" style="display:none;">
                                     <label for="typologies">Tipologia:</label>
                                     <select id="typologies" name="typologies">
-                                        <option value="">-- Selecciona una tipologia --</option>
+                                        <option value=""> Selecciona tipologia </option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="reforms">Reformes:</label>
-                                <select id="reforms" name="reforms" multiple>
-                                    <% if (reforms && reforms.length> 0) { %>
-                                        <% reforms.forEach(reform=> { %>
-                                            <option value="<%= reform.id_reform %>">
-                                                <%= reform.year %> - <%= reform.architects?.name %>
-                                            </option>
-                                            <% }) %>
-                                                <% } %>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="prizes">Premis:</label>
-                                <select id="prizes" name="prizes" multiple>
-                                    <% if (prizes && prizes.length> 0) { %>
-                                        <% prizes.forEach(prize=> { %>
-                                            <option value="<%= prize.id_prize %>">
-                                                <%= prize.name %> (<%= prize.year %>)
-                                            </option>
-                                            <% }) %>
-                                                <% } %>
-                                </select>
                             </div>
                         </div>
                     </div>
