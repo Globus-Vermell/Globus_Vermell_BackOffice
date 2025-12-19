@@ -148,6 +148,30 @@ export class BuildingController {
         }
     }
 
+   /**
+     * Método deleteImage
+     * Elimina una imagen específica de un edificio.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
+static async deleteImage(req, res, next) {
+    const { id, imageId } = req.params; // Extrae ambos parámetros
+    
+    console.log("DEBUG SERVER -> Edificio:", id, "Imagen:", imageId);
+
+    try {
+        if (!imageId || imageId === 'undefined') {
+            return res.status(400).json({ success: false, message: "Falta el ID de la imatge" });
+        }
+        
+        await BuildingService.deleteBuildingImage(id, imageId);
+        return res.json({ success: true, message: "Imatge eliminada correctament!" });
+    } catch (err) {
+        next(err);
+    }
+}
+
     /**
      * Método Validate
      * Cambia el estado de validación de un edificio.

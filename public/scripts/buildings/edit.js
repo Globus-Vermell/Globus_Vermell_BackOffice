@@ -22,6 +22,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         building.id_typology
     );
 
+    // --- NUEVA FUNCIÓN PARA ELIMINAR IMÁGENES ---
+   window.deleteImage = async (buildingId, imageId) => {
+    // Si imageId llega como 'undefined' o vacío, detenemos y avisamos
+    if (!imageId || imageId === 'undefined') {
+        return Swal.fire('Error', 'No s\'ha pogut identificar la imatge per eliminar-la.', 'error');
+    }
+
+    const result = await Swal.fire({
+        title: 'Estàs segur?',
+        text: "Aquesta acció eliminarà la imatge de la base de dades!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonText: 'Cancel·lar',
+        confirmButtonText: 'Sí, eliminar!'
+    });
+
+    if (result.isConfirmed) {
+        try {
+            // Verificamos la URL en la consola antes de disparar
+            console.log(`Eliminando: /buildings/delete-image/${buildingId}/${imageId}`);
+            
+            const res = await fetch(`/buildings/delete-image/${buildingId}/${imageId}`, {
+                method: 'DELETE'
+            });
+            
+            const data = await res.json();
+
+            if (data.success) {
+                Swal.fire('Eliminat!', data.message, 'success').then(() => {
+                    location.reload(); 
+                });
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        } catch (err) {
+            Swal.fire('Error', 'Error de xarxa al servidor', 'error');
+        }
+    }
+};
+    // --------------------------------------------
+
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const data = AppUtils.serializeForm(form);

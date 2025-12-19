@@ -22,4 +22,5 @@ router.put("/validation/:id", isEditor, BuildingController.validate);
 router.get("/typologies/filter", isEditor, BuildingController.filterTypologies);
 router.post("/upload", upload.array('pictures', 10), isEditor, BuildingController.upload);
 
+router.delete('/deleteImage/:id/:imageId', BuildingController.deleteImage);
 export default router;
