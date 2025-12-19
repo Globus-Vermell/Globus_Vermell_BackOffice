@@ -1,24 +1,37 @@
 import supabase from "../config.js";
 
-// Modelo de tipología
+/**
+ * Modelo de tipología
+ * Maneja todas las operaciones en la base de datos relacionadas con tipologías.
+ */
 export class TypologyModel {
-    // Método para obtener todas las tipologías
-    static async getAll(filters = {}) { 
-    let query = supabase
-        .from("typology")
-        .select("*")
-        .order("name");
+    /**
+     * Función getAll
+     * Obtiene todas las tipologías.
+     * @param {Object} filters - Filtros de búsqueda
+     * @returns {Promise<Object>} Objeto con los datos de las tipologías
+     */
+    static async getAll(filters = {}) {
+        let query = supabase
+            .from("typology")
+            .select("*")
+            .order("name");
 
-    if (filters.search) {
-        query = query.ilike('name', `%${filters.search}%`);
+        if (filters.search) {
+            query = query.ilike('name', `%${filters.search}%`);
+        }
+
+        const { data, error } = await query;
+        if (error) throw error;
+        return data;
     }
 
-    const { data, error } = await query;
-    if (error) throw error;
-    return data;
-}
-
-    // Método para obtener una tipología por ID
+    /**
+     * Función getById
+     * Obtiene una tipología mediante su ID.
+     * @param {number} id - ID de la tipología
+     * @returns {Promise<Object>} Objeto con los datos de la tipología
+     */
     static async getById(id) {
         const { data, error } = await supabase
             .from("typology")
@@ -30,7 +43,12 @@ export class TypologyModel {
         return data;
     }
 
-    // Método para crear una tipología
+    /**
+     * Función create
+     * Crea una tipología.
+     * @param {Object} data - Datos de la tipología
+     * @returns {Promise<boolean>} true si se creó correctamente
+     */
     static async create(data) {
         const { error } = await supabase
             .from("typology")
@@ -40,7 +58,13 @@ export class TypologyModel {
         return true;
     }
 
-    // Método para actualizar una tipología
+    /**
+     * Función update
+     * Actualiza una tipología mediante su ID.
+     * @param {number} id - ID de la tipología
+     * @param {Object} data - Datos de la tipología
+     * @returns {Promise<boolean>} true si se actualizó correctamente
+     */
     static async update(id, data) {
         const { error } = await supabase
             .from("typology")
@@ -51,9 +75,13 @@ export class TypologyModel {
         return true;
     }
 
-    // Método para eliminar una tipología
+    /**
+     * Función delete
+     * Elimina una tipología mediante su ID.
+     * @param {number} id - ID de la tipología
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
     static async delete(id) {
-        // Buscar la tipología por ID para obtener su imagen
         const { data: typology, error: findError } = await supabase
             .from("typology")
             .select("image")
@@ -64,16 +92,13 @@ export class TypologyModel {
 
         // Si tiene imagen, borrarla del Storage
         if (typology.image) {
-            // Extraer la ruta relativa de la imagen
             const pathParts = typology.image.split('/images/');
             if (pathParts.length > 1) {
-                // Borrar la imagen del Storage
                 const relativePath = pathParts[1];
                 await supabase.storage.from('images').remove([relativePath]);
             }
         }
 
-        // Borrar la tipología de la BDD
         const { error } = await supabase
             .from("typology")
             .delete()

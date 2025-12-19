@@ -1,8 +1,16 @@
 import supabase from "../config.js";
 
-// Modelo de protección
+/**
+ * Modelo de protección
+ * Maneja todas las operaciones en la base de datos relacionadas con protección.
+ */
 export class ProtectionModel {
-    // Método para obtener todas las protecciones
+    /**
+     * Función getAll
+     * Obtiene todas las protecciones.
+     * @param {Object} filters - Filtros de búsqueda
+     * @returns {Promise<Array<Object>>} Array con los datos de las protecciones
+     */
     static async getAll(filters = {}) {
         let query = supabase
             .from("protection")
@@ -18,7 +26,12 @@ export class ProtectionModel {
         return data;
     }
 
-    // Método para obtener una protección por ID
+    /**
+     * Función getById
+     * Obtiene una protección mediante su ID.
+     * @param {number} id - ID de la protección
+     * @returns {Promise<Object>} Objeto con los datos de la protección
+     */
     static async getById(id) {
         const { data, error } = await supabase
             .from("protection")
@@ -30,7 +43,12 @@ export class ProtectionModel {
         return data;
     }
 
-    // Método para crear una protección
+    /**
+     * Función create
+     * Crea una protección.
+     * @param {Object} data - Datos de la protección
+     * @returns {Promise<boolean>} true si se creó correctamente
+     */
     static async create(data) {
         const { error } = await supabase
             .from("protection")
@@ -40,7 +58,13 @@ export class ProtectionModel {
         return true;
     }
 
-    // Método para actualizar una protección
+    /**
+     * Función update
+     * Actualiza una protección mediante su ID.
+     * @param {number} id - ID de la protección
+     * @param {Object} data - Datos de la protección
+     * @returns {Promise<boolean>} true si se actualizó correctamente
+     */
     static async update(id, data) {
         const { error } = await supabase
             .from("protection")
@@ -51,7 +75,12 @@ export class ProtectionModel {
         return true;
     }
 
-    // Método para eliminar una protección
+    /**
+     * Función delete
+     * Elimina una protección mediante su ID.
+     * @param {number} id - ID de la protección
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
     static async delete(id) {
         const { error } = await supabase
             .from("protection")

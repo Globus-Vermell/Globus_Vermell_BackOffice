@@ -1,10 +1,20 @@
 import supabase from "../config.js";
 import BaseModel from "./BaseModel.js";
 
-// Modelo de arquitectos
+/**
+ * Modelo de arquitectos
+ * Maneja todas las operaciones en la base de datos relacionadas con arquitectos.
+ */
 export class ArchitectModel extends BaseModel {
 
-    // Método para obtener todos los arquitectos 
+    /**
+     * Función getAll
+     * Obtiene todos los arquitectos.
+     * @param {number} page - Número de página
+     * @param {number} limit - Límite de registros por página
+     * @param {Object} filters - Filtros de búsqueda
+     * @returns {Promise<Object>} Objeto con los datos de los arquitectos y metadatos de paginación
+     */
     static async getAll(page = 1, limit = 15, filters = {}) {
         let query = supabase
             .from("architects")
@@ -23,7 +33,12 @@ export class ArchitectModel extends BaseModel {
         };
     }
 
-    // Método para obtener un arquitecto por ID
+    /**
+     * Función getById
+     * Obtiene un arquitecto mediante su ID.
+     * @param {number} id - ID del arquitecto
+     * @returns {Promise<Object>} Objeto con los datos del arquitecto
+     */
     static async getById(id) {
         const { data, error } = await supabase
             .from("architects")
@@ -35,7 +50,12 @@ export class ArchitectModel extends BaseModel {
         return data;
     }
 
-    // Método para crear un arquitecto
+    /**
+     * Función create
+     * Crea un arquitecto.
+     * @param {Object} data - Datos del arquitecto
+     * @returns {Promise<boolean>} true si se creó correctamente
+     */
     static async create(data) {
         const { error } = await supabase
             .from("architects")
@@ -45,7 +65,13 @@ export class ArchitectModel extends BaseModel {
         return true;
     }
 
-    // Método para actualizar un arquitecto
+    /**
+     * Función update
+     * Actualiza un arquitecto mediante su ID.
+     * @param {number} id - ID del arquitecto
+     * @param {Object} data - Datos del arquitecto
+     * @returns {Promise<boolean>} true si se actualizó correctamente
+     */
     static async update(id, data) {
         const { error } = await supabase
             .from("architects")
@@ -56,7 +82,12 @@ export class ArchitectModel extends BaseModel {
         return true;
     }
 
-    // Método para eliminar un arquitecto
+    /**
+     * Función delete
+     * Elimina un arquitecto mediante su ID.
+     * @param {number} id - ID del arquitecto
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
     static async delete(id) {
         const { error } = await supabase
             .from("architects")

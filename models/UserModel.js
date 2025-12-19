@@ -2,9 +2,19 @@ import supabase from "../config.js";
 import bcrypt from "bcrypt";
 import BaseModel from "./BaseModel.js";
 
-// Modelo de usuario
+/**
+ * Modelo de usuario
+ * Maneja todas las operaciones en la base de datos relacionadas con usuarios.
+ */
 export class UserModel extends BaseModel {
-    // Metodo para obtener todos los usuarios
+    /**
+     * Función getAll
+     * Obtiene todos los usuarios
+     * @param {number} page - Número de página
+     * @param {number} limit - Límite de registros por página
+     * @param {Object} filters - Filtros de búsqueda
+     * @returns {Promise<Object>} Objeto con los datos de los usuarios y metadatos de paginación
+     */
     static async getAll(page = 1, limit = 15, filters = {}) {
         let query = supabase.from("users").select("*", { count: 'exact' }).order("name");
 
@@ -24,7 +34,12 @@ export class UserModel extends BaseModel {
         };
     }
 
-    // Metodo para obtener un usuario por su id
+    /**
+     * Función getById
+     * Obtiene un usuario por su id
+     * @param {number} id - ID del usuario
+     * @returns {Promise<Object>} Objeto con los datos del usuario
+     */
     static async getById(id) {
         const { data, error } = await supabase
             .from("users")
@@ -36,7 +51,12 @@ export class UserModel extends BaseModel {
         return data;
     }
 
-    // Metodo para crear un usuario
+    /**
+     * Función create
+     * Crea un usuario.
+     * @param {Object} data - Datos del usuario
+     * @returns {Promise<boolean>} true si se creó correctamente
+     */
     static async create(data) {
         const hashedPassword = await bcrypt.hash(data.password, 10);
         data.password = hashedPassword;
@@ -46,7 +66,13 @@ export class UserModel extends BaseModel {
         return true;
     }
 
-    // Metodo para iniciar sesion
+    /**
+     * Función login
+     * Inicia sesión con un usuario.
+     * @param {string} username - Nombre de usuario
+     * @param {string} plainPassword - Contraseña sin encriptar
+     * @returns {Promise<Object|null>} Objeto con los datos del usuario si se autenticó correctamente, null si no se autenticó
+     */
     static async login(username, plainPassword) {
         const { data: user, error } = await supabase
             .from("users")
@@ -62,7 +88,13 @@ export class UserModel extends BaseModel {
         return null;
     }
 
-    // Metodo para actualizar un usuario
+    /**
+     * Función update
+     * Actualiza un usuario mediante su ID.
+     * @param {number} id - ID del usuario
+     * @param {Object} data - Datos del usuario
+     * @returns {Promise<boolean>} true si se actualizó correctamente
+     */
     static async update(id, data) {
         const { error } = await supabase
             .from("users")
@@ -73,7 +105,12 @@ export class UserModel extends BaseModel {
         return true;
     }
 
-    // Metodo para eliminar un usuario
+    /**
+     * Función delete
+     * Elimina un usuario mediante su ID.
+     * @param {number} id - ID del usuario
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
     static async delete(id) {
         const { error } = await supabase
             .from("users")

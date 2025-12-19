@@ -1,9 +1,19 @@
 import supabase from "../config.js";
 import BaseModel from "./BaseModel.js";
 
-// Modelo de reformas
+/**
+ * Modelo de reformas
+ * Maneja todas las operaciones en la base de datos relacionadas con reformas.
+ */
 export class ReformModel extends BaseModel {
-    // Método para obtener todas las reformas
+    /**
+     * Función getAll
+     * Obtiene todas las reformas.
+     * @param {number} page - Número de página
+     * @param {number} limit - Límite de registros por página
+     * @param {Object} filters - Filtros de búsqueda
+     * @returns {Promise<Object>} Objeto con los datos de las reformas y metadatos de paginación
+     */
     static async getAll(page = 1, limit = 15, filters = {}) {
         let query;
 
@@ -32,7 +42,12 @@ export class ReformModel extends BaseModel {
         };
     }
 
-    // Método para obtener una reforma por ID
+    /**
+     * Función getById
+     * Obtiene una reforma mediante su ID.
+     * @param {number} id - ID de la reforma
+     * @returns {Promise<Object>} Objeto con los datos de la reforma
+     */
     static async getById(id) {
         const { data, error } = await supabase
             .from("reform")
@@ -44,7 +59,12 @@ export class ReformModel extends BaseModel {
         return data;
     }
 
-    // Método para crear una reforma
+    /**
+     * Función create
+     * Crea una reforma.
+     * @param {Object} data - Datos de la reforma
+     * @returns {Promise<boolean>} true si se creó correctamente
+     */
     static async create(data) {
         const { error } = await supabase
             .from("reform")
@@ -54,7 +74,13 @@ export class ReformModel extends BaseModel {
         return true;
     }
 
-    // Método para actualizar una reforma
+    /**
+     * Función update
+     * Actualiza una reforma mediante su ID.
+     * @param {number} id - ID de la reforma
+     * @param {Object} data - Datos de la reforma
+     * @returns {Promise<boolean>} true si se actualizó correctamente
+     */
     static async update(id, data) {
         const { error } = await supabase
             .from("reform")
@@ -65,7 +91,12 @@ export class ReformModel extends BaseModel {
         return true;
     }
 
-    // Método para eliminar una reforma
+    /**
+     * Función delete
+     * Elimina una reforma mediante su ID.
+     * @param {number} id - ID de la reforma
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
     static async delete(id) {
         const { error } = await supabase
             .from("reform")

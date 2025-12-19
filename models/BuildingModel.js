@@ -1,10 +1,20 @@
 import supabase from "../config.js";
 import BaseModel from "./BaseModel.js";
 
-// Modelo de edificaciones
+/**
+ * Modelo de edificacions
+ * Maneja todas las operaciones en la base de datos relacionadas con edificaciones.
+ */
 export class BuildingModel extends BaseModel {
 
-    // Método para obtener todas las construcciones
+    /**
+     * Función getAll
+     * Obtiene todas las edificaciones.
+     * @param {number} page - Página actual
+     * @param {number} limit - Límite de resultados por página
+     * @param {Object} filters - Filtros de búsqueda
+     * @returns {Promise<Array<Object>>} Array con los datos de las edificaciones
+     */
     static async getAll(page = 1, limit = 15, filters = {}) {
         let selectQuery = "*, building_images(image_url)";
 
@@ -44,7 +54,12 @@ export class BuildingModel extends BaseModel {
         };
     }
 
-    // Método para obtener una construcción por ID
+    /**
+     * Función getById
+     * Obtiene una edificación mediante su ID.
+     * @param {number} id - ID de la edificación
+     * @returns {Promise<Object>} Objeto con los datos de la edificación
+     */
     static async getById(id) {
         const { data, error } = await supabase
             .from("buildings")
@@ -56,7 +71,12 @@ export class BuildingModel extends BaseModel {
         return data;
     }
 
-    // Método para obtener datos relacionados (imágenes, arquitectos, publicaciones, descripciones extra)
+    /**
+     * Función getRelatedData
+     * Obtiene datos relacionados (imágenes, arquitectos, publicaciones, descripciones extra).
+     * @param {number} id - ID de la edificación
+     * @returns {Promise<Object>} Objeto con los datos relacionados
+     */
     static async getRelatedData(id) {
         // Ejecutamos las consultas en paralelo
         const [pubRes, arqRes, imgRes, descRes, reformsRes, prizesRes] = await Promise.all([
@@ -79,13 +99,18 @@ export class BuildingModel extends BaseModel {
             publications: pubRes.data.map(r => r.id_publication),
             architects: arqRes.data.map(r => r.id_architect),
             images: imgRes.data.map(r => r.image_url),
-            descriptions: descRes.data, // Array de objetos {id_description, content, display_order...}
+            descriptions: descRes.data,
             reforms: reformsRes.data.map(r => r.id_reform),
             prizes: prizesRes.data.map(r => r.id_prize)
         };
     }
 
-    // Método para obtener tipologías filtradas por publicaciones
+    /**
+     * Función getTypologiesByPublicationIds
+     * Obtiene tipologías filtradas por publicaciones.
+     * @param {Array<number>} idsArray - Array de IDs de publicaciones
+     * @returns {Promise<Array<Object>>} Array con los datos de las tipologías
+     */
     static async getTypologiesByPublicationIds(idsArray) {
         const { data, error } = await supabase
             .from('publication_typologies')
@@ -103,7 +128,12 @@ export class BuildingModel extends BaseModel {
         return uniqueTypologies;
     }
 
-    // Método para subir imágenes al Storage
+    /**
+     * Función uploadImages
+     * Sube imágenes al Storage.
+     * @param {Array<File>} files - Array de archivos a subir
+     * @returns {Promise<Array<string>>} Array con las URLs de las imágenes subidas
+     */
     static async uploadImages(files) {
         const filePaths = [];
 
@@ -129,9 +159,15 @@ export class BuildingModel extends BaseModel {
         return filePaths;
     }
 
-    // Método para crear una construcción completa
+    /**
+     * Función create
+     * Crea una edificación completa.
+     * @param {Object} buildingData - Datos de la edificación
+     * @param {Object} relations - Relaciones (arquitectos, publicaciones, etc.)
+     * @param {Array<Object>} descriptionsArray - Array de descripciones extra
+     * @returns {Promise<Object>} Objeto con los datos de la edificación creada
+     */
     static async create(buildingData, relations, descriptionsArray) {
-        // 1. Insertamos el edificio
         const { data: newBuilding, error } = await supabase
             .from("buildings")
             .insert([buildingData])
@@ -142,7 +178,6 @@ export class BuildingModel extends BaseModel {
 
         const buildingId = newBuilding.id_building;
 
-        // 2. Insertamos relaciones (Arquitectos)
         if (relations.architects && relations.architects.length > 0) {
             const inserts = relations.architects.map(id => ({
                 id_building: buildingId,
@@ -152,7 +187,6 @@ export class BuildingModel extends BaseModel {
             if (err) throw err;
         }
 
-        // 3. Insertamos relaciones (Publicaciones)
         if (relations.publications && relations.publications.length > 0) {
             const inserts = relations.publications.map(id => ({
                 id_building: buildingId,
@@ -162,7 +196,6 @@ export class BuildingModel extends BaseModel {
             if (err) throw err;
         }
 
-        // 4. Insertamos relaciones (Imágenes)
         if (relations.pictureUrls && relations.pictureUrls.length > 0) {
             const inserts = relations.pictureUrls.map(url => ({
                 id_building: buildingId,
@@ -172,7 +205,6 @@ export class BuildingModel extends BaseModel {
             if (err) throw err;
         }
 
-        // 5. Insertamos relaciones (Descripciones)
         if (descriptionsArray && descriptionsArray.length > 0) {
             const descriptionInserts = descriptionsArray.map((text, index) => ({
                 id_building: buildingId,
@@ -183,7 +215,6 @@ export class BuildingModel extends BaseModel {
             if (err) throw err;
         }
 
-        // 6. Insertamos relaciones (Reformas)
         if (relations.reforms && relations.reforms.length > 0) {
             const inserts = relations.reforms.map(id => ({
                 id_building: buildingId,
@@ -205,9 +236,16 @@ export class BuildingModel extends BaseModel {
         return true;
     }
 
-    // Método para actualizar una construcción completa
+    /**
+     * Función update
+     * Actualiza una edificación completa.
+     * @param {number} id - ID de la edificación
+     * @param {Object} buildingData - Datos de la edificación
+     * @param {Object} relations - Relaciones (arquitectos, publicaciones, etc.)
+     * @param {Array<Object>} descriptionsArray - Array de descripciones extra
+     * @returns {Promise<boolean>} true si se actualizó correctamente
+     */
     static async update(id, buildingData, relations, descriptionsArray) {
-        // 1. Actualizamos datos básicos
         const { error } = await supabase
             .from("buildings")
             .update(buildingData)
@@ -215,7 +253,6 @@ export class BuildingModel extends BaseModel {
 
         if (error) throw error;
 
-        // 2. Actualizamos Arquitectos (Borrar y reinsertar)
         if (relations.architects) {
             await supabase.from("building_architects").delete().eq("id_building", id);
             if (relations.architects.length > 0) {
@@ -228,7 +265,6 @@ export class BuildingModel extends BaseModel {
             }
         }
 
-        // 3. Actualizamos Publicaciones (Borrar y reinsertar)
         if (relations.publications) {
             await supabase.from("building_publications").delete().eq("id_building", id);
             if (relations.publications.length > 0) {
@@ -241,7 +277,6 @@ export class BuildingModel extends BaseModel {
             }
         }
 
-        // 4. Añadimos nuevas imágenes
         if (relations.pictureUrls && relations.pictureUrls.length > 0) {
             const inserts = relations.pictureUrls.map(url => ({
                 id_building: id,
@@ -295,9 +330,13 @@ export class BuildingModel extends BaseModel {
         return true;
     }
 
-    // Método para eliminar una construcción y sus recursos
+    /**
+     * Función delete
+     * Elimina una edificación y sus recursos.
+     * @param {number} id - ID de la edificación
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
     static async delete(id) {
-        // 1. Recogemos las imágenes para borrarlas del Storage
         const { data: images, error: findError } = await supabase
             .from("building_images")
             .select("image_url")
@@ -306,13 +345,11 @@ export class BuildingModel extends BaseModel {
         if (findError) throw findError;
 
         if (images && images.length > 0) {
-            // Extraemos las rutas relativas
             const pathsToDelete = images.map(img => {
                 const parts = img.image_url.split('/images/');
                 return parts.length > 1 ? parts[1] : null;
             }).filter(path => path !== null);
 
-            // Borramos del storage
             if (pathsToDelete.length > 0) {
                 const { error: storageError } = await supabase.storage
                     .from('images')
@@ -322,7 +359,6 @@ export class BuildingModel extends BaseModel {
             }
         }
 
-        // 2. Borramos la construcción de la BDD (Cascade se encarga de las relaciones)
         const { error } = await supabase
             .from("buildings")
             .delete()
@@ -332,7 +368,13 @@ export class BuildingModel extends BaseModel {
         return true;
     }
 
-    // Método para validar una construcción
+    /**
+     * Función validate
+     * Valida una edificación.
+     * @param {number} id - ID de la edificación
+     * @param {boolean} validated - Valor de validación
+     * @returns {Promise<boolean>} true si se validó correctamente
+     */
     static async validate(id, validated) {
         const { error } = await supabase
             .from('buildings')
