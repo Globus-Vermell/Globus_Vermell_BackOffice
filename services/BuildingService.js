@@ -148,4 +148,9 @@ export class BuildingService {
         }
         return await BuildingModel.uploadImages(files);
     }
+    static async deleteImage(buildingId, imageId) {
+        return await BuildingModel.deleteImage(buildingId, imageId);
+        
+    }
+
 }

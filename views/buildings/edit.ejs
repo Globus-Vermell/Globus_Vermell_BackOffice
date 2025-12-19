@@ -134,8 +134,20 @@
                                         <% imagenes.forEach((image, index)=> { %>
                                             <img src="<%= image %>" alt="..."
                                                 class="building-image <%= index === 0 ? 'active' : '' %>">
+
+                                            <div class="col-md-3 mb-3 text-center">
+                                                <img src="<%= image.url %>" class="img-thumbnail"
+                                                    style="height: 150px; object-fit: cover;">
+
+                                                <button type="button" class="delete-img-btn"
+                                                    onclick="deleteImage('<%= building.id_building %>', '<%= image.id_imatge || image.id || 29 %>')">
+                                                    <i class="fas fa-trash"></i> Eliminar
+                                                </button>
+                                            </div>
                                             <% }) %>
                                     </div>
+
+
 
                                     <button type="button" id="prev-btn" class="carousel-btn prev-btn">❮</button>
                                     <button type="button" id="next-btn" class="carousel-btn next-btn">❯</button>
@@ -184,6 +196,7 @@
         <script src="/scripts/carouselImg.js"></script>
         <script src="/scripts/MultiSelect.js"></script>
         <script src="/scripts/buildings/edit.js"></script>
+
 </body>
 
 </html>
