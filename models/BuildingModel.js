@@ -384,4 +384,50 @@ export class BuildingModel extends BaseModel {
         if (error) throw error;
         return true;
     }
+
+    /**
+     * Función deleteImage
+     * Elimina una imagen específica tanto de la base de datos como del almacenamiento (Storage).
+     * @param {number} buildingId - ID de la edificación
+     * @param {number} imageId - ID de la imagen a eliminar
+     * @returns {Promise<boolean>} true si se eliminó correctamente
+     */
+    static async deleteImage(buildingId, imageId) {
+        // 1. Obtener la URL de la imagen antes de borrar el registro para poder eliminar el archivo físico
+        const { data: imageData, error: findError } = await supabase
+            .from("building_images")
+            .select("image_url")
+            .eq("id_image", imageId) // Asegúrate que el nombre de la columna sea id_imatge
+            .single();
+
+        if (findError) throw findError;
+
+        if (imageData && imageData.image_url) {
+            // 2. Extraer la ruta del archivo para Supabase Storage
+            // Espera una URL tipo: .../storage/v1/object/public/images/buildings/archivo.jpg
+            const parts = imageData.image_url.split('/images/');
+            const storagePath = parts.length > 1 ? parts[1] : null;
+
+            if (storagePath) {
+                const { error: storageError } = await supabase.storage
+                    .from('images')
+                    .remove([storagePath]);
+
+                if (storageError) {
+                    console.error("Avís: No s'ha pogut eliminar el fitxer físic:", storageError.message);
+                }
+            }
+        }
+
+        // 3. Eliminar el registro de la base de datos
+        const { error: dbError } = await supabase
+            .from("building_images")
+            .delete()
+            .eq("id_image", imageId)
+            .eq("id_building", buildingId);
+
+        if (dbError) throw dbError;
+
+        return true;
+    }
 }

@@ -156,18 +156,20 @@ export class BuildingController {
      * @param {Function} next Función Next
      */
 static async deleteImage(req, res, next) {
-    const { id, imageId } = req.params; // Extrae ambos parámetros
-    
-    console.log("DEBUG SERVER -> Edificio:", id, "Imagen:", imageId);
+    // Convierte a Number para asegurar compatibilidad con la DB
+    const id = Number(req.params.id); 
+    const imageId = Number(req.params.imageId); 
 
     try {
-        if (!imageId || imageId === 'undefined') {
-            return res.status(400).json({ success: false, message: "Falta el ID de la imatge" });
+        if (!imageId || isNaN(imageId)) {
+            return res.status(400).json({ success: false, message: "ID de imatge no vàlid" });
         }
         
-        await BuildingService.deleteBuildingImage(id, imageId);
+        // Pasa los IDs convertidos al servicio
+        await BuildingService.deleteImage(id, imageId);
         return res.json({ success: true, message: "Imatge eliminada correctament!" });
     } catch (err) {
+        console.error("ERROR EN DELETE IMAGE:", err); // Esto te dirá el fallo real en la terminal
         next(err);
     }
 }
